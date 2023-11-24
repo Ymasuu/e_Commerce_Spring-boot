@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="ecommerce.ecommerce.controller.Controller" %>
+<%--<%@ page import="ecommerce.ecommerce.controller.Controller" %>--%>
 <%@ page import="entity.*" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,8 +8,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Produits</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="../logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../logo/logo.png" type="image/x-icon">
     <!-- Bootstrap CSS CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -76,19 +76,19 @@
 </div>
 <h1 class="display-4">Liste des Produits</h1>
 <div class="container">
-    <%
+<%--    <%
         List<Produit> listeProduits = (List<Produit>) request.getAttribute("listeProduits");
         Utilisateur utilisateur = (Utilisateur) request.getAttribute("utilisateur");
         Client client = (Client) request.getAttribute("client");
 
         for (Produit produit : listeProduits) {
-    %>
+    %>--%>
     <div class="produit">
-        <a href="ServletProduit?id=<%= produit.getIdProduit() %>">
-            <img src="imagesProduct/<%= produit.getIdProduit() %>.jpeg" alt="<%= produit.getNom() %>" width="100" class="img-fluid">
+        <a href="ServletProduit?id=<%--<%= produit.getIdProduit() %>--%>">
+<%--            <img src="imagesProduct/<%= produit.getIdProduit() %>.jpeg" alt="&lt;%&ndash;<%= produit.getNom() %>&ndash;%&gt;" width="100" class="img-fluid">--%>
         </a>
-        <h2><%= produit.getNom() %></h2>
-        <p>Prix : <%= produit.getPrix() %> €</p>
+        <h2><%--<%= produit.getNom() %>--%> getNom</h2>
+        <p>Prix : <%--<%= produit.getPrix() %>--%> €</p>
         <%--<!-- Formulaire pour ajouter au panier -->
         <form action="ServletPanier" method="get">
             <% if (client != null) { %>
@@ -99,9 +99,9 @@
         </form>--%>
     </div>
 
-    <%
+<%--    <%
         }
-    %>
+    %>--%>
 </div>
 <div class="footer">
     <p>&copy; 2023 AZUR. Tous droits réservés.</p>
