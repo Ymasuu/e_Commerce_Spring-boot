@@ -76,7 +76,7 @@
 
     <div th:each="produit : ${produits}">
         <div class="produit">
-            <a href="ServletProduit?id=${produit.id}">
+            <a th:href="@{/Produit/{id}(id=${produit.idProduit})}">
                 <!-- Ajoutez le code pour afficher les détails du produit -->
                 <img th:src="@{/imagesProduct/{id}.jpeg(id=${produit.idProduit})}" th:alt="${produit.nom}" width="100" class="img-fluid">
             </a>

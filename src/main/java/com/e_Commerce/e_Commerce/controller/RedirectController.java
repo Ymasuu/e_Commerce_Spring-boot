@@ -7,6 +7,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.e_Commerce.e_Commerce.service.ProduitsService;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.Optional;
 
 
 @Controller
@@ -44,8 +47,12 @@ public class RedirectController {
     public String modifierProfil(ModelMap model) { return "pageModifierProfil";}
     @GetMapping("/Panier")
     public String panier(ModelMap model) { return "pagePanier";}
-    @GetMapping("/Produit")
-    public String produit(ModelMap model) { return "pageProduit";}
+    @GetMapping("/Produit/{id}")
+    public String produit(ModelMap model, @PathVariable Integer id) {
+        Produit product = produitsService.getProductById(id);
+        model.addAttribute("produit", product);
+        return "pageProduit";
+    }
     @GetMapping("/Produits")
     public String produits(ModelMap model) {
         Iterable<Produit> products = produitsService.getProduct();

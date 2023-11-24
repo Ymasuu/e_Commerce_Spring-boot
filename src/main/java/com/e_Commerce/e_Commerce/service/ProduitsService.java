@@ -16,8 +16,8 @@ public class ProduitsService {
     public Iterable<Produit> getProduct() {
         return productsRepository.findAll();
     }
-    public Optional<Produit> getProductById(Integer id){
-        return productsRepository.findById(id);
+    public Produit getProductById(Integer id){
+        return productsRepository.findById(id).orElse(null);
     }
 
     public Produit saveProduct(Produit product){
