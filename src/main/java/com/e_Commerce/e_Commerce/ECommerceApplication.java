@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ui.ModelMap;
 
+import java.util.Optional;
+
 @SpringBootApplication
 public class ECommerceApplication implements CommandLineRunner {
 
@@ -25,8 +27,12 @@ public class ECommerceApplication implements CommandLineRunner {
 	}
 	@Override
 	public void run(String... args) throws Exception{
-		Iterable<Produit> produits = produitsService.getProduits();
-		produits.forEach(produit -> System.out.println(produit.getNom()));
+		Iterable<Produit> produits = produitsService.getProduct();
+		produits.forEach(produit -> System.out.println("Test list : " + produit.getNom()));
+
+		Optional<Produit> optProduct = produitsService.getProductById(1);
+		Produit productId1 = optProduct.get();
+		System.out.println("Test nom prod by id : " + productId1.getNom());
 	}
 
 }

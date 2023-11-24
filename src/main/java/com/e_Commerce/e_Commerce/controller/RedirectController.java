@@ -1,11 +1,19 @@
 package com.e_Commerce.e_Commerce.controller;
 
+import com.e_Commerce.e_Commerce.model.entity.Produit;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.e_Commerce.e_Commerce.service.ProduitsService;
+
+
 @Controller
 public class RedirectController {
+    @Autowired
+    private ProduitsService produitsService;
+
     @GetMapping("/")
     public String index(ModelMap model) { return "index";}
     @GetMapping("/Ajouter_Moderateur")
@@ -39,7 +47,11 @@ public class RedirectController {
     @GetMapping("/Produit")
     public String produit(ModelMap model) { return "pageProduit";}
     @GetMapping("/Produits")
-    public String produits(ModelMap model) { return "pageProduits";}
+    public String produits(ModelMap model) {
+        Iterable<Produit> products = produitsService.getProduct();
+        model.addAttribute("products", products);
+        return "pageProduits";
+    }
     @GetMapping("/Profil")
     public String profil(ModelMap model) { return "pageProfil";}
     @GetMapping("/Supprimer_Moderateur")
