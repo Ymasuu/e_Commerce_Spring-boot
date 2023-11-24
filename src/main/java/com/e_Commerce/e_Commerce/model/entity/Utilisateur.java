@@ -3,6 +3,7 @@ package com.e_Commerce.e_Commerce.model.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "Utilisateur")
 public class Utilisateur {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
