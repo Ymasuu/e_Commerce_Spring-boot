@@ -49,7 +49,7 @@ public class RedirectController {
     @GetMapping("/Produits")
     public String produits(ModelMap model) {
         Iterable<Produit> products = produitsService.getProduct();
-        model.addAttribute("products", products);
+        model.addAttribute("produits", products);
         return "pageProduits";
     }
     @GetMapping("/Profil")

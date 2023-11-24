@@ -1,15 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.List" %>
-<%--<%@ page import="ecommerce.ecommerce.controller.Controller" %>--%>
-<%@ page import="entity.*" %>
-<!DOCTYPE html>
-<html lang="en">
+
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Produits</title>
-    <link rel="icon" href="../logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="../../webapp/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../webapp/logo/logo.png" type="image/x-icon">
     <!-- Bootstrap CSS CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -72,36 +68,41 @@
 </head>
 <body>
 <div class="header">
-    <%@ include file="header.jsp" %>
+
+<!--    <%@ include file="header.jsp" %>-->
 </div>
 <h1 class="display-4">Liste des Produits</h1>
 <div class="container">
-<%--    <%
-        List<Produit> listeProduits = (List<Produit>) request.getAttribute("listeProduits");
-        Utilisateur utilisateur = (Utilisateur) request.getAttribute("utilisateur");
-        Client client = (Client) request.getAttribute("client");
 
-        for (Produit produit : listeProduits) {
-    %>--%>
-    <div class="produit">
-        <a href="ServletProduit?id=<%--<%= produit.getIdProduit() %>--%>">
-<%--            <img src="imagesProduct/<%= produit.getIdProduit() %>.jpeg" alt="&lt;%&ndash;<%= produit.getNom() %>&ndash;%&gt;" width="100" class="img-fluid">--%>
-        </a>
-        <h2><%--<%= produit.getNom() %>--%> getNom</h2>
-        <p>Prix : <%--<%= produit.getPrix() %>--%> €</p>
-        <%--<!-- Formulaire pour ajouter au panier -->
-        <form action="ServletPanier" method="get">
-            <% if (client != null) { %>
-            <input type="hidden" name="produitId" value="<%= produit.getIdProduit() %>">
-            <input type="number" name="produitQuantite" min="1" value="1">
-            <input type="submit" name="action" value="ajouter" class="btn btn-primary btn-sm mt-2">
-            <% } %>
-        </form>--%>
+
+<!--    <table>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prix</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="produit: ${produits}">
+            <td><span th:text="${produit.nom}"> Nom </span></td>
+            <td>Prix : <span th:text="${produit.prix}"> Prix </span></td>
+        </tr>
+        </tbody>
+    </table>-->
+
+
+
+
+    <div th:each="produit : ${produits}">
+        <div class="produit">
+            <a href="ServletProduit?id=${produit.id}">
+                <!-- Ajoutez le code pour afficher les détails du produit -->
+                <img src="imagesProduct/${produit.id}.jpeg" alt="${produit.nom}" width="100" class="img-fluid">
+            </a>
+            <h2 th:text="${produit.nom}"> Nom</h2>
+            <p> Prix : <span th:text="${produit.prix}"> </span> €</p>
+        </div>
     </div>
-
-<%--    <%
-        }
-    %>--%>
 </div>
 <div class="footer">
     <p>&copy; 2023 AZUR. Tous droits réservés.</p>
