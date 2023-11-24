@@ -1,9 +1,7 @@
-<!--<%@ page import="entity.Utilisateur" %>
-<%@ page import="entity.Moderateur" %>
-<%@ page import="ecommerce.ecommerce.controller.Controller" %>
-<%@ page import="ecommerce.ecommerce.model.DAO.UtilisateurDAO" %>
-<%@ page import="entity.Commande" %>
-<%@ page import="entity.Produit" %> -->
+<!--<%@ page import="com.e_Commerce.e_Commerce.model.entity.Utilisateur" %>
+<%@ page import="com.e_Commerce.e_Commerce.model.entity.Moderateur" %>
+<%@ page import="com.e_Commerce.e_Commerce.model.entity.Commande" %>
+<%@ page import="com.e_Commerce.e_Commerce.model.entity.Produit" %> -->
 <%@ page import="java.util.List" %>
 <html>
 <head>
@@ -122,8 +120,8 @@
     <nav class="header-nav">
         <ul>
             <%--<li class="current"><a href="index.php"><img src="../../img/logo.png" alt="logo_du_site" width="175px"></a></li>--%>
-            <li><a href='ServletProduits' style='display: flex; align-items: center; text-decoration: none;'>
-                <img src="logo/logo.png" alt="Logo Azur Shop" width="50px" style='margin-right: 10px;'>
+            <li><a href='' style='display: flex; align-items: center; text-decoration: none;'>
+                <img src="../../logo/logo.png" alt="Logo Azur Shop" width="50px" style='margin-right: 10px;'>
                 <span style='color: #fff; font-size: 24px; font-weight: bold;'>Azur Shop</span></a></li>
             <%
                 Utilisateur header = Controller.getInstanceController().requestGetUtilisateur();
@@ -140,8 +138,8 @@
 
                 if (header == null) {
             %>
-                <li class='style se-connecter'><a href='ServletDeConnexion' style='display: flex; align-items: center; text-decoration: none;'>
-                    <img src="logo/logIn.png" alt="Logo Log In" width="35px" style='margin-right: 10px;'>
+                <li class='style se-connecter'><a href='' style='display: flex; align-items: center; text-decoration: none;'>
+                    <img src="../../logo/logIn.png" alt="Logo Log In" width="35px" style='margin-right: 10px;'>
                     <span style='color: #fff; font-size: 16px; font-weight: bold;'>Se Connecter</span></a></li>
             <%
                 } else {
@@ -150,35 +148,35 @@
                         headerMod = UtilisateurDAO.findModByUtilisateur(header);
                     }
             %>
-                <li class='style'><a href='ServletProfil' style='display: flex; align-items: center; text-decoration: none;'>
-                    <img src="logo/profil.png" alt="Logo Profil" width="35px" style='margin-right: 10px;'>
+                <li class='style'><a href='' style='display: flex; align-items: center; text-decoration: none;'>
+                    <img src="../../logo/profil.png" alt="Logo Profil" width="35px" style='margin-right: 10px;'>
                     <span style='color: #fff; font-size: 16px; font-weight: bold;'>Mon Compte</span></a></li>
             <%
                     if (header.getTypeDeCompte().equals("Client")) {
 
             %>
                     <%--<li class='style'><a href='ServletPanier' class='lien'>Panier : <%= headerCommande.getPrix() %> euros</a></li>--%>
-                    <li class='style'><a href='ServletPanier' style='display: flex; align-items: center; text-decoration: none;'>
-                    <img src="logo/panier.png" alt="Logo Panier" width="40px" style='margin-right: 10px;'>
+                    <li class='style'><a href='' style='display: flex; align-items: center; text-decoration: none;'>
+                    <img src="../../logo/panier.png" alt="Logo Panier" width="40px" style='margin-right: 10px;'>
                     <span style='color: #fff; font-size: 16px; font-weight: bold;'> <%= nbProduct %> </span></a></li>
             <%
                     } else {
             %>
-                    <li class='style'><a href='ServletListeModerateur' style='display: flex; align-items: center; text-decoration: none;'>
-                        <img src="logo/moderator.png" alt="Logo Moderator" width="35px" style='margin-right: 10px;'>
+                    <li class='style'><a href='' style='display: flex; align-items: center; text-decoration: none;'>
+                        <img src="../../logo/moderator.png" alt="Logo Moderator" width="35px" style='margin-right: 10px;'>
                         <span style='color: #fff; font-size: 16px; font-weight: bold;'>Gerer Moderateur</span></a></li>
             <%
                         if (header.getTypeDeCompte().equals("Admin") || (headerMod != null && headerMod.getDroits().charAt(0) == '1')){
             %>
-                    <li class='style'><a href='ServletAjouterProduit' style='display: flex; align-items: center; text-decoration: none;'>
-                        <img src="logo/addProduct.png" alt="Logo Add Product" width="35px" style='margin-right: 10px;'>
+                    <li class='style'><a href='' style='display: flex; align-items: center; text-decoration: none;'>
+                        <img src="../../logo/addProduct.png" alt="Logo Add Product" width="35px" style='margin-right: 10px;'>
                         <span style='color: #fff; font-size: 16px; font-weight: bold;'>Ajouter Produit</span></a></li>
             <%
                         }
                     }
             %>
-                    <li class='style'><a href='ServletDeDeconnexion' style='display: flex; align-items: center; text-decoration: none;'>
-                        <img src="logo/logOut.png" alt="Logo Log Out" width="35px" style='margin-right: 10px;'>
+                    <li class='style'><a href='' style='display: flex; align-items: center; text-decoration: none;'>
+                        <img src="../../logo/logOut.png" alt="Logo Log Out" width="35px" style='margin-right: 10px;'>
                         <span style='color: #fff; font-size: 16px; font-weight: bold;'>Se Deconnecter</span></a></li>
 
             <%
