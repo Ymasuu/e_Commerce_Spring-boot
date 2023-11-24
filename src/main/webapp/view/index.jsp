@@ -11,7 +11,7 @@
 <h2><%="Warren ANDERSON"%></h2>
 <h2><%="Renato Corno Daniel NASCIMENTO ARDILES"%></h2>
 <br/>
-<h3><a href="/connexion">Aller sur le site</a><br>
+<h3><a href="/Connexion">Aller sur le site</a><br>
 </h3>
 </body>
 </html>

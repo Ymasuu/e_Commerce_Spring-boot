@@ -3,7 +3,7 @@ package com.e_Commerce.e_Commerce.model.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "commande_produit", schema = "e_commerce", catalog = "")
+@Table(name = "Commande_Produit")
 public class CommandeProduit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
