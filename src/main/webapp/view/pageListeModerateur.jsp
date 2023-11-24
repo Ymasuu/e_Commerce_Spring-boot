@@ -1,15 +1,13 @@
-<%@ page import="entity.Utilisateur" %>
+<%@ page import="com.e_Commerce.e_Commerce.model.entity.Utilisateur" %>
 <%@ page import="java.util.List" %>
-<%@ page import="ecommerce.ecommerce.controller.Controller" %>
-<%@ page import="entity.Moderateur" %>
-<%@ page import="ecommerce.ecommerce.model.DAO.UtilisateurDAO" %>
+<%@ page import="com.e_Commerce.e_Commerce.model.entity.Moderateur" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Liste des Modérateurs</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="../logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../logo/logo.png" type="image/x-icon">
     <style>
         /* Styles CSS pour la mise en page */
         body {

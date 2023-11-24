@@ -1,7 +1,7 @@
-<!--<%@ page import="com.e_Commerce.e_Commerce.model.entity.Utilisateur" %>
+<%@ page import="com.e_Commerce.e_Commerce.model.entity.Utilisateur" %>
 <%@ page import="com.e_Commerce.e_Commerce.model.entity.Moderateur" %>
 <%@ page import="com.e_Commerce.e_Commerce.model.entity.Commande" %>
-<%@ page import="com.e_Commerce.e_Commerce.model.entity.Produit" %> -->
+<%@ page import="com.e_Commerce.e_Commerce.model.entity.Produit" %>
 <%@ page import="java.util.List" %>
 <html>
 <head>
@@ -120,7 +120,7 @@
     <nav class="header-nav">
         <ul>
             <%--<li class="current"><a href="index.php"><img src="../../img/logo.png" alt="logo_du_site" width="175px"></a></li>--%>
-            <li><a href='' style='display: flex; align-items: center; text-decoration: none;'>
+            <li><a href='/Produits' style='display: flex; align-items: center; text-decoration: none;'>
                 <img src="../logo/logo.png" alt="Logo Azur Shop" width="50px" style='margin-right: 10px;'>
                 <span style='color: #fff; font-size: 24px; font-weight: bold;'>Azur Shop</span></a></li>
             <%/*
@@ -138,7 +138,7 @@
 
                 if (header == null) {*/
             %>
-                <li class='style se-connecter'><a href='' style='display: flex; align-items: center; text-decoration: none;'>
+                <li class='style se-connecter'><a href='/Connexion' style='display: flex; align-items: center; text-decoration: none;'>
                     <img src="../logo/logIn.png" alt="Logo Log In" width="35px" style='margin-right: 10px;'>
                     <span style='color: #fff; font-size: 16px; font-weight: bold;'>Se Connecter</span></a></li>
             <%/*
@@ -148,7 +148,7 @@
                         headerMod = UtilisateurDAO.findModByUtilisateur(header);
                     }*/
             %>
-                <li class='style'><a href='' style='display: flex; align-items: center; text-decoration: none;'>
+                <li class='style'><a href='/Profil' style='display: flex; align-items: center; text-decoration: none;'>
                     <img src="../logo/profil.png" alt="Logo Profil" width="35px" style='margin-right: 10px;'>
                     <span style='color: #fff; font-size: 16px; font-weight: bold;'>Mon Compte</span></a></li>
             <%/*
@@ -156,19 +156,19 @@
 
             %>
                     <%--<li class='style'><a href='ServletPanier' class='lien'>Panier : <%= headerCommande.getPrix() %> euros</a></li>--%>
-                    <li class='style'><a href='' style='display: flex; align-items: center; text-decoration: none;'>
+                    <li class='style'><a href='/Panier' style='display: flex; align-items: center; text-decoration: none;'>
                     <img src="../logo/panier.png" alt="Logo Panier" width="40px" style='margin-right: 10px;'>
                     <span style='color: #fff; font-size: 16px; font-weight: bold;'> [todo] </span></a></li>
             <%/*
                     } else {*/
             %>
-                    <li class='style'><a href='' style='display: flex; align-items: center; text-decoration: none;'>
+                    <li class='style'><a href='/Modifier_Droits_Moderateur' style='display: flex; align-items: center; text-decoration: none;'>
                         <img src="../logo/moderator.png" alt="Logo Moderator" width="35px" style='margin-right: 10px;'>
                         <span style='color: #fff; font-size: 16px; font-weight: bold;'>Gerer Moderateur</span></a></li>
             <%/*
                         if (header.getTypeDeCompte().equals("Admin") || (headerMod != null && headerMod.getDroits().charAt(0) == '1')){*/
             %>
-                    <li class='style'><a href='' style='display: flex; align-items: center; text-decoration: none;'>
+                    <li class='style'><a href='/Ajouter_Produit' style='display: flex; align-items: center; text-decoration: none;'>
                         <img src="../logo/addProduct.png" alt="Logo Add Product" width="35px" style='margin-right: 10px;'>
                         <span style='color: #fff; font-size: 16px; font-weight: bold;'>Ajouter Produit</span></a></li>
             <%/*

@@ -1,16 +1,14 @@
-<%@ page import="entity.Utilisateur" %>
+<%@ page import="com.e_Commerce.e_Commerce.model.entity.Utilisateur" %>
 <%@ page import="jdk.jshell.execution.Util" %>
-<%@ page import="ecommerce.ecommerce.controller.Controller" %>
-<%@ page import="ecommerce.ecommerce.model.DAO.UtilisateurDAO" %>
-<%@ page import="entity.Client" %>
-<%@ page import="entity.Moderateur" %>
+<%@ page import="com.e_Commerce.e_Commerce.model.entity.Client" %>
+<%@ page import="com.e_Commerce.e_Commerce.model.entity.Moderateur" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Profil de l'Utilisateur</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="../logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../logo/logo.png" type="image/x-icon">
     <style>
         body {font-family: Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 0;}
         .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);}

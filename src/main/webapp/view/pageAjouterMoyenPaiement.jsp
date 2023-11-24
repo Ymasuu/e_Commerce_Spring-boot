@@ -1,11 +1,10 @@
-<%@ page import="entity.Utilisateur" %>
-<%@ page import="ecommerce.ecommerce.controller.Controller" %>
+<%@ page import="com.e_Commerce.e_Commerce.model.entity.Utilisateur" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Ajouter Moyen de Paiement</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="../logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../logo/logo.png" type="image/x-icon">
     <style>
         body {
             font-family: Arial, sans-serif;

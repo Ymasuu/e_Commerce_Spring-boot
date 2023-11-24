@@ -1,15 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<jsp:useBean id="produit" scope="request" type="com.e_Commerce.e_Commerce.model.entity.Produit"/>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
-<%@ page import="ecommerce.ecommerce.controller.Controller" %>
-<%@ page import="entity.*" %>
+<%@ page import="com.e_Commerce.e_Commerce.model.entity.*" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Produits</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="../logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../logo/logo.png" type="image/x-icon">
     <!-- Bootstrap CSS CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -71,37 +71,17 @@
     </style>
 </head>
 <body>
-<div class="header">
-    <%@ include file="header.jsp" %>
-</div>
+<div class="header" th:replace="header :: header"></div>
 <h1 class="display-4">Liste des Produits</h1>
 <div class="container">
-    <%
-        List<Produit> listeProduits = (List<Produit>) request.getAttribute("listeProduits");
-        Utilisateur utilisateur = (Utilisateur) request.getAttribute("utilisateur");
-        Client client = (Client) request.getAttribute("client");
-
-        for (Produit produit : listeProduits) {
-    %>
-    <div class="produit">
-        <a href="ServletProduit?id=<%= produit.getIdProduit() %>">
-            <img src="imagesProduct/<%= produit.getIdProduit() %>.jpeg" alt="<%= produit.getNom() %>" width="100" class="img-fluid">
+    <div th:each="produit : ${listeProduits}" class="produit">
+        <a th:href="@{/produit/{id}(id=${produit.idProduit})}">
+            <img th:src="@{/imagesProduct/{id}.jpeg(id=${produit.idProduit})}" alt="Nom du produit" width="100" class="img-fluid">
         </a>
-        <h2><%= produit.getNom() %></h2>
-        <p>Prix : <%= produit.getPrix() %> €</p>
-        <%--<!-- Formulaire pour ajouter au panier -->
-        <form action="ServletPanier" method="get">
-            <% if (client != null) { %>
-            <input type="hidden" name="produitId" value="<%= produit.getIdProduit() %>">
-            <input type="number" name="produitQuantite" min="1" value="1">
-            <input type="submit" name="action" value="ajouter" class="btn btn-primary btn-sm mt-2">
-            <% } %>
-        </form>--%>
+        <h2 th:text="${produit.nom}"></h2>
+        <p th:text="${produit.prix + ' €'}"></p>
+        <!-- Ajoutez des fonctionnalités Thymeleaf pour l'ajout au panier -->
     </div>
-
-    <%
-        }
-    %>
 </div>
 <div class="footer">
     <p>&copy; 2023 AZUR. Tous droits réservés.</p>

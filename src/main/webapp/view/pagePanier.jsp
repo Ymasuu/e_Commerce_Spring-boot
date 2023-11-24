@@ -1,8 +1,6 @@
-<%@ page import="entity.Produit" %>
+<%@ page import="com.e_Commerce.e_Commerce.model.entity.Produit" %>
 <%@ page import="java.util.List" %>
-<%@ page import="ecommerce.ecommerce.controller.Controller" %>
 <%@ page import="java.math.BigDecimal" %>
-<%@ page import="ecommerce.ecommerce.model.DAO.ProduitDAO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%Boolean panierVide = (Boolean) request.getAttribute("panierVide");%>
 <!DOCTYPE html>
@@ -10,8 +8,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Panier</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="../logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../logo/logo.png" type="image/x-icon">
     <style>
         body {
             font-family: Arial, sans-serif;
