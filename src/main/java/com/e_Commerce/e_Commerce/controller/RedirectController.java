@@ -10,6 +10,8 @@ public class RedirectController {
     public String index(ModelMap model) {
         return "index";
     }
+    @GetMapping("/Ajouter_Moderateur")
+    public String ajouterModerateur(ModelMap model) { return "pageAjouterModerateur";}
     @GetMapping("/connexion")
     public String connexion(ModelMap model) {
         return "pageConnexion";
