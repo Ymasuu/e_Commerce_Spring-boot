@@ -79,7 +79,7 @@
     String carteBancaireNum = (String) Controller.getInstanceController().requestGetClient().getCompteBancaireNum();
 %>
 <div class="header">
-    <%@ include file="header.jsp" %>
+<%--    <%@ include file="header.html" %>--%>
 </div>
 <div class="title">
     <h1>Confirmer le Paiement</h1>

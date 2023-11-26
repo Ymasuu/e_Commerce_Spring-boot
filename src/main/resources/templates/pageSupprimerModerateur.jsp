@@ -90,7 +90,7 @@
 </head>
 <body>
 <div class="header">
-    <%@ include file="header.jsp" %>
+<%--    <%@ include file="header.html" %>--%>
 </div>
 <h1>Suppression moderateurs</h1>
 <form action="ServletDeleteModerateur" method="post" class="supp">

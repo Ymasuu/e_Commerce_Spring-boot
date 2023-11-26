@@ -67,7 +67,7 @@
     String errorMessage = (String) request.getAttribute("errorMessage");
 %>
 <div class="header">
-    <%@ include file="header.jsp" %>
+<%--    <%@ include file="header.html" %>--%>
 </div>
 <h1>Convertir Points en Solde</h1>
     <%

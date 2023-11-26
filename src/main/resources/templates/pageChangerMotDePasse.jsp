@@ -21,7 +21,7 @@
 </head>
 <body>
 <div class="header">
-    <%@ include file="header.jsp" %>
+<%--    <%@ include file="header.html" %>--%>
 </div>
 <div class="container">
     <% Utilisateur u = Controller.getInstanceController().requestGetUtilisateur(); %>

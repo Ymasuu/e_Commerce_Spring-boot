@@ -2,6 +2,7 @@ package com.e_Commerce.e_Commerce.service;
 
 import com.e_Commerce.e_Commerce.model.entity.Utilisateur;
 import com.e_Commerce.e_Commerce.repository.UtilisateurRepository;
+import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +18,16 @@ public class UtilisateurService {
         return utilisateurRepository.findById(id);
     }
 
-    public List<Utilisateur> getAllClients() {
-        return utilisateurRepository.findByTypeDeCompte("Client");
-    }
 
-    public List<Utilisateur> getAllModerateurs() {
+/*    public List<Utilisateur> getAllModerateurs() {
         return utilisateurRepository.findByTypeDeCompte("Moderateur");
-    }
+    }*/
 
     public Utilisateur saveUser(Utilisateur user){
         return utilisateurRepository.save(user);
+    }
+
+    public Utilisateur verifierUtilisateur(String email, String motDePasse) {
+        return utilisateurRepository.findByMailAndMotDePasse(email, motDePasse).orElse(null);
     }
 }

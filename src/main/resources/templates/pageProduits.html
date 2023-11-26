@@ -9,6 +9,11 @@
     <!-- Bootstrap CSS CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+        }
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -67,10 +72,7 @@
     </style>
 </head>
 <body>
-<div class="header">
-
-<!--    <%@ include file="header.jsp" %>-->
-</div>
+<header th:insert="~{header.html :: header}" class="header"> </header>
 <h1 class="display-4">Liste des Produits</h1>
 <div class="container">
 

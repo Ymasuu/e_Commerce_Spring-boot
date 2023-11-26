@@ -83,7 +83,7 @@
 </head>
 <body>
 <div class="header">
-    <%@ include file="header.jsp" %>
+<%--    <%@ include file="header.html" %>--%>
 </div>
 <h1>Panier</h1>
 <table border="1">

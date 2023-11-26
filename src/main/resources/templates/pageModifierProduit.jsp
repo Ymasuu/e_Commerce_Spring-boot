@@ -105,7 +105,7 @@
     int stock = (int) request.getAttribute("stock");
 %>
 <div class="header">
-    <%@ include file="header.jsp" %>
+<%--    <%@ include file="header.html" %>--%>
 </div>
 <h1>Ajouter un Produit</h1>
 <p class="error" style="color : red;text-align : center"><%= errorMessage %></p>
