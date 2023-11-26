@@ -62,8 +62,8 @@ public class RedirectController {
 
     @GetMapping("/Convertir_Points")
     public String convertirPoints(ModelMap model) { return "pageConvertPoints";}
-    @GetMapping("/Inscription")
-    public String inscription(ModelMap model) { return "pageInscription";}
+    /*@GetMapping("/Inscription")
+    public String inscription(ModelMap model) { return "pageInscription";}*/
     @GetMapping("/Liste_Moderateurs")
     public String listeModerateurs(ModelMap model) { return "pageListeModerateurs";}
     @GetMapping("/Modifier_Droits_Moderateur")
