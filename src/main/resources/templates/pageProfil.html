@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil de l'Utilisateur</title>
+    <link rel="icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <style>
+        body {font-family: Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 0;}
+        .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);}
+        h1 {color: #333;}
+        h2 {color: #555;}
+        ul {list-style-type: none; padding: 0;}
+        li {margin: 10px 0;}
+        strong {color: #333;}
+        a {text-decoration: none; color: #0077cc;}
+        button {
+            width: 18%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #f8f8f8;
+            color: #333;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            color: #fff;
+        }
+        .left{
+            margin-left : 8%;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <!-- Include the header content here -->
+    <!-- <div th:include="header :: header"></div> -->
+</div>
+<div class="container">
+    <!-- Retrieve user information from the model -->
+    <div th:object="${utilisateur}">
+        <h1 th:text="'Profil ' + ${typeDeCompte}"></h1>
+        <p style="color: #0077cc;" th:text="'Bienvenue, ' + ${prenom} + ' !'"></p>
+
+        <h2> Informations de Profil </h2>
+        <ul>
+            <li><strong>Nom :</strong> <span th:text="${nom}"></span> </li>
+            <li><strong>Prenom :</strong> <span th:text="${prenom}"></span> </li>
+            <li><strong>Email :</strong> <span th:text="${mail}"></span> </li>
+            <th:block th:if="${typeDeCompte} eq 'Client'">
+                <!-- Cast to Client if the user is a Client -->
+                <li><strong>Carte Bancaire :</strong> **** **** **** <span th:text="${lastFourDigits}"></span> </li>
+                <li><strong>Solde :</strong> <span th:text="${compteBancaireSolde}"></span> </li>
+                <form action="ServletAjouterSolde" method="get">
+                    <button type="submit">Ajouter Solde</button>
+                </form>
+                <li><strong>Points de fidélité :</strong> <span th:text="${points}"></span> </li>
+                <form action="ServletConvertPoints" method="get">
+                    <button type="submit">Convertir les points</button>
+                </form>
+            </th:block>
+            <th:block th:if="${typeDeCompte} eq 'Moderateur'">
+                <!-- Cast to Moderateur if the user is a Moderateur -->
+                <li><strong>Droits :</strong> <div class="left" th:text="${droits}"></div></li>
+            </th:block>
+        </ul>
+
+        <th:block th:if="${typeDeCompte} eq 'Client'">
+            <!-- Cast to Client if the user is a Client -->
+            <p><a th:href="@{/ServletAjouterMoyenPaiement}"><button th:text="${buttonText} + ' carte bancaire'"></button></a></p>
+        </th:block>
+
+        <p><a th:href="@{/ServletModifierProfil}">Modifier le profil</a></p>
+        <p><a th:href="@{/ServletChangerMotDePasse}">Changer mot de passe</a></p>
+        <p><a th:href="@{/ServletDeDeconnexion}">Deconnexion</a></p> <!-- Lien pour se déconnecter -->
+    </div>
+</div>
+</body>
+</html>
