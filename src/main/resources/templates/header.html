@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -120,7 +120,6 @@
         .search-form input[type="text"]::placeholder {
             color: #555;
         }
-
         .se-connecter {
             margin-left: auto;
         }
@@ -145,25 +144,25 @@
                 </a>
             </li>
             <li th:if="${user ne null}">
-                <a th:href="@{/Profil}" style="display: flex; align-items: center; text-decoration: none;">
+                <a th:href="@{/Profil}" >
                     <img src="../logo/profil.png" alt="Logo Profil" width="35px" style="margin-right: 10px;">
                     <span style="color: #fff; font-size: 16px; font-weight: bold;">Mon Compte</span>
                 </a>
             </li>
             <li th:if="${user.typeDeCompte eq 'Client'}">
-                <a th:href="@{/Panier}" style="display: flex; align-items: center; text-decoration: none;">
+                <a th:href="@{/Panier}" >
                     <img src="../logo/panier.png" alt="Logo Panier" width="40px" style="margin-right: 10px;">
                     <span style="color: #fff; font-size: 16px; font-weight: bold;">[todo]</span>
                 </a>
             </li>
             <li th:if="${user.typeDeCompte eq 'Moderateur'}">
-                <a th:href="@{/Liste_Moderateurs}" style="display: flex; align-items: center; text-decoration: none;">
+                <a th:href="@{/Liste_Moderateurs}" >
                     <img src="../logo/moderator.png" alt="Logo Moderator" width="35px" style="margin-right: 10px;">
                     <span style="color: #fff; font-size: 16px; font-weight: bold;">Gerer Moderateur</span>
                 </a>
             </li>
             <li th:if="${user.typeDeCompte eq 'Admin' or (moderateur ne null and moderateur.droits.charAt(0) eq '1')}">
-                <a th:href="@{/Ajouter_Produit}" style="display: flex; align-items: center; text-decoration: none;">
+                <a th:href="@{/Ajouter_Produit}" >
                     <img src="../logo/addProduct.png" alt="Logo Add Product" width="35px" style="margin-right: 10px;">
                     <span style="color: #fff; font-size: 16px; font-weight: bold;">Ajouter Produit</span>
                 </a>
@@ -175,7 +174,6 @@
                 </a>
             </li>
         </ul>
-        <br>
     </nav>
 </header>
 </body>
