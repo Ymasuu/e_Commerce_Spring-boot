@@ -46,12 +46,16 @@
             max-width: 100%;
             height: auto;
         }
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-<div class="header">
-<!--    <%@ include file="header.html" %>-->
-</div>
+<header th:insert="~{header.html :: header}" class="header"> </header>
 <h1>Détails du Produit</h1>
 <div class="container">
     <div class="product-details">

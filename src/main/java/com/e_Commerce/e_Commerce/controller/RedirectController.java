@@ -75,7 +75,12 @@ public class RedirectController {
     @GetMapping("/Panier")
     public String panier(ModelMap model) { return "pagePanier";}
     @GetMapping("/Produit/{id}")
-    public String produit(ModelMap model, @PathVariable Integer id) {
+    public String produit(ModelMap model, @PathVariable Integer id,HttpSession session) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        if (user != null){
+            System.out.println("Utilisateur connecté : " + user.getMail());
+            model.addAttribute("user", user);
+        }
         Produit product = produitsService.getProductById(id);
         model.addAttribute("produit", product);
         return "pageProduit";
@@ -92,7 +97,7 @@ public class RedirectController {
         return "pageProduits";
     }
 
-    @GetMapping("/pageProfil")
+    @GetMapping("/Profil")
     public String utilisateur(ModelMap model, @RequestParam Integer id) {
         Optional<Utilisateur> utilisateurOptional = utilisateurService.getUserById(id);
 

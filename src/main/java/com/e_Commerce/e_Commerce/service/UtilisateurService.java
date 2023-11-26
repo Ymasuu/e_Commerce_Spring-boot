@@ -6,6 +6,7 @@ import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,4 +31,14 @@ public class UtilisateurService {
     public Utilisateur verifierUtilisateur(String email, String motDePasse) {
         return utilisateurRepository.findByMailAndMotDePasse(email, motDePasse).orElse(null);
     }
+
+    public List<String> validerUtilisateur(Utilisateur utilisateur) {
+        return Collections.singletonList("");
+    }
+
+    public void enregistrerUtilisateur(Utilisateur utilisateur) {
+        saveUser(utilisateur);
+
+    }
+
 }
