@@ -1,28 +1,32 @@
 package com.e_Commerce.e_Commerce.controller;
 
-import com.e_Commerce.e_Commerce.model.entity.Client;
-import com.e_Commerce.e_Commerce.model.entity.Moderateur;
-import com.e_Commerce.e_Commerce.model.entity.Produit;
-import com.e_Commerce.e_Commerce.model.entity.Utilisateur;
+import com.e_Commerce.e_Commerce.model.entity.*;
+import com.e_Commerce.e_Commerce.service.ProduitsService;
 import com.e_Commerce.e_Commerce.service.UtilisateurService;
-
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import com.e_Commerce.e_Commerce.service.ProduitsService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 
 @Controller
 public class RedirectController {
+    //Attributs des diverses entités
+    private Client client;
+    private Utilisateur user;
+    private Produit produit;
+
+    private Moderateur moderateur;
+
+    private Commande commande;
+
+
     @Autowired
     private ProduitsService produitsService;
     @Autowired
@@ -50,6 +54,8 @@ public class RedirectController {
     public String processLogin(@RequestParam String email, @RequestParam String motDePasse, ModelMap model, HttpSession session) {
         Utilisateur user = utilisateurService.verifierUtilisateur(email, motDePasse);
         if (user != null) {
+            //On passe au controlleur l'utilisateur
+            this.user = user;
             session.setAttribute("user", user);
             // envoyer 'user' dans la session
             return "redirect:/Produits";
@@ -76,7 +82,6 @@ public class RedirectController {
     public String panier(ModelMap model) { return "pagePanier";}
     @GetMapping("/Produit/{id}")
     public String produit(ModelMap model, @PathVariable Integer id,HttpSession session) {
-        Utilisateur user = (Utilisateur) session.getAttribute("user");
         if (user != null){
             System.out.println("Utilisateur connecté : " + user.getMail());
             model.addAttribute("user", user);
@@ -88,6 +93,7 @@ public class RedirectController {
     @GetMapping("/Produits")
     public String produits(ModelMap model, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
+        System.out.println("UTILISATAUR EXISTE? : " + user);
         if (user != null){
             System.out.println("Utilisateur connecté : " + user.getMail());
             model.addAttribute("user", user);
