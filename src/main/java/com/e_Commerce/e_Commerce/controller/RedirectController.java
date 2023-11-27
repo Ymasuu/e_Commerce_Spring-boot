@@ -46,29 +46,6 @@ public class RedirectController {
     public String changerMotDePasse(ModelMap model) { return "pageChangerMotDePasse";}
     @GetMapping("/Confirmer_Paiement")
     public String confirmerPaiement(ModelMap model) { return "pageConfirmerPaiement";}
-    @GetMapping("/Connexion")
-    public String connexion(ModelMap model) { return "pageConnexion";}
-
-    @PostMapping("/Connexion")
-    public String processLogin(@RequestParam String email, @RequestParam String motDePasse, ModelMap model, HttpSession session) {
-        Utilisateur user = utilisateurService.verifierUtilisateur(email, motDePasse);
-        if (user != null) {
-            this.moderateur = utilisateurService.getModerateurByIdUtilisateur(user.getIdUtilisateur());
-            if (moderateur != null){
-                System.out.println("id modo : " + moderateur.getIdModerateur());
-                session.setAttribute("moderateur", moderateur);
-            }
-            //On passe au controlleur l'utilisateur
-            this.user = user;
-            session.setAttribute("user", user);
-            // envoyer 'user' dans la session
-            return "redirect:/Produits";
-        } else {
-            // Échec de la connexion, renvoyez l'utilisateur à la page de connexion avec un message d'erreur
-            model.addAttribute("errorMessage", "Identifiants incorrects");
-            return "pageConnexion";
-        }
-    }
 
     @GetMapping("/Convertir_Points")
     public String convertirPoints(ModelMap model) { return "pageConvertPoints";}
@@ -84,61 +61,22 @@ public class RedirectController {
     public String modifierProfil(ModelMap model) { return "pageModifierProfil";}
     @GetMapping("/Panier")
     public String panier(ModelMap model) { return "pagePanier";}
-    @GetMapping("/Produit/{id}")
-    public String produit(ModelMap model, @PathVariable Integer id,HttpSession session) {
-        Utilisateur user = (Utilisateur) session.getAttribute("user");
-        if (user != null){
-            System.out.println("Utilisateur connecté : " + user.getMail());
-            model.addAttribute("user", user);
-            Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
-            if (moderateur != null){
-                model.addAttribute("moderateur", moderateur);
-                System.out.println("Produit test modo droits : " + moderateur.getDroits());
-            }
-        }
-        Produit product = produitsService.getProductById(id);
-        model.addAttribute("produit", product);
-        return "pageProduit";
-    }
-    @GetMapping("/Produits")
-    public String produits(ModelMap model, HttpSession session) {
-        Utilisateur user = (Utilisateur) session.getAttribute("user");
-        System.out.println("UTILISATAUR EXISTE? : " + user);
-        if (user != null){
-            System.out.println("Utilisateur connecté : " + user.getMail());
-            model.addAttribute("user", user);
-        }
-        Iterable<Produit> products = produitsService.getProduct();
-        model.addAttribute("produits", products);
-        return "pageProduits";
-    }
 
     @GetMapping("/Profil")
-    public String utilisateur(ModelMap model, @RequestParam Integer id) {
-        Optional<Utilisateur> utilisateurOptional = utilisateurService.getUserById(id);
+    public String utilisateur(ModelMap model, HttpSession session) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
+        Client client = (Client) session.getAttribute("client");
 
-        if (utilisateurOptional.isPresent()) {
-            Utilisateur utilisateur = utilisateurOptional.get();
-            model.addAttribute("utilisateur", utilisateur);
-            return "pageProfil";
-        } else {
-            // Gérer le cas où l'utilisateur n'est pas trouvé
-            // Vous pouvez rediriger vers une page d'erreur par exemple
-            return "redirect:/erreur";
-        }
+        model.addAttribute("user", user);
+        model.addAttribute("moderateur", moderateur);
+        model.addAttribute("client", client);
+        return "pageProfil";
     }
 
     @GetMapping("/Supprimer_Moderateur")
     public String supprimerModerateur(ModelMap model) { return "pageSupprimerModerateur";}
 
-    @GetMapping("/Deconnexion")
-    public String Deconnexion(ModelMap model, HttpSession session){
-        session.removeAttribute("user");
-        session.removeAttribute("moderateur");
-        this.user = null;
-        this.moderateur = null;
-        return "redirect:/Produits";
-    }
 }
 
 
