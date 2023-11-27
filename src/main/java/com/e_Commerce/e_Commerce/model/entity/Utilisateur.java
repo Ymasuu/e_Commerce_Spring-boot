@@ -6,6 +6,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "Utilisateur")
 public class Utilisateur implements Serializable{
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_utilisateur")
@@ -26,6 +27,14 @@ public class Utilisateur implements Serializable{
     @Column(name = "type_de_compte")
     private String typeDeCompte;
 
+    public Utilisateur() {}
+    public Utilisateur(String nom, String prenom, String mail, String motDePasse, String typeDeCompte){
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mail = mail;
+        this.motDePasse = motDePasse;
+        this.typeDeCompte = typeDeCompte;
+    }
     public int getIdUtilisateur() {
         return idUtilisateur;
     }

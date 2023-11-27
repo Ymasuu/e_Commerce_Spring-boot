@@ -32,13 +32,8 @@ public class UtilisateurService {
         return utilisateurRepository.findByMailAndMotDePasse(email, motDePasse).orElse(null);
     }
 
-    public List<String> validerUtilisateur(Utilisateur utilisateur) {
-        return Collections.singletonList("");
+    public Utilisateur verifierUtilisateur(String email) {
+        return utilisateurRepository.findByMail(email).orElse(null);
     }
-
-    public void enregistrerUtilisateur(Utilisateur utilisateur) {
-        saveUser(utilisateur);
-
-    }
-
 }
+

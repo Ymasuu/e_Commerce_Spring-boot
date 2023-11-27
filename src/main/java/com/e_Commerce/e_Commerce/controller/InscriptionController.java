@@ -28,25 +28,23 @@ public class InscriptionController {
 
     @GetMapping("/Inscription")
     public String afficherFormulaireInscription(Model model) {
-        model.addAttribute("utilisateur", new Utilisateur());
         return "pageInscription";
     }
 
     @PostMapping("/Inscription")
-    public String soumettreFormulaireInscription(@ModelAttribute Utilisateur utilisateur, Model model, HttpSession session) {
-        // Valider les données du formulaire
-        List<String> erreurs = utilisateurService.validerUtilisateur(utilisateur);
-
-        if (erreurs.isEmpty()) {
+    public String soumettreFormulaireInscription(@RequestParam String email, @RequestParam String nom,
+     @RequestParam String prenom, @RequestParam String motDePasse, Model model, HttpSession session) {
+        if (utilisateurService.verifierUtilisateur(email) == null) {
+            Utilisateur utilisateur = new Utilisateur(prenom, nom, email, motDePasse, "Client");
             // Aucune erreur, enregistrer l'utilisateur et le connecter
-            utilisateurService.enregistrerUtilisateur(utilisateur);
-            session.setAttribute("user", utilisateur);
+            Utilisateur nouvelUtilisateur = utilisateurService.saveUser(utilisateur);
+            session.setAttribute("user", nouvelUtilisateur);
 
             // Rediriger vers la page des produits
             return "redirect:/Produits";
         } else {
             // Il y a des erreurs, les afficher dans le modèle
-            model.addAttribute("erreurs", erreurs);
+            model.addAttribute("erreurs", "<style> font-color:red  </style>Cet utilisateur existe dejà");
             return "pageInscription";
         }
     }
