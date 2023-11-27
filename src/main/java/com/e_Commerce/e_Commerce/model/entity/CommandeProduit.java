@@ -21,6 +21,15 @@ public class CommandeProduit implements Serializable {
     @Column(name = "quantite")
     private Integer quantite;
 
+    public CommandeProduit(Integer idCommande, Integer idProduit, Integer quantite){
+        this.idCommande = idCommande;
+        this.idProduit = idProduit;
+        this.quantite = quantite;
+    }
+
+    public CommandeProduit(){
+
+    }
     public int getIdCommandeProd() {
         return idCommandeProd;
     }

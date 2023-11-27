@@ -40,6 +40,10 @@ public class InscriptionController {
             Utilisateur nouvelUtilisateur = utilisateurService.saveUser(utilisateur);
             session.setAttribute("user", nouvelUtilisateur);
 
+            Client client = new Client(nouvelUtilisateur.getIdUtilisateur());
+            Client nouveauClient = utilisateurService.saveClient(client);
+            session.setAttribute("client", nouveauClient);
+
             // Rediriger vers la page des produits
             return "redirect:/Produits";
         } else {

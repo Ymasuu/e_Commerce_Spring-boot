@@ -22,6 +22,15 @@ public class Commande implements Serializable {
     @Column(name = "status")
     private String status;
 
+    public Commande(Integer idClient, BigDecimal prix){
+        this.idClient = idClient;
+        this.prix = prix;
+        this.status= "non paye";
+    }
+
+    public Commande(){
+
+    }
     public int getIdCommande() {
         return idCommande;
     }

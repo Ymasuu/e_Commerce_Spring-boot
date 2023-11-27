@@ -38,12 +38,14 @@ public class UtilisateurService {
     public Utilisateur verifierUtilisateur(String email) {
         return utilisateurRepository.findByMail(email).orElse(null);
     }
-}
 
     public Moderateur getModerateurByIdUtilisateur(int id){
         return  moderateurRepository.findById(id).orElse(null);
     }
 
+    public Client saveClient(Client client){
+        return clientRepository.save(client);
+    }
     public Client getClientByIdUtilisateur(int id){
         return  clientRepository.findById(id).orElse(null);
     }

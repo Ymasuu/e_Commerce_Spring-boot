@@ -25,6 +25,16 @@ public class Produit implements Serializable {
     @Column(name = "stock")
     private Integer stock;
 
+    public Produit(String nom, BigDecimal prix, String description, Integer stock){
+        this.nom = nom;
+        this.prix = prix;
+        this.description = description;
+        this.stock = stock;
+    }
+
+    public Produit(){
+
+    }
     public int getIdProduit() {
         return idProduit;
     }
