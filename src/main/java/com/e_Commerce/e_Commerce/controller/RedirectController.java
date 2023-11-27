@@ -120,4 +120,12 @@ public class RedirectController {
 
     @GetMapping("/Supprimer_Moderateur")
     public String supprimerModerateur(ModelMap model) { return "pageSupprimerModerateur";}
+
+    @GetMapping("/Deconnexion")
+    public String Deconnexion(ModelMap model, HttpSession session){
+        session.removeAttribute("user");
+        return "redirect:/Produits";
+    }
 }
+
+
