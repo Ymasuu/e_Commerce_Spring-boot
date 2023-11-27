@@ -45,7 +45,6 @@
 <body>
 <header th:insert="~{header.html :: header}" class="header"> </header>
 <div class="container">
-    <!-- Retrieve user information from the model -->
     <h1 th:text="'Profil ' + ${user.typeDeCompte}"></h1>
     <p style="color: #0077cc;" th:text="'Bienvenue, ' + ${user.prenom} + ' !'"></p>
 
@@ -55,10 +54,10 @@
         <li><strong>Prenom :</strong> <span th:text="${user.prenom}"></span> </li>
         <li><strong>Email :</strong> <span th:text="${user.mail}"></span> </li>
         <th:block th:if="${client} != null">
-            <!-- Cast to Client if the user is a Client -->
+
             <li><strong>Carte Bancaire :</strong> **** **** **** <span th:text="${#strings.substring(client.compteBancaireNum, 14, 19)}"></span> </li>
             <li><strong>Solde :</strong> <span th:text="${client.compteBancaireSolde}"></span> </li>
-            <form action="" method="post">
+            <form th:action="@{/AjouterSolde}" method="get">
                 <button type="submit">Ajouter Solde</button>
             </form>
             <li><strong>Points de fidélité :</strong> <span th:text="${client.points}"></span> </li>
