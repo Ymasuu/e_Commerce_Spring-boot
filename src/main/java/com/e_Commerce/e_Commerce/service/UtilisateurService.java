@@ -1,8 +1,9 @@
 package com.e_Commerce.e_Commerce.service;
 
+import com.e_Commerce.e_Commerce.model.entity.Moderateur;
 import com.e_Commerce.e_Commerce.model.entity.Utilisateur;
+import com.e_Commerce.e_Commerce.repository.ModerateurRepository;
 import com.e_Commerce.e_Commerce.repository.UtilisateurRepository;
-import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +15,13 @@ import java.util.Optional;
 public class UtilisateurService {
     @Autowired
     private UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private ModerateurRepository moderateurRepository;
+
 
     public Optional<Utilisateur> getUserById(Integer id){
         return utilisateurRepository.findById(id);
     }
-
-
-/*    public List<Utilisateur> getAllModerateurs() {
-        return utilisateurRepository.findByTypeDeCompte("Moderateur");
-    }*/
 
     public Utilisateur saveUser(Utilisateur user){
         return utilisateurRepository.save(user);
@@ -40,5 +39,14 @@ public class UtilisateurService {
         saveUser(utilisateur);
 
     }
+
+    public Moderateur getModerateurByIdUtilisateur(int id){
+        return  moderateurRepository.findById(id).orElse(null);
+    }
+
+
+/*    public List<Utilisateur> getAllModerateurs() {
+        return utilisateurRepository.findByTypeDeCompte("Moderateur");
+    }*/
 
 }

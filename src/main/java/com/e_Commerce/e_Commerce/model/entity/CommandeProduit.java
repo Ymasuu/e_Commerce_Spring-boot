@@ -2,9 +2,11 @@ package com.e_Commerce.e_Commerce.model.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "Commande_Produit")
-public class CommandeProduit {
+public class CommandeProduit implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_commande_prod")

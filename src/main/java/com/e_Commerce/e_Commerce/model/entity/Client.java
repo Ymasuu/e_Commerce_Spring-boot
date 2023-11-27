@@ -2,11 +2,12 @@ package com.e_Commerce.e_Commerce.model.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "Client")
-public class Client {
+public class Client implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_client")

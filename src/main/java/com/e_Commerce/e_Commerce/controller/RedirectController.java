@@ -21,7 +21,6 @@ public class RedirectController {
     private Client client;
     private Utilisateur user;
     private Produit produit;
-
     private Moderateur moderateur;
 
     private Commande commande;
@@ -54,6 +53,11 @@ public class RedirectController {
     public String processLogin(@RequestParam String email, @RequestParam String motDePasse, ModelMap model, HttpSession session) {
         Utilisateur user = utilisateurService.verifierUtilisateur(email, motDePasse);
         if (user != null) {
+            this.moderateur = utilisateurService.getModerateurByIdUtilisateur(user.getIdUtilisateur());
+            if (moderateur != null){
+                System.out.println("id modo : " + moderateur.getIdModerateur());
+                session.setAttribute("moderateur", moderateur);
+            }
             //On passe au controlleur l'utilisateur
             this.user = user;
             session.setAttribute("user", user);
@@ -82,9 +86,15 @@ public class RedirectController {
     public String panier(ModelMap model) { return "pagePanier";}
     @GetMapping("/Produit/{id}")
     public String produit(ModelMap model, @PathVariable Integer id,HttpSession session) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
         if (user != null){
             System.out.println("Utilisateur connecté : " + user.getMail());
             model.addAttribute("user", user);
+            Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
+            if (moderateur != null){
+                model.addAttribute("moderateur", moderateur);
+                System.out.println("Produit test modo droits : " + moderateur.getDroits());
+            }
         }
         Produit product = produitsService.getProductById(id);
         model.addAttribute("produit", product);
@@ -124,6 +134,9 @@ public class RedirectController {
     @GetMapping("/Deconnexion")
     public String Deconnexion(ModelMap model, HttpSession session){
         session.removeAttribute("user");
+        session.removeAttribute("moderateur");
+        this.user = null;
+        this.moderateur = null;
         return "redirect:/Produits";
     }
 }

@@ -65,58 +65,27 @@
             <li><strong>Description:</strong> <span th:text="${produit.description}"/> </li>
             <li><strong>Prix:</strong> <span th:text="${produit.prix}"/> €</li>
             <li><strong>Stock Disponible:</strong> <span th:text="${produit.stock}"/> unités</li>
-<!--            <%-->
-<!--                if(Controller.getInstanceController().requestGetUtilisateur()!=null){-->
-<!--                    Utilisateur user = Controller.getInstanceController().requestGetUtilisateur();-->
-<!--                    if(user.getTypeDeCompte().equals("Admin")){-->
-<!--                        %>-->
-<!--                        <form action="ServletModifierProduit" method="get">-->
-<!--                            &lt;!&ndash; Autres champs du formulaire pour la modification si nécessaire &ndash;&gt;-->
-<!--                            <input type="hidden" name="idProduit" value="<%= produit.getIdProduit() %>">-->
-<!--                            <input type="submit" value="Modifier le produit">-->
-<!--                        </form>-->
-<!--                        <form action="ServletDeleteProduct" method="get">-->
-<!--                            &lt;!&ndash; Autres champs du formulaire si nécessaire &ndash;&gt;-->
-<!--                            <input type="hidden" name="idProduit" value="<%= produit.getIdProduit() %>">-->
-<!--                            <input type="submit" value="Supprimer le produit">-->
-<!--                        </form>-->
-<!--                    <%}-->
-<!--                    if(user.getTypeDeCompte().equals("Moderateur")){-->
-<!--                        Moderateur moderateur = UtilisateurDAO.findModByUtilisateur(user);-->
-<!--                        if(moderateur.getDroits().charAt(1) == '1' ){-->
-<!--                            %>-->
-<!--                                <form action="ServletModifierProduit" method="get">-->
-<!--                                    &lt;!&ndash; Autres champs du formulaire pour la modification si nécessaire &ndash;&gt;-->
-<!--                                    <input type="hidden" name="idProduit" value="<%= produit.getIdProduit() %>">-->
-<!--                                    <input type="submit" value="Modifier le produit">-->
-<!--                                </form>-->
-<!--                            <form action="ServletDeleteProduct" method="get">-->
-<!--                                &lt;!&ndash; Autres champs du formulaire si nécessaire &ndash;&gt;-->
-<!--                                <input type="hidden" name="idProduit" value="<%= produit.getIdProduit() %>">-->
-<!--                                <input type="submit" value="Supprimer le produit">-->
-<!--                            </form>-->
-<!--            <%          }-->
-<!--                    }else if(user.getTypeDeCompte().equals("Client")){-->
-<!--            %>-->
-<!--                        <form action="ServletPanier" method="get">-->
-<!--                        <input type="hidden" name="produitId" value="<%= produit.getIdProduit() %>">-->
-<!--                        <input type="number" name="produitQuantite" min="1" max="<%= produit.getStock() %>" value="1"><br>-->
-<!--                        <input type="submit" name="action" value="ajouter">-->
-<!--                        </form>-->
-<!--            <%-->
-<!--                    }-->
-<!--                }-->
-<!--            %>-->
         </ul>
+        <div th:if="${(user != null and user.typeDeCompte == 'Admin') or (moderateur != null and moderateur.droits[1] == '1' )}">
+            <form action="" method="post" >
+                <input type="hidden" name="idProduit" th:value="${produit.idProduit}">
+                <input type="submit" value="Modifier le produit">
+            </form>
+            <form action="" method="post">
+                <input type="hidden" name="idProduit" th:value="${produit.idProduit}">
+                <input type="submit" value="Supprimer le produit">
+            </form>
+        </div>
+        <div th:if="${user != null and user.typeDeCompte == 'Client'}" >
+            <form action="" method="Post">
+            <input type="hidden" name="produitId" th:value="${produit.idProduit}">
+            <label for="produitQuantite"><strong> Quantité : </strong> </label>
+            <input type="number" id="produitQuantite" name="produitQuantite" min="1" th:max="${produit.stock}" value="1"> <br><br>
+            <input type="submit" name="action" value="ajouter">
+            </form>
+        </div>
     </div>
 </div>
-<!--<%-->
-<!--    Boolean suppression = (Boolean) request.getAttribute("suppression");-->
-<!--    if (suppression != null && suppression) {-->
-<!--%>-->
-<!--<p class="success">Le moderateur a ete supprime</p>-->
-<!--<%-->
-<!--    }-->
-<!--%>-->
+<p th:if="${suppression != null and suppresion}" class="succes"> Le moderateur a été supprimé </p>
 </body>
 </html>
