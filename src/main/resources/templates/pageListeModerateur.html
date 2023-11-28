@@ -1,11 +1,5 @@
-<%@ page import="entity.Utilisateur" %>
-<%@ page import="java.util.List" %>
-<%@ page import="ecommerce.ecommerce.controller.Controller" %>
-<%@ page import="entity.Moderateur" %>
-<%@ page import="ecommerce.ecommerce.model.DAO.UtilisateurDAO" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Liste des Modérateurs</title>
     <link rel="icon" href="logo/logo.png" type="image/x-icon">
@@ -14,25 +8,30 @@
         /* Styles CSS pour la mise en page */
         body {
             font-family: Arial, sans-serif;
-            margin : 0;
+            margin: 0;
         }
+
         .moderators {
             width: 80%;
             margin: 0 auto;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             border: 1px solid #ccc;
         }
+
         th, td {
             padding: 8px 12px;
             text-align: left;
             border: 1px solid #ccc;
         }
+
         th {
             background-color: #f2f2f2;
         }
+
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
@@ -43,6 +42,7 @@
             justify-content: center; /* Alignement horizontal au centre */
             margin-top: 20px;
         }
+
         .button-container button {
             margin: 10px;
             padding: 10px 20px; /* Taille réduite */
@@ -80,42 +80,42 @@
             z-index: 1;
             font-weight: normal;
         }
+
         h1 {
-            text-align : center;
+            text-align: center;
             justify-content: center;
         }
     </style>
+    <!-- Les balises link et style restent inchangées -->
 </head>
 <body>
 <div class="header">
-<%--    <%@ include file="header.html" %>--%>
+    <!-- La partie du header a été supprimée car elle était en commentaire -->
 </div>
 <div class="moderators">
     <h1>Liste des Modérateurs</h1>
     <table>
+        <thead>
         <tr>
             <th>Nom</th>
             <th>Prenom</th>
             <th>Mail</th>
-            <th id="tooltip_header"><div class="tooltip-container">Droits (voir détail) <div class="tooltip" id="tooltip_header_content"></div></th>
+            <th id="tooltip_header" class="tooltip-container">Droits (voir détail) <div class="tooltip"
+                                                                                        id="tooltip_header_content"></div>
+            </th>
         </tr>
-        <%
-            Utilisateur u = Controller.getInstanceController().requestGetUtilisateur();
-            List<Utilisateur> utilisateurs = (List<Utilisateur>) request.getAttribute("listModerateur");
-            for (Utilisateur utilisateur : utilisateurs) {
-                Moderateur moderateur = UtilisateurDAO.findModByUtilisateur(utilisateur);
-        %>
-        <tr>
-            <td><%= utilisateur.getPrenom() %></td>
-            <td><%= utilisateur.getNom() %></td>
-            <td><%= utilisateur.getMail() %></td>
-            <td><%= moderateur.getDroits()%></td>
+        </thead>
+        <tbody>
+        <tr th:each="moderateur : ${listeModerateurs}">
+            <!-- Affichage des détails de l'utilisateur -->
+            <td th:text="${moderateur.utilisateur.prenom}"></td>
+            <td th:text="${moderateur.utilisateur.nom}"></td>
+            <!-- Affichage des droits du modérateur -->
+            <td th:text="${moderateur.droits}"></td>
         </tr>
-        <%
-            }
-        %>
+        </tbody>
     </table>
-    <script>
+    <script th:inline="javascript">
         document.addEventListener("DOMContentLoaded", function () {
             var tooltipTh = document.getElementById('tooltip_header');
 
@@ -134,58 +134,20 @@
     </script>
 
     <div class="button-container">
-        <%
-            if (u.getTypeDeCompte().equals("Admin")) {
-        %>
-                <form action="ServletAddModerateur" method ="get">
-                    <button type="submit">Ajouter Modérateur</button>
-                </form>
-        <%
-            }
-            if (u.getTypeDeCompte().equals("Moderateur")) {
-                Moderateur m = UtilisateurDAO.findModByUtilisateur(u);
-                if (m.getDroits().charAt(2) == '1'){
-        %>
-                    <form action="ServletAddModerateur" method ="get">
-                        <button type="submit"><span>Ajouter Modérateur</span></button>
-                    </form>
-        <%
-                }
-            }
-        %>
-            <%
-                if (u.getTypeDeCompte().equals("Admin")) {
-            %>
-                    <form action="ServletDeleteModerateur" method ="get">
-                        <button type="submit"><span>Supprimer Modérateur</span></button>
-                    </form>
-                    <form action="ServletModifyRights" method ="get">
-                        <button type="submit"><span>Modifier les droits</span></button>
-                    </form>
-            <%
-                }
-            %>
+        <form th:if="${utilisateur.typeDeCompte == 'Admin'}" action="ServletAddModerateur" method="get">
+            <button type="submit">Ajouter Modérateur</button>
+        </form>
+        <form th:if="${utilisateur.typeDeCompte == 'Moderateur' && utilisateur.moderateur.droits[2] == '1'}"
+              action="ServletAddModerateur" method="get">
+            <button type="submit"><span>Ajouter Modérateur</span></button>
+        </form>
+        <form th:if="${utilisateur.typeDeCompte == 'Admin'}" action="ServletDeleteModerateur" method="get">
+            <button type="submit"><span>Supprimer Modérateur</span></button>
+        </form>
+        <form th:if="${utilisateur.typeDeCompte == 'Admin'}" action="ServletModifyRights" method="get">
+            <button type="submit"><span>Modifier les droits</span></button>
+        </form>
     </div>
 </div>
-<!-- Ajoutez ce code JavaScript à votre page -->
-<script>
-    // Fonction pour afficher la boîte de dialogue
-    function afficherBoiteDialogue(droits) {
-        // Définissez ici la logique pour afficher la boîte de dialogue
-        alert("Premier chiffre : Ajouter un produit\nDeuxième chiffre : Supprimer un produit\nTroisième chiffre : Supprimer un produit");
-    }
-
-    // Attachez un gestionnaire d'événements à toutes les cellules des droits
-    document.querySelectorAll('.droits-cell').forEach(function(cell) {
-        cell.addEventListener('mouseover', function() {
-            // Récupérez les droits de l'attribut de données
-            var droits = cell.getAttribute('data-droits');
-            // Affichez la boîte de dialogue avec les droits correspondants
-            afficherBoiteDialogue(droits);
-        });
-    });
-</script>
-
 </body>
 </html>
-

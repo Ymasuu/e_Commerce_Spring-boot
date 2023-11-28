@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -34,6 +35,7 @@ public class RedirectController {
     private ProduitsService produitsService;
     @Autowired
     private UtilisateurService utilisateurService;
+
 
 
     @GetMapping("/")
@@ -77,6 +79,7 @@ public class RedirectController {
         }
         else if(!numeroCarte.equals(client.getCompteBancaireNum())){
             String errorMessage = "Numéro de carte bleue incorrect";
+            model.addAttribute("errorMessage", errorMessage);
             return "pageAjouterSolde";
         }
         else {
@@ -108,16 +111,10 @@ public class RedirectController {
                                         @RequestParam ("newPassword") String newPassword,
                                         @RequestParam ("confirmPassword") String confirmPassword) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
-        System.out.println("OLD PASSWORD : " + oldPassword);
-        System.out.println("NEW PASSWORD : " + newPassword);
-        System.out.println("CONFIRM PASSWORD : " + confirmPassword);
-        System.out.println("MOT DE PASSE DE LUSER AVANT: " + user.getMotDePasse());
 
 
         // Il est verifiée si le mot de passe est correct
-        System.out.println("COND1 : " +  user.getMotDePasse().equals(oldPassword));
-        System.out.println("COND2 : " +  newPassword.trim().equals(confirmPassword.trim()));
-        if (user.getMotDePasse().equals(oldPassword) && newPassword == confirmPassword)
+        if (user.getMotDePasse().equals(oldPassword) && newPassword.trim().equals(confirmPassword.trim()))
         {
             // Le mot de passe est correct, on modifie les données de l'utilisateur
             user.setMotDePasse(newPassword);
@@ -127,10 +124,9 @@ public class RedirectController {
 
             return "redirect:/Profil";
         } else {
-            System.out.println("PROBLEME DE CHANGEMENT");
             // Le mot de passe est incorrect, on affiche un message d'erreur
             String errorMessage = "Mot de passe incorrect";
-            redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+            model.addAttribute("errorMessage", errorMessage);
             return "redirect:/Changer_Mot_De_Passe";
         }
     }
@@ -143,12 +139,32 @@ public class RedirectController {
     public String convertirPoints(ModelMap model) { return "pageConvertPoints";}
     /*@GetMapping("/Inscription")
     public String inscription(ModelMap model) { return "pageInscription";}*/
+
+
+
+    /* ---------------------------Modérateurs---------------------------*/
     @GetMapping("/Liste_Moderateurs")
-    public String listeModerateurs(ModelMap model) { return "pageListeModerateurs";}
+    public String listModerateurs(ModelMap model, HttpSession session) {
+        // Vous devez remplacer cette logique par la récupération réelle des données depuis la base de données
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
+        Iterable<Moderateur> moderateurs = utilisateurService.getModerators();
+        System.out.println("\n\nListe des modérateurs" + moderateurs);
+        System.out.println("\n\nuser" + user);
+        System.out.println("\n\nmodérateurs" + moderateur);// Remplacez par la méthode réelle pour obtenir la liste des modérateurs
+        model.addAttribute("utilisateur", user);
+        model.addAttribute("moderateur", moderateur);
+        model.addAttribute("listModerateur", moderateurs);
+        return "pageListeModerateur";
+    }
+
     @GetMapping("/Modifier_Droits_Moderateur")
     public String modifierDroitsModerateur(ModelMap model) { return "pageModifierDroitsModerateur";}
     @GetMapping("/Modifier_Produit")
     public String modifierProduit(ModelMap model) { return "pageModifierProduit";}
+
+
+
 
     ///PAGE MODIFIER PROFIL /////////////////////////////////////////////////////////////////////
     @GetMapping("/Modifier_Profil")

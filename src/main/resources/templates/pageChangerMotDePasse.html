@@ -22,6 +22,7 @@
 </div>
 <div class="container">
     <h1>Changer le Mot de Passe</h1>
+    <div th:if="${errorMessage != null}" class="error" style="color: red; text-align: center" th:text="${errorMessage}"></div>
     <form th:action="@{/Changer_Mot_De_Passe}" method="post">
         <label for="oldPassword">Ancien Mot de Passe :</label>
         <input type="password" id="oldPassword" name="oldPassword" th:required="required"><br>
