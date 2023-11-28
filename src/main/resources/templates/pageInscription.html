@@ -3,21 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Inscription</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             text-align: center;
             margin:0;
-        }
-
-        .header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
         }
 
         h1 {
@@ -98,9 +92,7 @@
     </script>
 </head>
 <body>
-<div class="header">
-
-</div>
+<header th:insert="~{header.html :: header}"> </header>
 <h1>Inscription</h1>
 <form action="" method="post">
     <p class="error" th:text="${erreurs}"></p>

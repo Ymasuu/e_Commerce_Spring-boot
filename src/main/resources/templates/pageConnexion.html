@@ -10,6 +10,7 @@
     <link rel="shortcut icon" href="../../webapp/logo/logo.png" type="image/x-icon">
     <!-- Bootstrap CSS CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -72,9 +73,7 @@
     </style>
 </head>
 <body>
-<div class="header">
-    <!--<%@ include file="header.html" %>-->
-</div>
+<header th:insert="~{header.html :: header}"> </header>
 <h1 class="display-4">Connexion</h1>
 <div class="container">
     <form action="" method="post">

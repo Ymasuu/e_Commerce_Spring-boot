@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <title>Liste des Modérateurs</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         /* Styles CSS pour la mise en page */
         body {
@@ -85,17 +86,11 @@
             text-align: center;
             justify-content: center;
         }
-        .header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
     </style>
     <!-- Les balises link et style restent inchangées -->
 </head>
 <body>
-<header th:insert="~{header.html :: header}" class="header"> </header>
+<header th:insert="~{header.html :: header}"></header>
 <div class="moderators">
     <h1>Liste des Modérateurs</h1>
     <table>

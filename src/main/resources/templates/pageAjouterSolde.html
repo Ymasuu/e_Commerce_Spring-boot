@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un Solde</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
 </head>
 <style>
     body {
@@ -61,9 +61,7 @@
     }
 </style>
 <body>
-<div class="header">
-
-</div>
+<header th:insert="~{header.html :: header}"> </header>
 <h1>Ajouter un Solde</h1>
 <div th:if="${errorMessage != null}" class="error" style="color: red; text-align: center" th:text="${errorMessage}"></div>
 

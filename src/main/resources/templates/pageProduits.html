@@ -7,13 +7,8 @@
     <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
     <!-- Bootstrap CSS CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/header.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
-        .header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-        }
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -72,7 +67,7 @@
     </style>
 </head>
 <body>
-<header th:insert="~{header.html :: header}" class="header"> </header>
+<header th:insert="~{header.html :: header}"> </header>
 <h1 class="display-4">Liste des Produits</h1>
 <div class="container">
 

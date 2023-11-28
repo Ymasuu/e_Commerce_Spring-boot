@@ -17,6 +17,7 @@ header {
     list-style: none;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin: 0;
     padding: 0;
 }
@@ -116,4 +117,7 @@ header {
 }
 .se-connecter {
     margin-left: auto;
+}
+a:hover {
+    text-decoration: none;
 }

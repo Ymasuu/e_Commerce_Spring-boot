@@ -3,8 +3,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil de l'Utilisateur</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         body {font-family: Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 0;}
         .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);}
@@ -34,16 +35,10 @@
         .left{
             margin-left : 8%;
         }
-        .header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
-<header th:insert="~{header.html :: header}" class="header"> </header>
+<header th:insert="~{header.html :: header}"> </header>
 <div class="container">
     <h1 th:text="'Profil ' + ${user.typeDeCompte}"></h1>
     <p style="color: #0077cc;" th:text="'Bienvenue, ' + ${user.prenom} + ' !'"></p>

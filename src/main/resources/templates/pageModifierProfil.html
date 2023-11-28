@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <title>Modifier le Profil</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon"/>
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon"/>
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon"/>
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         body {font-family: Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 0;}
         .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);}
@@ -21,7 +22,7 @@
     </style>
 </head>
 <body>
-<div class="header"></div>
+<header th:insert="~{header.html :: header}"></header>
 <div class="container">
     <form th:action="@{/Modifier_Profil}" method="post" th:object="${user}">
         <h1>Modifier le Profil</h1>

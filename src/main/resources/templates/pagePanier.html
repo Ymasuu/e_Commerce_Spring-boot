@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Panier</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
-        <!-- Your CSS styles remain the same -->
+        /*Your CSS styles remain the same*/
     </style>
 </head>
 <body>
-<div class="header">
-</div>
+<header th:insert="~{header.html :: header}"></header>
 <h1>Panier</h1>
 <table border="1">
     <thead>
