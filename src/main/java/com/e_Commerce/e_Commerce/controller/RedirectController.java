@@ -6,6 +6,7 @@ import com.e_Commerce.e_Commerce.service.UtilisateurService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -89,8 +91,51 @@ public class RedirectController {
     }
 
     /////////////////////////////////////////////////////////////////////
+
+
+    ////PAGE CHANGER MOT DE PASSE/////////////////////////////////////
     @GetMapping("/Changer_Mot_De_Passe")
-    public String changerMotDePasse(ModelMap model) { return "pageChangerMotDePasse";}
+    public String changerMotDePasse(ModelMap model, HttpSession session) {
+        Client client = (Client) session.getAttribute("client");
+        Utilisateur user = (Utilisateur) session.getAttribute(("user"));
+        return "pageChangerMotDePasse";}
+
+    @PostMapping("/Changer_Mot_De_Passe")
+    public String changerMotDePassePost(RedirectAttributes redirectAttributes,
+                                        ModelMap model,
+                                        HttpSession session,
+                                        @RequestParam ("oldPassword") String oldPassword,
+                                        @RequestParam ("newPassword") String newPassword,
+                                        @RequestParam ("confirmPassword") String confirmPassword) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        System.out.println("OLD PASSWORD : " + oldPassword);
+        System.out.println("NEW PASSWORD : " + newPassword);
+        System.out.println("CONFIRM PASSWORD : " + confirmPassword);
+        System.out.println("MOT DE PASSE DE LUSER AVANT: " + user.getMotDePasse());
+
+
+        // Il est verifiée si le mot de passe est correct
+        System.out.println("COND1 : " +  user.getMotDePasse().equals(oldPassword));
+        System.out.println("COND2 : " +  newPassword.trim().equals(confirmPassword.trim()));
+        if (user.getMotDePasse().equals(oldPassword) && newPassword == confirmPassword)
+        {
+            // Le mot de passe est correct, on modifie les données de l'utilisateur
+            user.setMotDePasse(newPassword);
+            //TODO l'utilisateur est update dans la bdd
+            utilisateurService.saveUser(user);
+            session.setAttribute("user",user);
+
+            return "redirect:/Profil";
+        } else {
+            System.out.println("PROBLEME DE CHANGEMENT");
+            // Le mot de passe est incorrect, on affiche un message d'erreur
+            String errorMessage = "Mot de passe incorrect";
+            redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+            return "redirect:/Changer_Mot_De_Passe";
+        }
+    }
+
+    //////////////////////////////////////////////////////////////
     @GetMapping("/Confirmer_Paiement")
     public String confirmerPaiement(ModelMap model) { return "pageConfirmerPaiement";}
 
