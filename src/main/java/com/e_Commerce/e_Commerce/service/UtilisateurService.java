@@ -24,8 +24,8 @@ public class UtilisateurService {
     private ClientRepository clientRepository;
 
     /* ------------------------ User -----------------------------*/
-    public Optional<Utilisateur> getUserById(Integer id){
-        return utilisateurRepository.findById(id);
+    public Utilisateur getUserById(Integer id){
+        return utilisateurRepository.findById(id).orElse(null);
     }
 
     public Utilisateur saveUser(Utilisateur user){

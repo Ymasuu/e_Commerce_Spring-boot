@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 
 @Controller
@@ -137,8 +135,6 @@ public class RedirectController {
 
     @GetMapping("/Convertir_Points")
     public String convertirPoints(ModelMap model) { return "pageConvertPoints";}
-    /*@GetMapping("/Inscription")
-    public String inscription(ModelMap model) { return "pageInscription";}*/
 
 
 
@@ -149,12 +145,17 @@ public class RedirectController {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
         Iterable<Moderateur> moderateurs = utilisateurService.getModerators();
-        System.out.println("\n\nListe des modérateurs" + moderateurs);
-        System.out.println("\n\nuser" + user);
-        System.out.println("\n\nmodérateurs" + moderateur);// Remplacez par la méthode réelle pour obtenir la liste des modérateurs
-        model.addAttribute("utilisateur", user);
+        List<Integer> IdModos = new ArrayList<>();
+        List<Utilisateur> listeModUtilisateur = new ArrayList<>();
+        for (Moderateur mod : moderateurs){
+            listeModUtilisateur.add(utilisateurService.getUserById(mod.getIdModerateur()));
+            IdModos.add(mod.getIdModerateur());
+        }
+        System.out.println("\n\nListe des id modérateurs : " + IdModos);
+        model.addAttribute("user", user);
         model.addAttribute("moderateur", moderateur);
-        model.addAttribute("listModerateur", moderateurs);
+        model.addAttribute("listeModerateurs", moderateurs);
+        model.addAttribute("listeModUtilisateur", listeModUtilisateur);
         return "pageListeModerateur";
     }
 
@@ -172,10 +173,9 @@ public class RedirectController {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         Client client = (Client) session.getAttribute("client");
         Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
-        //Admin admin  = (Admin) session.getAttribute("admin");
         model.addAttribute("user", user);
         model.addAttribute("client", client);
-        System.out.println("ERROR MESSAGE : " + model.getAttribute("errorMessage"));
+        System.out.println("Modifier_Profil -> ERROR MESSAGE : " + model.getAttribute("errorMessage"));
         return "pageModifierProfil";}
 
     @PostMapping("/Modifier_Profil")

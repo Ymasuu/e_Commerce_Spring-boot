@@ -71,10 +71,10 @@
         </th:block>
     </ul>
 
-<!--        <th:block th:if="${typeDeCompte} eq 'Client'">
-        &lt;!&ndash; Cast to Client if the user is a Client &ndash;&gt;
-        <p><a th:href="@{/ServletAjouterMoyenPaiement}"><button th:text="${buttonText} + ' carte bancaire'"></button></a></p>
-    </th:block>-->
+        <th:block th:if="${client} != null">
+        <!-- Cast to Client if the user is a Client -->
+        <p><a th:href="@{/Ajouter_Moyen_De_Paiement}"><button>Ajouter carte bancaire</button></a></p>
+    </th:block>
     <p><a th:href="@{/Modifier_Profil}">Modifier le profil</a></p>
     <p><a th:href="@{/Changer_Mot_De_Passe}">Changer mot de passe</a></p>
     <p><a th:href="@{/Deconnexion}">Deconnexion</a></p>

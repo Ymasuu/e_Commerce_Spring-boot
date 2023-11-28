@@ -85,13 +85,17 @@
             text-align: center;
             justify-content: center;
         }
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
     </style>
     <!-- Les balises link et style restent inchangées -->
 </head>
 <body>
-<div class="header">
-    <!-- La partie du header a été supprimée car elle était en commentaire -->
-</div>
+<header th:insert="~{header.html :: header}" class="header"> </header>
 <div class="moderators">
     <h1>Liste des Modérateurs</h1>
     <table>
@@ -105,13 +109,14 @@
             </th>
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="moderateur : ${listeModerateurs}">
+        <tbody th:each="moderateur : ${listeModerateurs}">
+        <tr th:each="modUtilisateur : ${listeModUtilisateur}">
             <!-- Affichage des détails de l'utilisateur -->
-            <td th:text="${moderateur.utilisateur.prenom}"></td>
-            <td th:text="${moderateur.utilisateur.nom}"></td>
+            <td th:if="${moderateur.idModerateur == modUtilisateur.idUtilisateur}" th:text="${modUtilisateur.prenom}"></td>
+            <td th:if="${moderateur.idModerateur == modUtilisateur.idUtilisateur}" th:text="${modUtilisateur.nom}"></td>
+            <td th:if="${moderateur.idModerateur == modUtilisateur.idUtilisateur}" th:text="${modUtilisateur.mail}"></td>
             <!-- Affichage des droits du modérateur -->
-            <td th:text="${moderateur.droits}"></td>
+            <td th:if="${moderateur.idModerateur == modUtilisateur.idUtilisateur}" th:text="${moderateur.droits}"></td>
         </tr>
         </tbody>
     </table>
@@ -134,17 +139,14 @@
     </script>
 
     <div class="button-container">
-        <form th:if="${utilisateur.typeDeCompte == 'Admin'}" action="ServletAddModerateur" method="get">
-            <button type="submit">Ajouter Modérateur</button>
-        </form>
-        <form th:if="${utilisateur.typeDeCompte == 'Moderateur' && utilisateur.moderateur.droits[2] == '1'}"
-              action="ServletAddModerateur" method="get">
+        <form th:if="${user.typeDeCompte == 'Admin' or (user.typeDeCompte == 'Moderateur' && moderateur.droits[2] == '1')}"
+              th:action="@{Ajouter_Moderateur}" method="post">
             <button type="submit"><span>Ajouter Modérateur</span></button>
         </form>
-        <form th:if="${utilisateur.typeDeCompte == 'Admin'}" action="ServletDeleteModerateur" method="get">
+        <form th:if="${user.typeDeCompte == 'Admin'}" th:action="@{Supprimer_Moderateur}" method="post">
             <button type="submit"><span>Supprimer Modérateur</span></button>
         </form>
-        <form th:if="${utilisateur.typeDeCompte == 'Admin'}" action="ServletModifyRights" method="get">
+        <form th:if="${user.typeDeCompte == 'Admin'}" th:action="@{Modifier_Droits_Moderateur}" method="post">
             <button type="submit"><span>Modifier les droits</span></button>
         </form>
     </div>
