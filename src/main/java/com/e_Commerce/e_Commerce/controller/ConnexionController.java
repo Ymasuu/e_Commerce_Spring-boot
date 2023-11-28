@@ -58,8 +58,10 @@ public class ConnexionController {
     public String Deconnexion(ModelMap model, HttpSession session){
         session.removeAttribute("user");
         session.removeAttribute("moderateur");
+        session.removeAttribute("client");
         this.user = null;
         this.moderateur = null;
+        this.client = null;
         return "redirect:/Produits";
     }
 }

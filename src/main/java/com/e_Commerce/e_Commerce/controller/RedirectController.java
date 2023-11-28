@@ -41,7 +41,30 @@ public class RedirectController {
     @GetMapping("/Ajouter_Moderateur")
     public String ajouterModerateur(ModelMap model) { return "pageAjouterModerateur";}
     @GetMapping("/Ajouter_Moyen_De_Paiement")
-    public String ajouterMoyenPaiement(ModelMap model) { return "pageAjouterMoyenPaiement";}
+    public String ajouterMoyenPaiement(ModelMap model, HttpSession session) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        Client client = (Client) session.getAttribute("client");
+        model.addAttribute("user", user);
+        model.addAttribute("client", client);
+        return "pageAjouterMoyenPaiement";
+    }
+    @PostMapping("/Ajouter_Moyen_De_Paiement")
+    public String ajouterMoyenPaiementPost(ModelMap model, HttpSession session, @RequestParam String carteBancaire) {
+        Client client = (Client) session.getAttribute("client");
+        if (carteBancaire.equals("0000 0000 0000 0000") || carteBancaire.equals(client.getCompteBancaireNum())){
+            Utilisateur user = (Utilisateur) session.getAttribute("user");
+            model.addAttribute("user", user);
+            model.addAttribute("client", client);
+            String errorMessage = "Veuillez mettre un vrai numéro de carte bleu différent de l'ancien (si vous en aviez un)";
+            model.addAttribute("errorMessage", errorMessage);
+            return "pageAjouterMoyenPaiement";
+        }
+        client.setCompteBancaireNum(carteBancaire);
+        utilisateurService.saveClient(client);
+        session.setAttribute("client", client);
+        return "redirect:/Profil";
+    }
+
     @GetMapping("/Ajouter_Produit")
     public String ajouterProduit(ModelMap model) { return "pageAjouterProduit";}
 
@@ -53,7 +76,6 @@ public class RedirectController {
         model.addAttribute("user", user);
         model.addAttribute("client", client);
         return "pageAjouterSolde";}
-
     @PostMapping("/AjouterSolde")
     public String ajouterSoldePost(ModelMap model, HttpSession session,@RequestParam("numeroCarte") String numeroCarte,
                                    @RequestParam("montant") Double montant) {

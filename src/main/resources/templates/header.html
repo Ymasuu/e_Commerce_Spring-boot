@@ -3,110 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <style>
-        header {
-            width: 100%;
-            height: 85px;
-            background-color: #333;
-        }
-
-        .header-nav {
-            padding: 0;
-            height: 5px;
-            position: relative;
-            bottom: 0;
-            left: 0;
-            z-index: 999;
-        }
-
-        .header-nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        .header-nav li {
-
-            margin-right: 10px;
-        }
-
-
-        .header-nav a {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: #fff;
-            font-size: 16px;
-            font-weight: bold;
-            margin-right: 10px;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        .header-nav a:hover {
-            background-color: #3498db;
-            font-size: 20px;
-        }
-
-        .se-connecter {
-            margin-left: auto;
-        }
-
-        .search-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80px;
-        }
-
-        .search-form {
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-
-        .search-form input[type="text"] {
-            font-size: 16px;
-            padding: 10px 16px;
-            border: none;
-            border-radius: 30px;
-            width: 300px;
-            background-color: #C0C0C0;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .search-form button[type="submit"] {
-            position: absolute;
-            top: 50%;
-            right: 16px;
-            transform: translateY(-50%);
-            background-color: transparent;
-            border: none;
-            font-size: 20px;
-            color: #333;
-            transition: all 0.3s ease-in-out;
-            cursor: pointer;
-        }
-
-        .search-form button[type="submit"]:hover {
-            color: #555;
-        }
-
-        .search-form input[type="text"]:focus {
-            width: 400px;
-            background-color: #fff;
-            box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
-            outline: none;
-        }
-
-        .search-form input[type="text"]::placeholder {
-            color: #555;
-        }
-    </style>
-
     <title>header</title>
 </head>
 
@@ -116,13 +12,13 @@
         <ul>
             <li>
                 <a th:href="@{/Produits}">
-                    <img src="../logo/logo.png" alt="Logo Azur Shop" width="50px" style="margin-right: 10px;">
+                    <img src="/logo/logo.png" alt="Logo Azur Shop" width="50px" style="margin-right: 10px;">
                     <span style="color: #fff; font-size: 24px; font-weight: bold;">Azur Shop</span>
                 </a>
             </li>
             <li th:if="${user eq null}">
                 <a th:href="@{/Connexion}" class="se-connecter">
-                    <img src="../logo/logIn.png" alt="Logo Log In" width="35px" style="margin-right: 10px;">
+                    <img src="/logo/logIn.png" alt="Logo Log In" width="35px" style="margin-right: 10px;">
                     <span style="color: #fff; font-size: 16px; font-weight: bold;">Se Connecter</span>
                 </a>
             </li>
@@ -140,19 +36,19 @@
             </li>
             <li th:if="${user ne null and (user.typeDeCompte eq 'Moderateur' or user.typeDeCompte eq 'Admin')}">
                 <a th:href="@{/Liste_Moderateurs}" class="se-connecter">
-                    <img src="../logo/moderator.png" alt="Logo Moderator" width="35px" style="margin-right: 10px;">
+                    <img src="/logo/moderator.png" alt="Logo Moderator" width="35px" style="margin-right: 10px;">
                     <span style="color: #fff; font-size: 16px; font-weight: bold;">Gerer Moderateur</span>
                 </a>
             </li>
             <li th:if="${((user ne null) and user.typeDeCompte eq 'Admin') or (moderateur ne null and moderateur.droits.charAt(0) eq '1')}">
                 <a th:href="@{/Ajouter_Produit}" class="se-connecter">
-                    <img src="../logo/addProduct.png" alt="Logo Add Product" width="35px" style="margin-right: 10px;">
+                    <img src="/logo/addProduct.png" alt="Logo Add Product" width="35px" style="margin-right: 10px;">
                     <span style="color: #fff; font-size: 16px; font-weight: bold;">Ajouter Produit</span>
                 </a>
             </li>
             <li th:if="${user ne null}">
                 <a th:href="@{/Deconnexion}" class="se-connecter">
-                    <img src="../logo/logOut.png" alt="Logo Log Out" width="35px" style="margin-right: 10px;">
+                    <img src="/logo/logOut.png" alt="Logo Log Out" width="35px" style="margin-right: 10px;">
                     <span style="color: #fff; font-size: 16px; font-weight: bold;">Se Deconnecter</span>
                 </a>
             </li>
