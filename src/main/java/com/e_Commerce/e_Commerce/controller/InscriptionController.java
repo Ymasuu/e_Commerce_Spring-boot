@@ -68,9 +68,8 @@ public class InscriptionController {
 
             Moderateur moderateur = new Moderateur();
             moderateur.setIdModerateur(nouvelUtilisateur.getIdUtilisateur());
-            moderateur.setDroits("000");
             Moderateur nouveauModerateur = utilisateurService.saveModerateur(moderateur);
-            return "pageListeModerateur";
+            return "redirect:/Produits";
 
         } else {
             model.addAttribute("erreurs", "Cet adresse mail est déjà utilisée");

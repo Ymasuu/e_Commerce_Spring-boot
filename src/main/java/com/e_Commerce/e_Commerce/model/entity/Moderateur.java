@@ -15,7 +15,7 @@ public class Moderateur implements Serializable {
 
 
     public Moderateur(){
-
+        this.droits="000";
     }
     public int getIdModerateur() {
         return idModerateur;
