@@ -8,10 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -72,6 +69,15 @@ public class ProduitsController {
             Produit produit = produitsService.getProductById(produitId);
             produitsService.deleteProduct(produit);
         }
+        if(action.equals("modifier")){
+            Produit produit = produitsService.getProductById(produitId);
+            model.addAttribute("produitId", produitId);
+            model.addAttribute("nom", produit.getNom());
+            model.addAttribute("description", produit.getDescription());
+            model.addAttribute("prix", produit.getPrix());
+            model.addAttribute("stock", produit.getStock());
+            return "pageModifierProduit";
+        }
         return "redirect:/Produits";
     }
 
@@ -99,6 +105,24 @@ public class ProduitsController {
                                  @RequestParam("prix") float prix, @RequestParam("stock") int stock) {
         Produit produit = new Produit(nom, prix, description, stock);
         Produit nouveauProduit = produitsService.saveProduct(produit);
+        return "redirect:/Produits";
+    }
+
+    @PostMapping("/modifierProduit")
+    public String modifierProduit(@RequestParam("action") String action,
+            @RequestParam("nom") String nom,
+            @RequestParam("description") String description,
+            @RequestParam("prix") Float prix,
+            @RequestParam("stock") int stock,
+            @RequestAttribute("produitId") int produitId
+            /*@RequestParam("image") MultipartFile image,
+            Model model) {*/){
+        Produit produit = produitsService.getProductById(produitId);
+        produit.setNom(nom);
+        produit.setDescription(description);
+        produit.setPrix(prix);
+        produit.setStock(stock);
+        produitsService.saveProduct(produit);
         return "redirect:/Produits";
     }
 }

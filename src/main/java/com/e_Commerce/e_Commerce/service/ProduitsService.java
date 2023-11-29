@@ -29,4 +29,6 @@ public class ProduitsService {
         productsRepository.delete(product);
     }
 
+    public Produit getProductByNom(String nom) {return productsRepository.findByNom(nom).orElse(null);
+    }
 }
