@@ -202,7 +202,7 @@ public class RedirectController {
         else {
             return "redirect:/erreur";
         }
-        return "redirect:/Produits";
+        return "redirect:/modifierDroits";
         }
 
     @GetMapping("/Modifier_Produit")
@@ -210,8 +210,32 @@ public class RedirectController {
 
 
 
-    @GetMapping("/Supprimer_Moderateur")
-    public String supprimerModerateur(ModelMap model) { return "pageSupprimerModerateur";}
+    @GetMapping("/supprimerModerateur")
+    public String supprimerModerateur(ModelMap model, HttpSession session) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
+
+        Iterable<Utilisateur> listUtilisateur = utilisateurService.getUsers();
+        model.addAttribute("listUtilisateur", listUtilisateur);
+        return "pageSupprimerModerateur";}
+
+    @PostMapping("/supprimerModerateur")
+    public String supprimerModerateur(ModelMap model, HttpSession session, @RequestParam("email") String email){
+        Utilisateur utilisateur = utilisateurService.verifierUtilisateur(email);
+        if(utilisateur != null) {
+            System.out.println("utilisateur mail :" + utilisateur.getMail());
+            Moderateur moderateur = utilisateurService.getModerateurByIdUtilisateur(utilisateur.getIdUtilisateur());
+            System.out.println("moderateur :" + moderateur.getDroits());
+            utilisateurService.deleteModerateur(moderateur);
+            utilisateurService.deleteUser(utilisateur);
+            model.addAttribute("suppression", true);
+        }
+        else {
+            return "redirect:/erreur";
+        }
+        return "redirect:/supprimerModerateur";
+    }
+
     ///PAGE MODIFIER PROFIL /////////////////////////////////////////////////////////////////////
     @GetMapping("/Modifier_Profil")
     public String modifierProfil(ModelMap model, HttpSession session) {
