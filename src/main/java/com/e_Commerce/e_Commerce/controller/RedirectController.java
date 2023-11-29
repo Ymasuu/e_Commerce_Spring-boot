@@ -221,9 +221,7 @@ public class RedirectController {
     public String supprimerModerateur(ModelMap model, HttpSession session, @RequestParam("email") String email){
         Utilisateur utilisateur = utilisateurService.verifierUtilisateur(email);
         if(utilisateur != null) {
-            System.out.println("utilisateur mail :" + utilisateur.getMail());
             Moderateur moderateur = utilisateurService.getModerateurByIdUtilisateur(utilisateur.getIdUtilisateur());
-            System.out.println("moderateur :" + moderateur.getDroits());
             utilisateurService.deleteModerateur(moderateur);
             utilisateurService.deleteUser(utilisateur);
             model.addAttribute("suppression", true);

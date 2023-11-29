@@ -28,13 +28,13 @@ public class ProduitsController {
     private ProduitsService produitsService;
 
     @GetMapping("/Produit/{id}")
-    public String produit(ModelMap model, @PathVariable Integer id,HttpSession session) {
+    public String produit(ModelMap model, @PathVariable Integer id, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
-        if (user != null){
+        if (user != null) {
             System.out.println("Utilisateur connecté : " + user.getMail());
             model.addAttribute("user", user);
             Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
-            if (moderateur != null){
+            if (moderateur != null) {
                 model.addAttribute("moderateur", moderateur);
                 System.out.println("Produit test modo droits : " + moderateur.getDroits());
             }
@@ -46,39 +46,41 @@ public class ProduitsController {
 
     @PostMapping("/Produit/{id}")
     public String ajouterProduit(ModelMap model, HttpSession session,
-         @RequestParam int produitId, @RequestParam(required = false) Integer produitQuantite, @RequestParam String action){
-        if (action.equals("ajouter")){
+                                 @RequestParam int produitId, @RequestParam(required = false) Integer produitQuantite, @RequestParam String action) {
+        if (action.equals("ajouter")) {
             Produit produit = produitsService.getProductById(produitId);
             Commande panier = (Commande) session.getAttribute("panier");
             boolean produitExisteDeja = false;
-            for (Produit p : panier.getPanier()){
+            for (Produit p : panier.getPanier()) {
                 if (p.getIdProduit() == produitId) { // le produit existe deja dans le panier
                     produitExisteDeja = true;
-                    if (p.getStock() + produitQuantite <= produit.getStock()){ // le produit est disponible dans le bon nombre d'exemplaire
-                        panier.setPrix(panier.getPrix()+(p.getPrix()*produitQuantite));
+                    if (p.getStock() + produitQuantite <= produit.getStock()) { // le produit est disponible dans le bon nombre d'exemplaire
+                        panier.setPrix(panier.getPrix() + (p.getPrix() * produitQuantite));
                         panier.ajouterProduit(p, produitQuantite);
                     }
                     break;
                 }
             }
-            if(!produitExisteDeja){
-                panier.setPrix(panier.getPrix()+(produit.getPrix()*produitQuantite));
+            if (!produitExisteDeja) {
+                panier.setPrix(panier.getPrix() + (produit.getPrix() * produitQuantite));
                 panier.ajouterProduit(produit, produitQuantite);
             }
             session.setAttribute("panier", panier);
             System.out.println("Prix panier : " + panier.getPrix());
         }
+        if (action.equals("supprimer")) {
+            Produit produit = produitsService.getProductById(produitId);
+            produitsService.deleteProduct(produit);
+        }
         return "redirect:/Produits";
     }
-
-
 
 
     @GetMapping("/Produits")
     public String produits(ModelMap model, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
-        System.out.println("UTILISATAUR EXISTE? : " + user);
-        if (user != null){
+        System.out.println("UTILISATEUR EXISTE : " + user);
+        if (user != null) {
             System.out.println("Utilisateur connecté : " + user.getMail());
             model.addAttribute("user", user);
         }
@@ -87,6 +89,16 @@ public class ProduitsController {
         return "pageProduits";
     }
 
+    @GetMapping("/ajouterProduit")
+    public String afficherAjouterProduit(ModelMap model, HttpSession session) {
+        return "pageAjouterProduit";
+    }
 
-
+    @PostMapping("/ajouterProduit")
+    public String ajouterProduit(ModelMap model, @RequestParam("nom") String nom, @RequestParam("description") String description,
+                                 @RequestParam("prix") float prix, @RequestParam("stock") int stock) {
+        Produit produit = new Produit(nom, prix, description, stock);
+        Produit nouveauProduit = produitsService.saveProduct(produit);
+        return "redirect:/Produits";
+    }
 }

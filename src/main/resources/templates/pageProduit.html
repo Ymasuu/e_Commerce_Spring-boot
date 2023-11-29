@@ -62,13 +62,13 @@
             <li><strong>Stock Disponible:</strong> <span th:text="${produit.stock}"/> unités</li>
         </ul>
         <div th:if="${(user != null and user.typeDeCompte == 'Admin') or (moderateur != null and moderateur.droits[1] == '1' )}">
-            <form action="" method="post" >
+            <form action="" method="post">
                 <input type="hidden" name="produitId" th:value="${produit.idProduit}">
-                <input type="submit" name="action" value="Modifier le produit">
+                <input type="submit" name="action" value="modifier">
             </form>
             <form action="" method="post">
                 <input type="hidden" name="produitId" th:value="${produit.idProduit}">
-                <input type="submit" name="action" value="Supprimer le produit">
+                <input type="submit" name="action" value="supprimer">
             </form>
         </div>
         <div th:if="${user != null and user.typeDeCompte == 'Client'}" >
@@ -81,6 +81,6 @@
         </div>
     </div>
 </div>
-<p th:if="${suppression != null and suppresion}" class="succes"> Le moderateur a été supprimé </p>
+<p th:if="${suppression != null and suppresion}" class="success"> Le moderateur a été supprimé </p>
 </body>
 </html>
