@@ -69,15 +69,6 @@ public class ProduitsController {
             Produit produit = produitsService.getProductById(produitId);
             produitsService.deleteProduct(produit);
         }
-        if(action.equals("modifier")){
-            Produit produit = produitsService.getProductById(produitId);
-            model.addAttribute("produitId", produitId);
-            model.addAttribute("nom", produit.getNom());
-            model.addAttribute("description", produit.getDescription());
-            model.addAttribute("prix", produit.getPrix());
-            model.addAttribute("stock", produit.getStock());
-            return "pageModifierProduit";
-        }
         return "redirect:/Produits";
     }
 
@@ -108,16 +99,22 @@ public class ProduitsController {
         return "redirect:/Produits";
     }
 
-    @PostMapping("/modifierProduit")
-    public String modifierProduit(@RequestParam("action") String action,
-            @RequestParam("nom") String nom,
-            @RequestParam("description") String description,
-            @RequestParam("prix") Float prix,
-            @RequestParam("stock") int stock,
-            @RequestAttribute("produitId") int produitId
+
+    @GetMapping("/Modifier_Produit/{id}")
+    public String modifierProduit(ModelMap model, HttpSession session, @PathVariable Integer id) {
+        Produit product = produitsService.getProductById(id);
+        model.addAttribute("produit", product);
+        return "pageModifierProduit";
+    }
+    @PostMapping("/Modifier_Produit/{id}")
+    public String modifierProduitPost(ModelMap model,
+            @RequestParam String nom,
+            @RequestParam String description,
+            @RequestParam Float prix,
+            @RequestParam int stock
             /*@RequestParam("image") MultipartFile image,
             Model model) {*/){
-        Produit produit = produitsService.getProductById(produitId);
+        Produit produit = produitsService.getProductByNom(nom);
         produit.setNom(nom);
         produit.setDescription(description);
         produit.setPrix(prix);

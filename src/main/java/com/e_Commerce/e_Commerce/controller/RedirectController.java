@@ -203,9 +203,6 @@ public class RedirectController {
         return "redirect:/modifierDroits";
         }
 
-    @GetMapping("/Modifier_Produit")
-    public String modifierProduit(ModelMap model) { return "pageModifierProduit";}
-
 
 
     @GetMapping("/supprimerModerateur")

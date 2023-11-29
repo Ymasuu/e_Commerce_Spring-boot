@@ -62,10 +62,8 @@
             <li><strong>Stock Disponible:</strong> <span th:text="${produit.stock}"/> unités</li>
         </ul>
         <div th:if="${(user != null and user.typeDeCompte == 'Admin') or (moderateur != null and moderateur.droits[1] == '1' )}">
-            <form action="" method="post">
-                <input type="hidden" name="produitId" th:value="${produit.idProduit}">
-                <input type="submit" name="action" value="modifier">
-            </form>
+
+            <a th:href="@{/Modifier_Produit/{id}(id=${produit.idProduit})}"><button>modifier</button></a> <br><br>
             <form action="" method="post">
                 <input type="hidden" name="produitId" th:value="${produit.idProduit}">
                 <input type="submit" name="action" value="supprimer">
