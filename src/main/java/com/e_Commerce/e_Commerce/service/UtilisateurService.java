@@ -32,10 +32,15 @@ public class UtilisateurService {
         return utilisateurRepository.save(user);
     }
 
+    public void deleteUser(Utilisateur utilisateur){
+        utilisateurRepository.delete(utilisateur);
+    }
     public Utilisateur verifierUtilisateur(String email, String motDePasse) {
         return utilisateurRepository.findByMailAndMotDePasse(email, motDePasse).orElse(null);
     }
-
+    public Iterable<Utilisateur> getUsers() {
+        return utilisateurRepository.findAll();
+    }
     public Utilisateur verifierUtilisateur(String email) {
         return utilisateurRepository.findByMail(email).orElse(null);
     }
@@ -43,6 +48,10 @@ public class UtilisateurService {
     /*---------------------Moderator-----------------------*/
     public Moderateur saveModerateur(Moderateur moderateur){
         return moderateurRepository.save(moderateur);
+    }
+
+    public void deleteModerateur(Moderateur moderateur){
+        moderateurRepository.delete(moderateur);
     }
     public Iterable<Moderateur> getModerators() {
         return moderateurRepository.findAll();

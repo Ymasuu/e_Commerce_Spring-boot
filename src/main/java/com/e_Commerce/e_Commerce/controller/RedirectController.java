@@ -180,16 +180,62 @@ public class RedirectController {
         return "pageListeModerateur";
     }
 
+    @GetMapping("/modifierDroits")
+    public String afficherPageModifierDroits(ModelMap model, HttpSession session) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
 
-    @GetMapping("/Modifier_Droits_Moderateur")
-    public String modifierDroitsModerateur(ModelMap model) { return "pageModifierDroitsModerateur";}
+        Iterable<Utilisateur> listUtilisateur = utilisateurService.getUsers();
+        model.addAttribute("listUtilisateur", listUtilisateur);
+        return "pageModifierDroitsModerateur";
+    }
+    @PostMapping("/modifierDroits")
+    public String RecupererModifDroits(ModelMap model, HttpSession session,
+                                       @RequestParam("email") String email, @RequestParam("droits") String droits){
+        Utilisateur utilisateur = utilisateurService.verifierUtilisateur(email);
+        if(utilisateur != null) {
+            Moderateur moderateur = utilisateurService.getModerateurByIdUtilisateur(utilisateur.getIdUtilisateur());
+            moderateur.setDroits(droits);
+            Moderateur nouveauModerateur = utilisateurService.saveModerateur(moderateur);
+            model.addAttribute("modification", true);
+        }
+        else {
+            return "redirect:/erreur";
+        }
+        return "redirect:/modifierDroits";
+        }
+
     @GetMapping("/Modifier_Produit")
     public String modifierProduit(ModelMap model) { return "pageModifierProduit";}
 
 
 
-    @GetMapping("/Supprimer_Moderateur")
-    public String supprimerModerateur(ModelMap model) { return "pageSupprimerModerateur";}
+    @GetMapping("/supprimerModerateur")
+    public String supprimerModerateur(ModelMap model, HttpSession session) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
+
+        Iterable<Utilisateur> listUtilisateur = utilisateurService.getUsers();
+        model.addAttribute("listUtilisateur", listUtilisateur);
+        return "pageSupprimerModerateur";}
+
+    @PostMapping("/supprimerModerateur")
+    public String supprimerModerateur(ModelMap model, HttpSession session, @RequestParam("email") String email){
+        Utilisateur utilisateur = utilisateurService.verifierUtilisateur(email);
+        if(utilisateur != null) {
+            System.out.println("utilisateur mail :" + utilisateur.getMail());
+            Moderateur moderateur = utilisateurService.getModerateurByIdUtilisateur(utilisateur.getIdUtilisateur());
+            System.out.println("moderateur :" + moderateur.getDroits());
+            utilisateurService.deleteModerateur(moderateur);
+            utilisateurService.deleteUser(utilisateur);
+            model.addAttribute("suppression", true);
+        }
+        else {
+            return "redirect:/erreur";
+        }
+        return "redirect:/supprimerModerateur";
+    }
+
     ///PAGE MODIFIER PROFIL /////////////////////////////////////////////////////////////////////
     @GetMapping("/Modifier_Profil")
     public String modifierProfil(ModelMap model, HttpSession session) {
