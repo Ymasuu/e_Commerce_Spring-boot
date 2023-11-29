@@ -1,6 +1,7 @@
 package com.e_Commerce.e_Commerce.controller;
 
 import com.e_Commerce.e_Commerce.model.entity.*;
+import com.e_Commerce.e_Commerce.service.CommandeService;
 import com.e_Commerce.e_Commerce.service.ProduitsService;
 import com.e_Commerce.e_Commerce.service.UtilisateurService;
 import jakarta.servlet.http.HttpSession;
@@ -17,15 +18,18 @@ import java.util.List;
 
 @Controller
 public class PanierController {
-    private Client client;
-    private Utilisateur user;
-    private Commande panier;
+    //private Client client;
+    //private Utilisateur user;
+    //private Commande panier;
 
     @Autowired
     private UtilisateurService utilisateurService;
 
     @Autowired
     private ProduitsService produitsService;
+
+    @Autowired
+    private CommandeService commandeService;
 
 
     @GetMapping("/Panier")
@@ -37,8 +41,32 @@ public class PanierController {
     @PostMapping("/Panier")
     public String panierPost(ModelMap model, HttpSession session,
          @RequestParam String action, @RequestParam (required = false) Integer produitId, @RequestParam (required = false) Integer produitQuantite) {
+        Commande commande = (Commande) session.getAttribute("panier");
+        Client client = (Client) session.getAttribute("client");
+        //TODO paiement
+        if(action.equals("payer")){
+
+            if (commande.getPanier().isEmpty()) {
+                //Aucun produit a été ajoutée pour acheter et payer
+                Boolean panierVide = true;
+                //session.setAttribute("panierVide",panierVide);
+                return "pagePanier";
+                //request.getRequestDispatcher("/WEB-INF/panier.jsp").forward(request, response);
+            }
+            //TODO Le paiement et la commande sont faits!
+            //On ajoute dans la bdd la commande et on supprime la commande actuelle de la session
+            //Il est verifiée que le prix du panier est égal ou inférieur au solde du client
+            if (BigDecimal.valueOf(commande.getPrix()).compareTo(client.getCompteBancaireSolde()) <= 0) {
+                commandeService.saveCommande(commande);
+                commande.getPanier().clear();
+                session.setAttribute("panier",commande);
+                return "pageConfirmerPaiement";
+                //request.getRequestDispatcher("/WEB-INF/pageConfirmerPayement.jsp").forward(request, response);
+            }
+        }
+
         if (action.equals("vider")){
-            Client client = (Client) session.getAttribute("client");
+            //Client client = (Client) session.getAttribute("client");
             Commande panierVide = new Commande(client.getIdClient(), 0);
             session.setAttribute("panier", panierVide);
         }else {
