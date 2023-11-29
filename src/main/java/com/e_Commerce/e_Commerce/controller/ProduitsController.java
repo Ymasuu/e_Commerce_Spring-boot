@@ -42,6 +42,16 @@ public class ProduitsController {
         model.addAttribute("produit", product);
         return "pageProduit";
     }
+
+    @PostMapping("/Produit/{id}")
+    public String ajouterProduit(ModelMap model, HttpSession session,
+         @RequestParam int produitId, @RequestParam int produitQuantite){
+        return "redirect:/Produits";
+    }
+
+
+
+
     @GetMapping("/Produits")
     public String produits(ModelMap model, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");

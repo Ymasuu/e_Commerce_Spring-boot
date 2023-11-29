@@ -69,9 +69,7 @@ public class Commande implements Serializable {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public void setStatus(String status) { this.status = status; }
 
     public List<Produit> getPanier() { return panier; }
 
