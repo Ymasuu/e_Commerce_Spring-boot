@@ -138,10 +138,10 @@
               th:action="@{ajouterModerateur}" method="get">
             <button type="submit"><span>Ajouter Modérateur</span></button>
         </form>
-        <form th:if="${user.typeDeCompte == 'Admin'}" th:action="@{Supprimer_Moderateur}" method="post">
+        <form th:if="${user.typeDeCompte == 'Admin'}" th:action="@{supprimerModerateur}" method="get">
             <button type="submit"><span>Supprimer Modérateur</span></button>
         </form>
-        <form th:if="${user.typeDeCompte == 'Admin'}" th:action="@{Modifier_Droits_Moderateur}" method="post">
+        <form th:if="${user.typeDeCompte == 'Admin'}" th:action="@{modifierDroits}" method="get">
             <button type="submit"><span>Modifier les droits</span></button>
         </form>
     </div>
