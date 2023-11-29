@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
+
 @Controller
 public class ConnexionController {
     private Client client;
     private Utilisateur user;
     private Moderateur moderateur;
+    private Commande panier;
 
     @Autowired
     private UtilisateurService utilisateurService;
@@ -43,6 +46,11 @@ public class ConnexionController {
             if (client != null){
                 System.out.println("id client : " + client.getIdClient());
                 session.setAttribute("client", client);
+
+                // Creation du panier dans la session et pas dans la bdd
+                this.panier = new Commande(client.getIdClient(), new BigDecimal(0));
+                session.setAttribute("panier", panier);
+
             }
 
             return "redirect:/Produits";

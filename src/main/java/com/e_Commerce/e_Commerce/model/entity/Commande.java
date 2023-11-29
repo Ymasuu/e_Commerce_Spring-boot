@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Commande")
@@ -22,15 +24,23 @@ public class Commande implements Serializable {
     @Column(name = "status")
     private String status;
 
-    public Commande(Integer idClient, BigDecimal prix){
-        this.idClient = idClient;
-        this.prix = prix;
-        this.status= "non paye";
-    }
+    @OneToMany
+    private List<Produit> panier;
+
+    @Basic
+    private int nbrProduit;
 
     public Commande(){
 
     }
+    public Commande(Integer idClient, BigDecimal prix){
+        this.idClient = idClient;
+        this.prix = prix;
+        this.status= "non paye";
+        this.panier = new ArrayList<>();
+        this.nbrProduit = 0;
+    }
+
     public int getIdCommande() {
         return idCommande;
     }
@@ -62,6 +72,61 @@ public class Commande implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public List<Produit> getPanier() { return panier; }
+
+    public void setPanier(List<Produit> panier) {
+        this.panier = panier;
+        this.nbrProduit = panier.size();
+    }
+
+    public int getNbrProduit() {
+        return nbrProduit;
+    }
+
+    public void setNbrProduit(int nbrProduit) {
+        this.nbrProduit = nbrProduit;
+    }
+
+    public void ajouterProduit(Produit produit) {
+        boolean produitIsPresent = false;
+        for (Produit p : panier) {
+            if (p.getIdProduit() == produit.getIdProduit()) {
+                produitIsPresent = true;
+                p.setStock(p.getStock() + produit.getStock());
+                majNbrProduit();
+                break;
+            }
+        }
+        if (!produitIsPresent){
+            panier.add(produit);
+        }
+    }
+
+    public void supprimerProduit(Produit produit) {
+        for (Produit produitDansPanier : panier) {
+            if (produitDansPanier.getIdProduit() == produit.getIdProduit()) {
+                if (produitDansPanier.getStock() > produit.getStock()) {
+                    produitDansPanier.setStock(produitDansPanier.getStock() - produit.getStock());
+                } else {
+                    panier.remove(produitDansPanier);
+                }
+                majNbrProduit();
+                break;
+            }
+        }
+    }
+
+    private void majNbrProduit() {
+        int totalQuantite = 0;
+
+        for (Produit produit : panier) {
+            totalQuantite += produit.getStock();
+        }
+
+        nbrProduit = totalQuantite;
+    }
+
 
     @Override
     public boolean equals(Object o) {
