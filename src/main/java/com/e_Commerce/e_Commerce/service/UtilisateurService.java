@@ -41,6 +41,9 @@ public class UtilisateurService {
     }
 
     /*---------------------Moderator-----------------------*/
+    public Moderateur saveModerateur(Moderateur moderateur){
+        return moderateurRepository.save(moderateur);
+    }
     public Iterable<Moderateur> getModerators() {
         return moderateurRepository.findAll();
     }

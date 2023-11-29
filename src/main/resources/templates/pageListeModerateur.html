@@ -135,7 +135,7 @@
 
     <div class="button-container">
         <form th:if="${user.typeDeCompte == 'Admin' or (user.typeDeCompte == 'Moderateur' && moderateur.droits[2] == '1')}"
-              th:action="@{Ajouter_Moderateur}" method="post">
+              th:action="@{ajouterModerateur}" method="get">
             <button type="submit"><span>Ajouter Modérateur</span></button>
         </form>
         <form th:if="${user.typeDeCompte == 'Admin'}" th:action="@{Supprimer_Moderateur}" method="post">

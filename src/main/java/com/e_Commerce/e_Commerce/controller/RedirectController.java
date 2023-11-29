@@ -38,8 +38,7 @@ public class RedirectController {
 
     @GetMapping("/")
     public String index(ModelMap model) { return "index";}
-    @GetMapping("/Ajouter_Moderateur")
-    public String ajouterModerateur(ModelMap model) { return "pageAjouterModerateur";}
+
     @GetMapping("/Ajouter_Moyen_De_Paiement")
     public String ajouterMoyenPaiement(ModelMap model, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
@@ -181,6 +180,7 @@ public class RedirectController {
         return "pageListeModerateur";
     }
 
+
     @GetMapping("/Modifier_Droits_Moderateur")
     public String modifierDroitsModerateur(ModelMap model) { return "pageModifierDroitsModerateur";}
     @GetMapping("/Modifier_Produit")
@@ -188,7 +188,8 @@ public class RedirectController {
 
 
 
-
+    @GetMapping("/Supprimer_Moderateur")
+    public String supprimerModerateur(ModelMap model) { return "pageSupprimerModerateur";}
     ///PAGE MODIFIER PROFIL /////////////////////////////////////////////////////////////////////
     @GetMapping("/Modifier_Profil")
     public String modifierProfil(ModelMap model, HttpSession session) {
@@ -257,8 +258,7 @@ public class RedirectController {
 
     //////////////////////////////////////////////////////////////////////////////////
 
-    @GetMapping("/Supprimer_Moderateur")
-    public String supprimerModerateur(ModelMap model) { return "pageSupprimerModerateur";}
+
 
 }
 

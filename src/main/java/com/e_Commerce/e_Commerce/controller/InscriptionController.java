@@ -48,8 +48,33 @@ public class InscriptionController {
             return "redirect:/Produits";
         } else {
             // Il y a des erreurs, les afficher dans le modèle
-            model.addAttribute("erreurs", "<style> font-color:red  </style>Cet utilisateur existe dejà");
+            model.addAttribute("erreurs", "Cet utilisateur existe déjà");
             return "pageInscription";
+        }
+    }
+
+    @GetMapping("/ajouterModerateur")
+    public String ajouterModerateur(ModelMap model, HttpSession session) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
+        return "pageAjouterModerateur";}
+
+    @PostMapping("/ajouterModerateur")
+    public String ajouterModerateur(ModelMap model, @RequestParam("nom") String nom, @RequestParam("prenom") String prenom,
+                                    @RequestParam("motDePasse") String motDePasse, @RequestParam("email") String email) {
+        if (utilisateurService.verifierUtilisateur(email) == null) {
+            Utilisateur utilisateur = new Utilisateur(nom, prenom, email, motDePasse, "Moderateur");
+            Utilisateur nouvelUtilisateur = utilisateurService.saveUser(utilisateur);
+
+            Moderateur moderateur = new Moderateur();
+            moderateur.setIdModerateur(nouvelUtilisateur.getIdUtilisateur());
+            moderateur.setDroits("000");
+            Moderateur nouveauModerateur = utilisateurService.saveModerateur(moderateur);
+            return "pageListeModerateur";
+
+        } else {
+            model.addAttribute("erreurs", "Cet adresse mail est déjà utilisée");
+            return "pageAjouterModerateur";
         }
     }
 }

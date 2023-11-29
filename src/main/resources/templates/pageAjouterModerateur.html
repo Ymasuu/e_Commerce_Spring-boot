@@ -1,17 +1,17 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un modérateur</title>
     <link rel="icon" href="logo/logo.png" type="image/x-icon">
     <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             text-align: center;
-            margin : 0;
+            margin: 0;
         }
 
         h1 {
@@ -60,7 +60,9 @@
             margin-top: 15px;
         }
     </style>
-    <script>
+    <script th:inline="javascript">
+        /* Ajoutez ici vos fonctions JavaScript si nécessaire */
+        /* Notez l'utilisation de th:inline="javascript" pour intégrer des variables Thymeleaf dans le code JavaScript */
         function validerChamp(champ, pattern) {
             var value = champ.value;
             var newValue = value.replace(pattern, '');
@@ -92,24 +94,24 @@
     </script>
 </head>
 <body>
-<div class="header">
-
-</div>
+<header th:insert="~{header.html :: header}"></header>
 <h1>Ajout d'un modérateur</h1>
-<form action="ServletAddModerateur" method="post">
+<form th:action="@{/ajouterModerateur}" method="post">
+    <p class="error" th:text="${erreurs}"></p>
     <label for="nom">Nom :</label>
-    <input type="text" id="nom" name="nom" required onblur="validerNomPrenom(this)">
+    <input type="text" id="nom" name="nom" th:required="required" onblur="validerNomPrenom(this)">
     <br>
     <label for="prenom">Prénom :</label>
-    <input type="text" id="prenom" name="prenom" required onblur="validerNomPrenom(this)">
+    <input type="text" id="prenom" name="prenom" th:required="required" onblur="validerNomPrenom(this)">
     <br>
     <label for="email">Mail :</label>
-    <input type="text" id="email" name="email" required onblur="validerMail(this)">
+    <input type="text" id="email" name="email" th:required="required" onblur="validerMail(this)">
     <br>
     <label for="motDePasse">Mot de passe :</label>
-    <input type="password" id="motDePasse" name="motDePasse" required onblur="validerMotDePasse(this)">
+    <input type="password" id="motDePasse" name="motDePasse" th:required="required" onblur="validerMotDePasse(this)">
     <br>
     <input type="submit" value="Inscrire le modérateur">
 </form>
 </body>
 </html>
+

@@ -13,6 +13,10 @@ public class Moderateur implements Serializable {
     @Column(name = "droits")
     private String droits;
 
+
+    public Moderateur(){
+
+    }
     public int getIdModerateur() {
         return idModerateur;
     }
