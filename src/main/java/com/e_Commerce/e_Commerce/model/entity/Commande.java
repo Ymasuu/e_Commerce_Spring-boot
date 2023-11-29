@@ -117,7 +117,7 @@ public class Commande implements Serializable {
         }
     }
 
-    private void majNbrProduit() {
+    public void majNbrProduit() {
         int totalQuantite = 0;
 
         for (Produit produit : panier) {
