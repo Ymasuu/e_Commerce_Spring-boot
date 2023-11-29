@@ -48,11 +48,10 @@ public class ConnexionController {
                 session.setAttribute("client", client);
 
                 // Creation du panier dans la session et pas dans la bdd
-                this.panier = new Commande(client.getIdClient(), new BigDecimal(0));
+                this.panier = new Commande(client.getIdClient(), 0);
                 session.setAttribute("panier", panier);
 
             }
-
             return "redirect:/Produits";
         } else {
             // Échec de la connexion, renvoyez l'utilisateur à la page de connexion avec un message d'erreur
@@ -61,15 +60,16 @@ public class ConnexionController {
         }
     }
 
-
     @GetMapping("/Deconnexion")
     public String Deconnexion(ModelMap model, HttpSession session){
         session.removeAttribute("user");
         session.removeAttribute("moderateur");
         session.removeAttribute("client");
+        session.removeAttribute("panier");
         this.user = null;
         this.moderateur = null;
         this.client = null;
+        this.panier = null;
         return "redirect:/Produits";
     }
 }

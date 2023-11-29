@@ -17,7 +17,7 @@ public class Produit implements Serializable {
     private String nom;
     @Basic
     @Column(name = "prix")
-    private BigDecimal prix;
+    private Float prix;
     @Basic
     @Column(name = "description")
     private String description;
@@ -25,7 +25,7 @@ public class Produit implements Serializable {
     @Column(name = "stock")
     private Integer stock;
 
-    public Produit(String nom, BigDecimal prix, String description, Integer stock){
+    public Produit(String nom, float prix, String description, Integer stock){
         this.nom = nom;
         this.prix = prix;
         this.description = description;
@@ -51,11 +51,11 @@ public class Produit implements Serializable {
         this.nom = nom;
     }
 
-    public BigDecimal getPrix() {
+    public float getPrix() {
         return prix;
     }
 
-    public void setPrix(BigDecimal prix) {
+    public void setPrix(float prix) {
         this.prix = prix;
     }
 

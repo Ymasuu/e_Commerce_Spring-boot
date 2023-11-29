@@ -1,11 +1,8 @@
 package com.e_Commerce.e_Commerce.controller;
 
+import com.e_Commerce.e_Commerce.model.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.e_Commerce.e_Commerce.model.entity.Client;
-import com.e_Commerce.e_Commerce.model.entity.Moderateur;
-import com.e_Commerce.e_Commerce.model.entity.Produit;
-import com.e_Commerce.e_Commerce.model.entity.Utilisateur;
 import com.e_Commerce.e_Commerce.service.UtilisateurService;
 
 import jakarta.servlet.http.HttpSession;
@@ -43,6 +40,9 @@ public class InscriptionController {
             Client client = new Client(nouvelUtilisateur.getIdUtilisateur());
             Client nouveauClient = utilisateurService.saveClient(client);
             session.setAttribute("client", nouveauClient);
+
+            Commande panier = new Commande(client.getIdClient(), 0);
+            session.setAttribute("panier", panier);
 
             // Rediriger vers la page des produits
             return "redirect:/Produits";
