@@ -35,7 +35,9 @@ public class UtilisateurService {
     public Utilisateur verifierUtilisateur(String email, String motDePasse) {
         return utilisateurRepository.findByMailAndMotDePasse(email, motDePasse).orElse(null);
     }
-
+    public Iterable<Utilisateur> getUsers() {
+        return utilisateurRepository.findAll();
+    }
     public Utilisateur verifierUtilisateur(String email) {
         return utilisateurRepository.findByMail(email).orElse(null);
     }
