@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 
@@ -45,7 +46,28 @@ public class ProduitsController {
 
     @PostMapping("/Produit/{id}")
     public String ajouterProduit(ModelMap model, HttpSession session,
-         @RequestParam int produitId, @RequestParam int produitQuantite){
+         @RequestParam int produitId, @RequestParam(required = false) Integer produitQuantite, @RequestParam String action){
+        if (action.equals("ajouter")){
+            Produit produit = produitsService.getProductById(produitId);
+            Commande panier = (Commande) session.getAttribute("panier");
+            boolean produitExisteDeja = false;
+            for (Produit p : panier.getPanier()){
+                if (p.getIdProduit() == produitId) { // le produit existe deja dans le panier
+                    produitExisteDeja = true;
+                    if (p.getStock() + produitQuantite <= produit.getStock()){ // le produit est disponible dans le bon nombre d'exemplaire
+                        panier.setPrix(panier.getPrix()+(p.getPrix()*produitQuantite));
+                        panier.ajouterProduit(p, produitQuantite);
+                    }
+                    break;
+                }
+            }
+            if(!produitExisteDeja){
+                panier.setPrix(panier.getPrix()+(produit.getPrix()*produitQuantite));
+                panier.ajouterProduit(produit, produitQuantite);
+            }
+            session.setAttribute("panier", panier);
+            System.out.println("Prix panier : " + panier.getPrix());
+        }
         return "redirect:/Produits";
     }
 

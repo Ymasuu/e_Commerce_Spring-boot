@@ -19,7 +19,7 @@ public class Commande implements Serializable {
     private Integer idClient;
     @Basic
     @Column(name = "prix")
-    private BigDecimal prix;
+    private Float prix;
     @Basic
     @Column(name = "status")
     private String status;
@@ -33,7 +33,7 @@ public class Commande implements Serializable {
     public Commande(){
 
     }
-    public Commande(Integer idClient, BigDecimal prix){
+    public Commande(Integer idClient, float prix){
         this.idClient = idClient;
         this.prix = prix;
         this.status= "non paye";
@@ -57,13 +57,11 @@ public class Commande implements Serializable {
         this.idClient = idClient;
     }
 
-    public BigDecimal getPrix() {
+    public float getPrix() {
         return prix;
     }
 
-    public void setPrix(BigDecimal prix) {
-        this.prix = prix;
-    }
+    public void setPrix(float prix) { this.prix = prix; }
 
     public String getStatus() {
         return status;
@@ -86,18 +84,22 @@ public class Commande implements Serializable {
         this.nbrProduit = nbrProduit;
     }
 
-    public void ajouterProduit(Produit produit) {
+    public void ajouterProduit(Produit produit, int quantite) {
         boolean produitIsPresent = false;
         for (Produit p : panier) {
             if (p.getIdProduit() == produit.getIdProduit()) {
                 produitIsPresent = true;
-                p.setStock(p.getStock() + produit.getStock());
+                System.out.println("Produit deja dans le panier avec quantité = " + p.getStock());
+                p.setStock(p.getStock() + quantite);
+                System.out.println("Maintenant, quantité = " + p.getStock());
                 majNbrProduit();
                 break;
             }
         }
         if (!produitIsPresent){
+            produit.setStock(quantite);
             panier.add(produit);
+            majNbrProduit();
         }
     }
 
