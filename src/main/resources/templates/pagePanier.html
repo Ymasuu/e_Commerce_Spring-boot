@@ -92,20 +92,25 @@
     <!-- Thymeleaf iteration over the panier -->
     <tr th:each="produit : ${session.panier.panier}">
         <form action="" method="post">
-            <td>
-                <span th:text="${produit.nom}"></span><br>
-                <img th:src="'imagesProduct/' + ${produit.idProduit} + '.jpeg'" alt="" th:alt="${produit.nom}" width="100">
-            </td>
-            <td th:text="${produit.prix} + ' €'"></td>
-            <td>
-                <input type="number" name="produitQuantite" min="1" th:max="${produit.stock}" th:value="${produit.stock}">
-            </td>
-            <td th:text="${produit.prix * produit.stock} + ' €'"></td>
-            <td>
-                <input type="hidden" name="produitId" th:value="${produit.idProduit}">
-                <button type="submit" name="action" value="supprimer">Supprimer</button>
-                <button type="submit" name="action" value="modifier">Modifier</button>
-            </td>
+                <td>
+                    <span th:text="${produit.nom}"></span><br>
+                    <img th:src="'imagesProduct/' + ${produit.idProduit} + '.jpeg'" alt="" th:alt="${produit.nom}" width="100">
+                </td>
+                <td th:text="${produit.prix} + ' €'"></td>
+                <td>
+                    <label>
+                        <!-- Utilisation du stock du produit provenant de la liste produits -->
+<!--                        <input type="number" name="produitQuantite" min="1" th:max="${stockProduit.stock}" th:value="${produit.stock}">-->
+                        <input type="number" name="produitQuantite" min="1" th:value="${produit.stock}">
+                    </label>
+                </td>
+                <td th:text="${produit.prix * produit.stock} + ' €'"></td>
+                <td>
+                    <input type="hidden" name="produitId" th:value="${produit.idProduit}">
+                    <button type="submit" name="action" value="supprimer">Supprimer</button>
+                    <button type="submit" name="action" value="modifier">Modifier</button>
+                </td>
+            </th:block>
         </form>
     </tr>
     </tbody>
