@@ -180,9 +180,31 @@ public class RedirectController {
         return "pageListeModerateur";
     }
 
+    @GetMapping("/modifierDroits")
+    public String afficherPageModifierDroits(ModelMap model, HttpSession session) {
+        Utilisateur user = (Utilisateur) session.getAttribute("user");
+        Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
 
-    @GetMapping("/Modifier_Droits_Moderateur")
-    public String modifierDroitsModerateur(ModelMap model) { return "pageModifierDroitsModerateur";}
+        Iterable<Utilisateur> listUtilisateur = utilisateurService.getUsers();
+        model.addAttribute("listUtilisateur", listUtilisateur);
+        return "pageModifierDroitsModerateur";
+    }
+    @PostMapping("/modifierDroits")
+    public String RecupererModifDroits(ModelMap model, HttpSession session,
+                                       @RequestParam("email") String email, @RequestParam("droits") String droits){
+        Utilisateur utilisateur = utilisateurService.verifierUtilisateur(email);
+        if(utilisateur != null) {
+            Moderateur moderateur = utilisateurService.getModerateurByIdUtilisateur(utilisateur.getIdUtilisateur());
+            moderateur.setDroits(droits);
+            Moderateur nouveauModerateur = utilisateurService.saveModerateur(moderateur);
+            model.addAttribute("modification", true);
+        }
+        else {
+            return "redirect:/erreur";
+        }
+        return "redirect:/Produits";
+        }
+
     @GetMapping("/Modifier_Produit")
     public String modifierProduit(ModelMap model) { return "pageModifierProduit";}
 
