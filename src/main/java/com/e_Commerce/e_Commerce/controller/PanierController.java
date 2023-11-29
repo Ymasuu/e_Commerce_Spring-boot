@@ -81,9 +81,9 @@ public class PanierController {
                         break;
                     }
                 }
-            }else { // action.equals("modifier")
-                for (Produit p : newPanier.getPanier()){
-                    if (p.getIdProduit() == produitId){
+            }else if(action.equals("modifier")){
+                for (Produit p : newPanier.getPanier()) {
+                    if (p.getIdProduit() == produitId) {
                         newPanier.setPrix(newPanier.getPrix() - (p.getPrix() * p.getStock()));
                         p.setStock(produitQuantite);
                         newPanier.setPrix(newPanier.getPrix() + (p.getPrix() * p.getStock()));
@@ -91,6 +91,8 @@ public class PanierController {
                         break;
                     }
                 }
+            }else{ // action.equals("payer")
+                System.out.println("YO renato c'est ici que ça se passe apres avoir appuyé sur le bouton 'payer' ");
             }
         }
         return "redirect:/Panier";
