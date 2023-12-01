@@ -33,9 +33,10 @@ public class RedirectController {
     private UtilisateurService utilisateurService;
 
 
-
     @GetMapping("/")
-    public String index(ModelMap model) { return "index";}
+    public String index(ModelMap model) {
+        return "index";
+    }
 
     @GetMapping("/Ajouter_Moyen_De_Paiement")
     public String ajouterMoyenPaiement(ModelMap model, HttpSession session) {
@@ -45,10 +46,11 @@ public class RedirectController {
         model.addAttribute("client", client);
         return "ajouterMoyenPaiement";
     }
+
     @PostMapping("/Ajouter_Moyen_De_Paiement")
     public String ajouterMoyenPaiementPost(ModelMap model, HttpSession session, @RequestParam String carteBancaire) {
         Client client = (Client) session.getAttribute("client");
-        if (carteBancaire.equals("0000 0000 0000 0000") || carteBancaire.equals(client.getCompteBancaireNum())){
+        if (carteBancaire.equals("0000 0000 0000 0000") || carteBancaire.equals(client.getCompteBancaireNum())) {
             Utilisateur user = (Utilisateur) session.getAttribute("user");
             model.addAttribute("user", user);
             model.addAttribute("client", client);
@@ -63,7 +65,9 @@ public class RedirectController {
     }
 
     @GetMapping("/Ajouter_Produit")
-    public String ajouterProduit(ModelMap model) { return "ajouterProduit";}
+    public String ajouterProduit(ModelMap model) {
+        return "ajouterProduit";
+    }
 
     ///////AJOUTER SOLDE//////////////////////////////////////////////////
     @GetMapping("/AjouterSolde")
@@ -72,9 +76,11 @@ public class RedirectController {
         Client client = (Client) session.getAttribute("client");
         model.addAttribute("user", user);
         model.addAttribute("client", client);
-        return "ajouterSolde";}
+        return "ajouterSolde";
+    }
+
     @PostMapping("/AjouterSolde")
-    public String ajouterSoldePost(ModelMap model, HttpSession session,@RequestParam("numeroCarte") String numeroCarte,
+    public String ajouterSoldePost(ModelMap model, HttpSession session, @RequestParam("numeroCarte") String numeroCarte,
                                    @RequestParam("montant") Double montant) {
 
         Utilisateur user = (Utilisateur) session.getAttribute("user");
@@ -88,18 +94,16 @@ public class RedirectController {
             return "ajouterSolde";
         }
 
-        if(client.getCompteBancaireNum().equals("0000 0000 0000 0000") || numeroCarte.isEmpty()){
+        if (client.getCompteBancaireNum().equals("0000 0000 0000 0000") || numeroCarte.isEmpty()) {
             String errorMessage = "Vous devez ajouter votre carte bleue sur votre profil avant de pouvoir ajouter de " +
                     "l'argent sur votre compte";
             model.addAttribute("errorMessage", errorMessage);
             return "ajouterSolde";
-        }
-        else if(!numeroCarte.equals(client.getCompteBancaireNum())){
+        } else if (!numeroCarte.equals(client.getCompteBancaireNum())) {
             String errorMessage = "Numéro de carte bleue incorrect";
             model.addAttribute("errorMessage", errorMessage);
             return "ajouterSolde";
-        }
-        else {
+        } else {
             BigDecimal soldeAjoute = BigDecimal.valueOf(montant);
             BigDecimal soldeActuel = client.getCompteBancaireSolde();
             BigDecimal soldeApresModif = soldeActuel.add(soldeAjoute);
@@ -118,26 +122,26 @@ public class RedirectController {
     public String changerMotDePasse(ModelMap model, HttpSession session) {
         Client client = (Client) session.getAttribute("client");
         Utilisateur user = (Utilisateur) session.getAttribute(("user"));
-        return "changerMotDePasse";}
+        return "changerMotDePasse";
+    }
 
     @PostMapping("/Changer_Mot_De_Passe")
     public String changerMotDePassePost(RedirectAttributes redirectAttributes,
                                         ModelMap model,
                                         HttpSession session,
-                                        @RequestParam ("oldPassword") String oldPassword,
-                                        @RequestParam ("newPassword") String newPassword,
-                                        @RequestParam ("confirmPassword") String confirmPassword) {
+                                        @RequestParam("oldPassword") String oldPassword,
+                                        @RequestParam("newPassword") String newPassword,
+                                        @RequestParam("confirmPassword") String confirmPassword) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
 
 
         // Il est verifié si le mot de passe est correct
-        if (user.getMotDePasse().equals(oldPassword) && newPassword.trim().equals(confirmPassword.trim()))
-        {
+        if (user.getMotDePasse().equals(oldPassword) && newPassword.trim().equals(confirmPassword.trim())) {
             // Le mot de passe est correct, on modifie les données de l'utilisateur
             user.setMotDePasse(newPassword);
             //TODO l'utilisateur est update dans la bdd
             utilisateurService.saveUser(user);
-            session.setAttribute("user",user);
+            session.setAttribute("user", user);
 
             return "redirect:/Profil";
         } else {
@@ -150,12 +154,54 @@ public class RedirectController {
 
     //////////////////////////////////////////////////////////////
     @GetMapping("/Confirmer_Paiement")
-    public String confirmerPaiement(ModelMap model) { return "confirmerPaiement";}
+    public String confirmerPaiement(ModelMap model) {
+        return "confirmerPaiement";
+    }
 
     @GetMapping("/Convertir_Points")
-    public String convertirPoints(ModelMap model) { return "pageConvertPoints";}
+    public String convertirPoints(ModelMap model, HttpSession session) {
+        Client client = (Client) session.getAttribute("client");
+        model.addAttribute("client", client);
+        return "convertirPoints";
+    }
 
+    @PostMapping("/Convertir_Points")
+    public String convertPoints(ModelMap model,RedirectAttributes redirectAttributes, @RequestParam int quantite, @RequestParam String action, HttpSession session)
+    {
+        Client client = (Client) session.getAttribute("client");
+        System.out.println(client.getPoints());
+        if ("convertir".equals(action)) {
+            // L'utilisateur a choisi de convertir les points en solde
+            if (quantite > client.getPoints()) {
+                String errorMessage = "Vous n'avez pas assez de points pour convertir " + quantite + " points.";
+                model.addAttribute("errorMessage", errorMessage);
+                return "redirect:/Convertir_Points";
+            } else if (quantite < 1) {
+                String errorMessage = "Vous devez convertir au moins 1 point";
+                model.addAttribute("errorMessage", errorMessage);
+                return "redirect:/Convertir_Points";
+            } else {
+                // Logique de conversion des points en solde (exemple : 1 point = 1 euro)
+                BigDecimal montantSolde = BigDecimal.valueOf(quantite);
+                BigDecimal soldeActuel = client.getCompteBancaireSolde();
+                BigDecimal soldeApresModif = soldeActuel.add(montantSolde);
+                client.setCompteBancaireSolde(soldeApresModif);
 
+                int pointsApresModif = client.getPoints() - quantite;
+                client.setPoints(pointsApresModif);
+
+                client = utilisateurService.saveClient(client);
+
+                // Rediriger vers la page de profil avec un message de succès
+                redirectAttributes.addFlashAttribute("successMessage", "Conversion réussie. Montant ajouté au solde : " + montantSolde);
+                return "redirect:/Profil";
+            }
+        } else if ("annuler".equals(action)) {
+            // L'utilisateur a choisi de ne pas convertir les points
+            return "redirect:/Profil";
+        }
+        return "convertirPoints";
+    }
 
     /* ---------------------------Modérateurs---------------------------*/
     @GetMapping("/Liste_Moderateurs")

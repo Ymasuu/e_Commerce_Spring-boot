@@ -1,12 +1,12 @@
-<%@ page import="entity.Client" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Convertir Points en Solde</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,24 +63,14 @@
     </style>
 </head>
 <body>
-<%
-    String errorMessage = (String) request.getAttribute("errorMessage");
-%>
-<div class="header">
-<%--    <%@ include file="header.html" %>--%>
-</div>
+<header th:insert="~{header.html :: header}"> </header>
 <h1>Convertir Points en Solde</h1>
-    <%
-    Utilisateur utilisateur = Controller.getInstanceController().requestGetUtilisateur();
-    Client client = UtilisateurDAO.findClientByUtilisateur(utilisateur);
-    assert client != null;%>
-<% if(errorMessage != null){ %>
-<p class="error" style="color : red;text-align : center"><%= errorMessage %></p>
-<% } %>
-<form action="ServletConvertPoints" method="post">
-    <p>Votre nombre de points de fidélité est de : <%= client.getPoints()%></p>
+<div th:if="${errorMessage != null}" class="error" style="color: red; text-align: center" th:text="${errorMessage}"></div>
+
+<form action="" method="post">
+    <p>Votre nombre de points de fidélité est de : <span th:text="${client.points}"></span> </p>
     <label for="quantite">Choisissez la quantité à convertir :</label>
-    <input type="number" id="quantite" name="quantite" value ="0" min="0" required>
+    <input type="number" id="quantite" name="quantite" value="0" min="0" required>
 
     <button type="submit" name="action" value="convertir">Convertir</button>
     <button type="submit" name="action" value="annuler">Retour</button>

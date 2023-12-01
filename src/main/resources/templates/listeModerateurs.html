@@ -66,12 +66,11 @@
             background-color: #45a049; /* Couleur verte plus foncée au survol */
         }
 
-        .tooltip-container th {
+        .tooltip-container {
             position: relative;
-            font-size: 12px; /* Réduire la police d'écriture selon vos besoins */
         }
 
-        .tooltip-container .tooltip {
+        .tooltip {
             position: absolute;
             display: none;
             background-color: #f9f9f9;
@@ -82,13 +81,26 @@
             z-index: 1;
             font-weight: normal;
         }
-
-        h1 {
-            text-align: center;
-            justify-content: center;
+        h1{
+            text-align : center;
+            justify-content:center;
         }
     </style>
-    <!-- Les balises link et style restent inchangées -->
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            var tooltipTh = document.getElementById('tooltip_header');
+
+            tooltipTh.addEventListener('mouseover', function () {
+                var tooltipBox = document.getElementById('tooltip_header_content');
+                tooltipBox.style.display = 'block';
+            });
+
+            tooltipTh.addEventListener('mouseout', function () {
+                var tooltipBox = document.getElementById('tooltip_header_content');
+                tooltipBox.style.display = 'none';
+            });
+        });
+    </script>
 </head>
 <body>
 <header th:insert="~{header.html :: header}"></header>
@@ -100,9 +112,9 @@
             <th>Nom</th>
             <th>Prenom</th>
             <th>Mail</th>
-            <th id="tooltip_header" class="tooltip-container">Droits (voir détail) <div class="tooltip"
-                                                                                        id="tooltip_header_content"></div>
-            </th>
+            <th id="tooltip_header" class="tooltip-container">Droits (voir détail) <div class="tooltip" id="tooltip_header_content">
+                1er droit : Ajouter un produit<br>2ème droit : Supprimer un produit<br>3ème droit : Ajouter un Modérateur<br><br>1 : Possède le droit <br> 0 : Ne possède pas le droit
+            </div></th>
         </tr>
         </thead>
         <tbody th:each="moderateur : ${listeModerateurs}">
