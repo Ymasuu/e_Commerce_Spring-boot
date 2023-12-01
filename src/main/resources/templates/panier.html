@@ -124,5 +124,6 @@
     </form>
     <h3 th:if="${session.panier.nbrProduit == 0}" style="color: red;">Ajoutez des produits pour les acheter!</h3>
 </div>
+<p class="error" style="color : red;text-align : center" th:if="${errorMessage != null}" th:text="${errorMessage}"></p>
 </body>
 </html>

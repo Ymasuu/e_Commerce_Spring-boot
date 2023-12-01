@@ -45,7 +45,7 @@
     <p style="color: #0077cc;" th:text="'Bienvenue, ' + ${user.prenom} + ' !'"></p>
 
     <h2> Informations de Profil </h2>
-    <div th:if="${successMessage != null}" class="error" style="color: red; text-align: center" th:text="${successMessage}"></div>
+    <div th:if="${successMessage != null}" class="success" style="color: red; text-align: center" th:text="${successMessage}"></div>
     <ul>
         <li><strong>Nom :</strong> <span th:text="${user.nom}"></span> </li>
         <li><strong>Prenom :</strong> <span th:text="${user.prenom}"></span> </li>

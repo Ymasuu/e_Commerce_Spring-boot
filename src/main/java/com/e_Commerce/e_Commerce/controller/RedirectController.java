@@ -77,8 +77,8 @@ public class RedirectController {
     }
 
     @PostMapping("/AjouterSolde")
-    public String ajouterSoldePost(ModelMap model, HttpSession session, @RequestParam("numeroCarte") String numeroCarte,
-                                   @RequestParam("montant") Double montant) {
+    public String ajouterSoldePost(ModelMap model, HttpSession session, @RequestParam String numeroCarte,
+                                   @RequestParam Float montant) {
 
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         Client client = (Client) session.getAttribute("client");
@@ -103,10 +103,11 @@ public class RedirectController {
         }
         else {
             float soldeActuel = client.getCompteBancaireSolde();
-            float soldeApresModif = (float) (soldeActuel + montant);
+            float soldeApresModif = soldeActuel + montant;
             client.setCompteBancaireSolde(soldeApresModif);
             //TODO update la bdd avec le nouveau solde pour le client
             utilisateurService.saveClient(client);
+            session.setAttribute("client", client);
             return "profil";
         }
     }
@@ -181,6 +182,7 @@ public class RedirectController {
                 client.setPoints(pointsApresModif);
 
                 client = utilisateurService.saveClient(client);
+                session.setAttribute("client", client);
 
                 // Rediriger vers la page de profil avec un message de succès
                 redirectAttributes.addFlashAttribute("successMessage", "Conversion réussie. Montant ajouté au solde : " + quantite);

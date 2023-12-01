@@ -1,6 +1,7 @@
 package com.e_Commerce.e_Commerce.controller;
 
 import com.e_Commerce.e_Commerce.model.entity.*;
+import com.e_Commerce.e_Commerce.service.CommandeProduitService;
 import com.e_Commerce.e_Commerce.service.CommandeService;
 import com.e_Commerce.e_Commerce.service.ProduitsService;
 import com.e_Commerce.e_Commerce.service.UtilisateurService;
@@ -30,6 +31,9 @@ public class PanierController {
 
     @Autowired
     private CommandeService commandeService;
+
+    @Autowired
+    private CommandeProduitService commandeProduitService;
 
 
     @GetMapping("/Panier")
@@ -71,14 +75,16 @@ public class PanierController {
                     }
                 }
             }else{ // action.equals("payer")
-                //TODO Le paiement et la commande sont faits!
-                //On ajoute dans la bdd la commande et on supprime la commande actuelle de la session
                 if (commande.getPrix() <= client.getCompteBancaireSolde()) { // le client a les moyens de payer
                     System.out.println("test panierController");
 /*                    commandeService.saveCommande(commande);
                     session.setAttribute("panier",new Commande(client.getIdClient(), 0));*/
                     return "redirect:/Confirmer_Paiement";
+                }else {
+                    model.addAttribute("errorMessage", "Desolé mais vous devez ajouter de l'argent sur votre solde pour procédé au paiement");
+                    return "panier";
                 }
+
             }
         }
         return "redirect:/Panier";
@@ -95,9 +101,18 @@ public class PanierController {
         Client client = (Client) session.getAttribute("client");
         if (numeroCarte.equals(client.getCompteBancaireNum())){
             Commande commande = (Commande) session.getAttribute("panier");
-            commandeService.saveCommande(commande);
             // TODO ajouter les tables Commande_Produit pour chaque produit du panier
-//            session.setAttribute("panier",new Commande(client.getIdClient(), 0));
+            commande.setStatus("Payé");
+            commande = commandeService.saveCommande(commande);
+            for (Produit p : commande.getPanier()){
+                CommandeProduit commandeProduit = new CommandeProduit(commande.getIdCommande(), p.getIdProduit(), p.getStock());
+                commandeProduitService.saveCommandeProduit(commandeProduit);
+            }
+            session.setAttribute("panier",new Commande(client.getIdClient(), 0));
+            client.setCompteBancaireSolde(client.getCompteBancaireSolde() - commande.getPrix());
+            client.setPoints((int) (commande.getPrix() / 10));
+            utilisateurService.saveClient(client);
+            session.setAttribute("client", client);
             return "redirect:/Produits";
         }
         model.addAttribute("errorMessage", "Le numero de carte est incorrect");
