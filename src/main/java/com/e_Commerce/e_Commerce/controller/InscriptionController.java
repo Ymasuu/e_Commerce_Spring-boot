@@ -6,16 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.e_Commerce.e_Commerce.service.UtilisateurService;
 
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
-import com.e_Commerce.e_Commerce.service.ProduitsService;
-
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class InscriptionController {
@@ -25,7 +19,7 @@ public class InscriptionController {
 
     @GetMapping("/Inscription")
     public String afficherFormulaireInscription(Model model) {
-        return "pageInscription";
+        return "inscription";
     }
 
     @PostMapping("/Inscription")
@@ -50,7 +44,7 @@ public class InscriptionController {
             // Il y a des erreurs, les afficher dans le modèle
             String errorMessage = "Cet utilisateur existe déjà";
             model.addAttribute("errorMessage", errorMessage);
-            return "pageInscription";
+            return "inscription";
         }
     }
 
@@ -58,7 +52,7 @@ public class InscriptionController {
     public String ajouterModerateur(ModelMap model, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
-        return "pageAjouterModerateur";}
+        return "ajouterModerateur";}
 
     @PostMapping("/ajouterModerateur")
     public String ajouterModerateur(ModelMap model, @RequestParam("nom") String nom, @RequestParam("prenom") String prenom,
@@ -75,7 +69,7 @@ public class InscriptionController {
         } else {
             String errorMessage = "Cette adresse mail est déjà utilisée";
             model.addAttribute("errorMessage", errorMessage);
-            return "pageAjouterModerateur";
+            return "ajouterModerateur";
         }
     }
 }

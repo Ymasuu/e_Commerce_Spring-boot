@@ -68,7 +68,7 @@
 
 <!-- Assuming utilisateur, client, and other objects are available in the model -->
 <form th:action="@{/AjouterSolde}" method="post">
-    <p>Votre solde actuel est de : <span th:text="${client.compteBancaireSolde}"></span></p>
+    <p>Votre solde actuel est de : <span th:text="${client.compteBancaireSolde}"></span> euros </p>
     <label for="numeroCarte">Numéro de Carte Bleue:</label>
     <input type="text" id="numeroCarte" name="numeroCarte" required placeholder="Exemple : **** **** **** ****"><br><br>
 

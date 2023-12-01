@@ -96,21 +96,23 @@
 <header th:insert="~{header.html :: header}"> </header>
 <h1>Inscription</h1>
 <form action="" method="post">
-    <p class="error" th:text="${erreurs}"></p>
+    <div th:if="${errorMessage != null}" class="error" style="color: red; text-align: center" th:text="${errorMessage}"></div>
     <label for="nom">Nom :</label>
-    <input type="text" id="nom" name="nom" required onblur="validerNomPrenom(this)">
+    <input type="text" id="nom" placeholder="Nom....." name="nom" maxlength="20" required oninvalid="this.setCustomValidity('Le nom ne doit pas excéder 20 caractères et contenir uniquement des lettres, tirets et espaces')"
+           oninput="this.setCustomValidity('')" onblur="validerNomPrenom(this)">
     <br>
     <label for="prenom">Prénom :</label>
-    <input type="text" id="prenom" name="prenom" required onblur="validerNomPrenom(this)">
+    <input type="text" id="prenom" placeholder="Prenom...." name="prenom" maxlength="20" required onblur="validerNomPrenom(this)" oninvalid="this.setCustomValidity('Le prénom ne doit pas excéder 20 caractères et contenir uniquement des lettres, tirets et espaces')"
+           oninput="this.setCustomValidity('')">
     <br>
     <label for="email">Mail :</label>
-    <input type="text" id="email" name="email" required onblur="validerMail(this)">
+    <input type="text" id="email" name="email" placeholder="Votremail@domaine.com...." maxlength="30" oninvalid="this.setCustomValidity('Veuillez entrer une adresse e-mail valide')"
+           oninput="this.setCustomValidity('')" required onblur="validerMail(this)">
     <br>
     <label for="motDePasse">Mot de passe :</label>
-    <input type="password" id="motDePasse" name="motDePasse" required onblur="validerMotDePasse(this)">
+    <input type="password" id="motDePasse" placeholder="Mot de passe...."  maxlength="20" name="motDePasse" required onblur="validerMotDePasse(this)">
     <br>
     <input type="submit" value="S'inscrire">
 </form>
-
 </body>
 </html>

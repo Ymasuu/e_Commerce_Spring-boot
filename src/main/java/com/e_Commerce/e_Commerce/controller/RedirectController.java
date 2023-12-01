@@ -43,7 +43,7 @@ public class RedirectController {
         Client client = (Client) session.getAttribute("client");
         model.addAttribute("user", user);
         model.addAttribute("client", client);
-        return "pageAjouterMoyenPaiement";
+        return "ajouterMoyenPaiement";
     }
     @PostMapping("/Ajouter_Moyen_De_Paiement")
     public String ajouterMoyenPaiementPost(ModelMap model, HttpSession session, @RequestParam String carteBancaire) {
@@ -52,9 +52,9 @@ public class RedirectController {
             Utilisateur user = (Utilisateur) session.getAttribute("user");
             model.addAttribute("user", user);
             model.addAttribute("client", client);
-            String errorMessage = "Veuillez mettre un vrai numéro de carte bleu différent de l'ancien (si vous en aviez un)";
+            String errorMessage = "Veuillez mettre un numéro de carte valide et différent de l'ancien";
             model.addAttribute("errorMessage", errorMessage);
-            return "pageAjouterMoyenPaiement";
+            return "ajouterMoyenPaiement";
         }
         client.setCompteBancaireNum(carteBancaire);
         utilisateurService.saveClient(client);
@@ -63,7 +63,7 @@ public class RedirectController {
     }
 
     @GetMapping("/Ajouter_Produit")
-    public String ajouterProduit(ModelMap model) { return "pageAjouterProduit";}
+    public String ajouterProduit(ModelMap model) { return "ajouterProduit";}
 
     ///////AJOUTER SOLDE//////////////////////////////////////////////////
     @GetMapping("/AjouterSolde")
@@ -72,7 +72,7 @@ public class RedirectController {
         Client client = (Client) session.getAttribute("client");
         model.addAttribute("user", user);
         model.addAttribute("client", client);
-        return "pageAjouterSolde";}
+        return "ajouterSolde";}
     @PostMapping("/AjouterSolde")
     public String ajouterSoldePost(ModelMap model, HttpSession session,@RequestParam("numeroCarte") String numeroCarte,
                                    @RequestParam("montant") Double montant) {
@@ -85,19 +85,19 @@ public class RedirectController {
             String errorMessage = "Vous devez ajouter votre carte bleue sur votre profil avant de pouvoir ajouter de " +
                     "l'argent sur votre compte";
             model.addAttribute("errorMessage", errorMessage);
-            return "pageAjouterSolde";
+            return "ajouterSolde";
         }
 
         if(client.getCompteBancaireNum().equals("0000 0000 0000 0000") || numeroCarte.isEmpty()){
             String errorMessage = "Vous devez ajouter votre carte bleue sur votre profil avant de pouvoir ajouter de " +
                     "l'argent sur votre compte";
             model.addAttribute("errorMessage", errorMessage);
-            return "pageAjouterSolde";
+            return "ajouterSolde";
         }
         else if(!numeroCarte.equals(client.getCompteBancaireNum())){
             String errorMessage = "Numéro de carte bleue incorrect";
             model.addAttribute("errorMessage", errorMessage);
-            return "pageAjouterSolde";
+            return "ajouterSolde";
         }
         else {
             BigDecimal soldeAjoute = BigDecimal.valueOf(montant);
@@ -106,7 +106,7 @@ public class RedirectController {
             client.setCompteBancaireSolde(soldeApresModif);
             //TODO update la bdd avec le nouveau solde pour le client
             utilisateurService.saveClient(client);
-            return "pageProfil";
+            return "profil";
         }
     }
 
@@ -118,7 +118,7 @@ public class RedirectController {
     public String changerMotDePasse(ModelMap model, HttpSession session) {
         Client client = (Client) session.getAttribute("client");
         Utilisateur user = (Utilisateur) session.getAttribute(("user"));
-        return "pageChangerMotDePasse";}
+        return "changerMotDePasse";}
 
     @PostMapping("/Changer_Mot_De_Passe")
     public String changerMotDePassePost(RedirectAttributes redirectAttributes,
@@ -130,7 +130,7 @@ public class RedirectController {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
 
 
-        // Il est verifiée si le mot de passe est correct
+        // Il est verifié si le mot de passe est correct
         if (user.getMotDePasse().equals(oldPassword) && newPassword.trim().equals(confirmPassword.trim()))
         {
             // Le mot de passe est correct, on modifie les données de l'utilisateur
@@ -150,7 +150,7 @@ public class RedirectController {
 
     //////////////////////////////////////////////////////////////
     @GetMapping("/Confirmer_Paiement")
-    public String confirmerPaiement(ModelMap model) { return "pageConfirmerPaiement";}
+    public String confirmerPaiement(ModelMap model) { return "confirmerPaiement";}
 
     @GetMapping("/Convertir_Points")
     public String convertirPoints(ModelMap model) { return "pageConvertPoints";}
@@ -175,7 +175,7 @@ public class RedirectController {
         model.addAttribute("moderateur", moderateur);
         model.addAttribute("listeModerateurs", moderateurs);
         model.addAttribute("listeModUtilisateur", listeModUtilisateur);
-        return "pageListeModerateur";
+        return "listeModerateurs";
     }
 
     @GetMapping("/modifierDroits")
@@ -185,7 +185,7 @@ public class RedirectController {
 
         Iterable<Utilisateur> listUtilisateur = utilisateurService.getUsers();
         model.addAttribute("listUtilisateur", listUtilisateur);
-        return "pageModifierDroitsModerateur";
+        return "modifierDroitsModerateur";
     }
     @PostMapping("/modifierDroits")
     public String RecupererModifDroits(ModelMap model, HttpSession session,
@@ -212,7 +212,7 @@ public class RedirectController {
 
         Iterable<Utilisateur> listUtilisateur = utilisateurService.getUsers();
         model.addAttribute("listUtilisateur", listUtilisateur);
-        return "pageSupprimerModerateur";}
+        return "supprimerModerateur";}
 
     @PostMapping("/supprimerModerateur")
     public String supprimerModerateur(ModelMap model, HttpSession session, @RequestParam("email") String email){
@@ -238,7 +238,7 @@ public class RedirectController {
         model.addAttribute("user", user);
         model.addAttribute("client", client);
         System.out.println("Modifier_Profil -> ERROR MESSAGE : " + model.getAttribute("errorMessage"));
-        return "pageModifierProfil";}
+        return "modifierProfil";}
 
     @PostMapping("/Modifier_Profil")
     public String modifierProfilPost(RedirectAttributes redirectAttributes,
@@ -288,7 +288,7 @@ public class RedirectController {
         model.addAttribute("user", user);
         model.addAttribute("moderateur", moderateur);
         model.addAttribute("client", client);
-        return "pageProfil";
+        return "profil";
     }
 
 

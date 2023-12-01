@@ -17,21 +17,21 @@
         strong {color: #333;}
         a {text-decoration: none; color: #0077cc;}
         button {
-            width: 18%;
-            padding: 10px;
-            margin-bottom: 15px;
+            background-color: #0077cc;
+            color:#f0f0f0;
+            width: 25%;
+            height:5%;
             box-sizing: border-box;
-            border: 1px solid #ccc;
+            border: none;
             border-radius: 4px;
             font-size: 16px;
-            background-color: #f8f8f8;
-            color: #333;
             cursor: pointer;
+            transition: all 0.3s ease; /* Ajout d'une transition pour une animation plus fluide */
         }
 
         button:hover {
-            background-color: #45a049;
-            color: #fff;
+            background-color: #333;
+            transform: scale(1.05); /* Effet de zoom au survol */
         }
         .left{
             margin-left : 8%;
@@ -52,6 +52,7 @@
         <th:block th:if="${client} != null">
 
             <li><strong>Carte Bancaire :</strong> **** **** **** <span th:text="${#strings.substring(client.compteBancaireNum, 14, 19)}"></span> </li>
+            <p><a th:href="@{/Ajouter_Moyen_De_Paiement}"><button>Ajouter carte bancaire</button></a></p>
             <li><strong>Solde :</strong> <span th:text="${client.compteBancaireSolde}"></span> </li>
             <form th:action="@{/AjouterSolde}" method="get">
                 <button type="submit">Ajouter Solde</button>
@@ -66,11 +67,6 @@
             <li><strong>Droits :</strong> <div class="left" th:text="${moderateur.droits}"></div></li>
         </th:block>
     </ul>
-
-        <th:block th:if="${client} != null">
-        <!-- Cast to Client if the user is a Client -->
-        <p><a th:href="@{/Ajouter_Moyen_De_Paiement}"><button>Ajouter carte bancaire</button></a></p>
-    </th:block>
     <p><a th:href="@{/Modifier_Profil}">Modifier le profil</a></p>
     <p><a th:href="@{/Changer_Mot_De_Passe}">Changer mot de passe</a></p>
     <p><a th:href="@{/Deconnexion}">Deconnexion</a></p>

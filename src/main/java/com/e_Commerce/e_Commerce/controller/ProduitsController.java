@@ -3,15 +3,11 @@ package com.e_Commerce.e_Commerce.controller;
 
 import com.e_Commerce.e_Commerce.model.entity.*;
 import com.e_Commerce.e_Commerce.service.ProduitsService;
-import com.e_Commerce.e_Commerce.service.UtilisateurService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
-import java.util.Optional;
 
 
 @Controller
@@ -38,7 +34,7 @@ public class ProduitsController {
         }
         Produit product = produitsService.getProductById(id);
         model.addAttribute("produit", product);
-        return "pageProduit";
+        return "produit";
     }
 
     @PostMapping("/Produit/{id}")
@@ -83,12 +79,12 @@ public class ProduitsController {
         }
         Iterable<Produit> products = produitsService.getProduct();
         model.addAttribute("produits", products);
-        return "pageProduits";
+        return "produits";
     }
 
     @GetMapping("/ajouterProduit")
     public String afficherAjouterProduit(ModelMap model, HttpSession session) {
-        return "pageAjouterProduit";
+        return "ajouterProduit";
     }
 
     @PostMapping("/ajouterProduit")
@@ -104,7 +100,7 @@ public class ProduitsController {
     public String modifierProduit(ModelMap model, HttpSession session, @PathVariable Integer id) {
         Produit product = produitsService.getProductById(id);
         model.addAttribute("produit", product);
-        return "pageModifierProduit";
+        return "modifierProduit";
     }
     @PostMapping("/Modifier_Produit/{id}")
     public String modifierProduitPost(ModelMap model,

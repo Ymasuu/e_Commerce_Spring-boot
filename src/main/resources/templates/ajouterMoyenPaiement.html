@@ -133,8 +133,8 @@
 <body>
 <header th:insert="~{header.html :: header}"> </header>
 <div class="container">
-    <h3 th:if="${errorMessage != null}" th:text="${errorMessage}" style="color: red"></h3>
     <h1>Ajouter Moyen de Paiement</h1>
+    <div th:if="${errorMessage != null}" class="error" style="color: red; text-align: center" th:text="${errorMessage}"></div>
     <form th:action="@{/Ajouter_Moyen_De_Paiement}" method="post" onsubmit="return validerCarteBancaire();">
         <label for="carteBancaire">Code de la Carte Bancaire :</label>
         <input type="text" id="carteBancaire" name="carteBancaire" th:required placeholder="Exemple : **** **** **** ****"><br>

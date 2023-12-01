@@ -23,7 +23,7 @@ public class ConnexionController {
     private UtilisateurService utilisateurService;
 
     @GetMapping("/Connexion")
-    public String connexion(ModelMap model) { return "pageConnexion";}
+    public String connexion(ModelMap model) { return "connexion";}
 
     @PostMapping("/Connexion")
     public String processLogin(@RequestParam String email, @RequestParam String motDePasse, ModelMap model, HttpSession session) {
@@ -56,7 +56,7 @@ public class ConnexionController {
         } else {
             // Échec de la connexion, renvoyez l'utilisateur à la page de connexion avec un message d'erreur
             model.addAttribute("errorMessage", "Identifiants incorrects");
-            return "pageConnexion";
+            return "connexion";
         }
     }
 

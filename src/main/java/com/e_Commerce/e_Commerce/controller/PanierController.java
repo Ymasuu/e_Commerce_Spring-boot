@@ -35,7 +35,7 @@ public class PanierController {
     @GetMapping("/Panier")
     public String panier(ModelMap model) {
         model.addAttribute("produits", produitsService.getProduct());
-        return "pagePanier";
+        return "panier";
     }
 
     @PostMapping("/Panier")
@@ -50,7 +50,7 @@ public class PanierController {
                 //Aucun produit a été ajoutée pour acheter et payer
                 Boolean panierVide = true;
                 //session.setAttribute("panierVide",panierVide);
-                return "pagePanier";
+                return "panier";
                 //request.getRequestDispatcher("/WEB-INF/panier.jsp").forward(request, response);
             }
             //TODO Le paiement et la commande sont faits!
@@ -60,7 +60,7 @@ public class PanierController {
                 commandeService.saveCommande(commande);
                 commande.getPanier().clear();
                 session.setAttribute("panier",commande);
-                return "pageConfirmerPaiement";
+                return "confirmerPaiement";
                 //request.getRequestDispatcher("/WEB-INF/pageConfirmerPayement.jsp").forward(request, response);
             }
         }
