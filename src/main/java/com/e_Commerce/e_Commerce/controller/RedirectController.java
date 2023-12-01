@@ -173,9 +173,8 @@ public class RedirectController {
                 return "redirect:/Convertir_Points";
             } else {
                 // Logique de conversion des points en solde (exemple : 1 point = 1 euro)
-                BigDecimal montantSolde = BigDecimal.valueOf(quantite);
-                BigDecimal soldeActuel = client.getCompteBancaireSolde();
-                BigDecimal soldeApresModif = soldeActuel.add(montantSolde);
+                float soldeActuel = client.getCompteBancaireSolde();
+                float soldeApresModif = soldeActuel + quantite;
                 client.setCompteBancaireSolde(soldeApresModif);
 
                 int pointsApresModif = client.getPoints() - quantite;
@@ -184,7 +183,7 @@ public class RedirectController {
                 client = utilisateurService.saveClient(client);
 
                 // Rediriger vers la page de profil avec un message de succès
-                redirectAttributes.addFlashAttribute("successMessage", "Conversion réussie. Montant ajouté au solde : " + montantSolde);
+                redirectAttributes.addFlashAttribute("successMessage", "Conversion réussie. Montant ajouté au solde : " + quantite);
                 return "redirect:/Profil";
             }
         } else if ("annuler".equals(action)) {
