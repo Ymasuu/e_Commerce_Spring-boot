@@ -17,7 +17,7 @@ public class Client implements Serializable {
     private String compteBancaireNum;
     @Basic
     @Column(name = "compte_bancaire_solde")
-    private BigDecimal compteBancaireSolde;
+    private Float compteBancaireSolde;
     @Basic
     @Column(name = "points")
     private Integer points;
@@ -25,7 +25,7 @@ public class Client implements Serializable {
     public Client(int idClient) {
         this.idClient = idClient;
         this.compteBancaireNum = "0000 0000 0000 0000";
-        this.compteBancaireSolde = BigDecimal.valueOf(0);
+        this.compteBancaireSolde = (float) 0;
         this.points = 0;
     }
 
@@ -49,11 +49,11 @@ public class Client implements Serializable {
         this.compteBancaireNum = compteBancaireNum;
     }
 
-    public BigDecimal getCompteBancaireSolde() {
+    public Float getCompteBancaireSolde() {
         return compteBancaireSolde;
     }
 
-    public void setCompteBancaireSolde(BigDecimal compteBancaireSolde) {
+    public void setCompteBancaireSolde(float compteBancaireSolde) {
         this.compteBancaireSolde = compteBancaireSolde;
     }
 

@@ -43,28 +43,6 @@ public class PanierController {
          @RequestParam String action, @RequestParam (required = false) Integer produitId, @RequestParam (required = false) Integer produitQuantite) {
         Commande commande = (Commande) session.getAttribute("panier");
         Client client = (Client) session.getAttribute("client");
-        //TODO paiement
-        if(action.equals("payer")){
-
-            if (commande.getPanier().isEmpty()) {
-                //Aucun produit a été ajoutée pour acheter et payer
-                Boolean panierVide = true;
-                //session.setAttribute("panierVide",panierVide);
-                return "panier";
-                //request.getRequestDispatcher("/WEB-INF/panier.jsp").forward(request, response);
-            }
-            //TODO Le paiement et la commande sont faits!
-            //On ajoute dans la bdd la commande et on supprime la commande actuelle de la session
-            //Il est verifiée que le prix du panier est égal ou inférieur au solde du client
-            if (BigDecimal.valueOf(commande.getPrix()).compareTo(client.getCompteBancaireSolde()) <= 0) {
-                commandeService.saveCommande(commande);
-                commande.getPanier().clear();
-                session.setAttribute("panier",commande);
-                return "confirmerPaiement";
-                //request.getRequestDispatcher("/WEB-INF/pageConfirmerPayement.jsp").forward(request, response);
-            }
-        }
-
         if (action.equals("vider")){
             //Client client = (Client) session.getAttribute("client");
             Commande panierVide = new Commande(client.getIdClient(), 0);
@@ -87,15 +65,44 @@ public class PanierController {
                         newPanier.setPrix(newPanier.getPrix() - (p.getPrix() * p.getStock()));
                         p.setStock(produitQuantite);
                         newPanier.setPrix(newPanier.getPrix() + (p.getPrix() * p.getStock()));
+                        newPanier.majNbrProduit();
                         session.setAttribute("panier", newPanier);
                         break;
                     }
                 }
             }else{ // action.equals("payer")
-                System.out.println("YO renato c'est ici que ça se passe apres avoir appuyé sur le bouton 'payer' ");
+                //TODO Le paiement et la commande sont faits!
+                //On ajoute dans la bdd la commande et on supprime la commande actuelle de la session
+                if (commande.getPrix() <= client.getCompteBancaireSolde()) { // le client a les moyens de payer
+                    System.out.println("test panierController");
+/*                    commandeService.saveCommande(commande);
+                    session.setAttribute("panier",new Commande(client.getIdClient(), 0));*/
+                    return "redirect:/Confirmer_Paiement";
+                }
             }
         }
         return "redirect:/Panier";
+    }
+
+    @GetMapping("/Confirmer_Paiement")
+    public String confirmerPaiement(ModelMap model) {
+        return "confirmerPaiement";
+    }
+
+    @PostMapping("/Confirmer_Paiement")
+    public String confirmerPaiementPost(ModelMap model, HttpSession session, @RequestParam String numeroCarte){
+        System.out.println("test confirmer paiement");
+        Client client = (Client) session.getAttribute("client");
+        if (numeroCarte.equals(client.getCompteBancaireNum())){
+            Commande commande = (Commande) session.getAttribute("panier");
+            commandeService.saveCommande(commande);
+            // TODO ajouter les tables Commande_Produit pour chaque produit du panier
+//            session.setAttribute("panier",new Commande(client.getIdClient(), 0));
+            return "redirect:/Produits";
+        }
+        model.addAttribute("errorMessage", "Le numero de carte est incorrect");
+        return "confirmerPaiement";
+
     }
 
 /*    @ModelAttribute("stockProduit")

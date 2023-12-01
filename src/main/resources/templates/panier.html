@@ -108,8 +108,8 @@
                 <td th:text="${produit.prix * produit.stock} + ' €'"></td>
                 <td>
                     <input type="hidden" name="produitId" th:value="${produit.idProduit}">
-                    <button type="submit" name="action" value="supprimer">Supprimer</button>
-                    <button type="submit" name="action" value="modifier">Modifier</button>
+                    <button type="submit" name="action" value="modifier">Modifier la quantité</button>
+                    <button type="submit" name="action" value="supprimer">Supprimer le produit</button>
                 </td>
         </form>
     </tr>
@@ -118,12 +118,10 @@
 
 <p>Montant total : <span th:text="${session.panier.prix} + ' €'"></span></p>
 <div class="button-container">
-    <form action="" method="post">
+    <form action="" method="post" th:if="${session.panier.nbrProduit > 0}">
         <button type="submit" name="action" value="vider">Vider le panier</button>
         <button type="submit" name="action" value="payer">Payer</button>
     </form>
-
-
     <h3 th:if="${session.panier.nbrProduit == 0}" style="color: red;">Ajoutez des produits pour les acheter!</h3>
 </div>
 </body>

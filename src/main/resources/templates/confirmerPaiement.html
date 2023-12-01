@@ -4,19 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Confirmer le Paiement</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
-        }
-        .header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
         }
         .title {
             color: #333;
@@ -70,6 +65,7 @@
     </script>
 </head>
 <body>
+<header th:insert="~{header.html :: header}"></header>
 <div class="header">
 
 </div>
@@ -81,10 +77,10 @@
 <div class="container">
     <div class="content">
         <!-- Thymeleaf syntax for conditionally displaying card information -->
-        <p class="text-center" th:if="${carteBancaireNum != null and carteBancaireNum ne '0000 0000 0000 0000'}">
-            <strong>Carte Bancaire :</strong> **** **** **** <span th:text="${#strings.substring(carteBancaireNum, -4)}"></span>
+        <p class="text-center" th:if="${session.client.compteBancaireNum != null and session.client.compteBancaireNum ne '0000 0000 0000 0000'}">
+            <strong>Carte Bancaire :</strong> **** **** **** <span th:text="${#strings.substring(session.client.compteBancaireNum, 14, 19)}"></span>
         </p>
-        <form action="ServletPayerCommande" method="post" onsubmit="return formatCarteBancaire()">
+        <form action="" method="post" onsubmit="return formatCarteBancaire()">
             <div class="form-group">
                 <label for="numeroCarte">Confirmez votre carte bancaire :</label>
                 <input type="text" class="form-control" id="numeroCarte" name="numeroCarte" required pattern="[0-9 ]+">

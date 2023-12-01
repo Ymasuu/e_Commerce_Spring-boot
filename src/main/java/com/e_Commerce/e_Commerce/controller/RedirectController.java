@@ -100,11 +100,9 @@ public class RedirectController {
             return "ajouterSolde";
         }
         else {
-            BigDecimal soldeAjoute = BigDecimal.valueOf(montant);
-            BigDecimal soldeActuel = client.getCompteBancaireSolde();
-            BigDecimal soldeApresModif = soldeActuel.add(soldeAjoute);
+            float soldeActuel = client.getCompteBancaireSolde();
+            float soldeApresModif = (float) (soldeActuel + montant);
             client.setCompteBancaireSolde(soldeApresModif);
-            //TODO update la bdd avec le nouveau solde pour le client
             utilisateurService.saveClient(client);
             return "profil";
         }
@@ -148,9 +146,6 @@ public class RedirectController {
         }
     }
 
-    //////////////////////////////////////////////////////////////
-    @GetMapping("/Confirmer_Paiement")
-    public String confirmerPaiement(ModelMap model) { return "confirmerPaiement";}
 
     @GetMapping("/Convertir_Points")
     public String convertirPoints(ModelMap model) { return "pageConvertPoints";}
