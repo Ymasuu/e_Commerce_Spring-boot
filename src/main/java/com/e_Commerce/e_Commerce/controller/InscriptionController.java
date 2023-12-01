@@ -48,7 +48,8 @@ public class InscriptionController {
             return "redirect:/Produits";
         } else {
             // Il y a des erreurs, les afficher dans le modèle
-            model.addAttribute("erreurs", "Cet utilisateur existe déjà");
+            String errorMessage = "Cet utilisateur existe déjà";
+            model.addAttribute("errorMessage", errorMessage);
             return "pageInscription";
         }
     }
@@ -72,7 +73,8 @@ public class InscriptionController {
             return "redirect:/Produits";
 
         } else {
-            model.addAttribute("erreurs", "Cet adresse mail est déjà utilisée");
+            String errorMessage = "Cette adresse mail est déjà utilisée";
+            model.addAttribute("errorMessage", errorMessage);
             return "pageAjouterModerateur";
         }
     }
