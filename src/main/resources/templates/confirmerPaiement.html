@@ -1,26 +1,17 @@
-<%@ page import="javax.naming.ldap.Control" %>
-<%@ page import="com.e_Commerce.e_Commerce.model.entity.Client" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Confirmer le Paiement</title>
-    <link rel="icon" href="../logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../logo/logo.png" type="image/x-icon">
-    <!-- Bootstrap CSS CDN -->
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
-        }
-        .header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
         }
         .title {
             color: #333;
@@ -55,18 +46,18 @@
             margin-top: 10px;
         }
     </style>
-    <script>
+    <script th:inline="javascript">
+
         function formatCarteBancaire() {
             var numeroCarte = document.getElementById("numeroCarte");
             var regex = /^[0-9 ]+$/;
 
-            // Retirer les espaces de la saisie de l'utilisateur
+
             var numeroCarteSansEspaces = numeroCarte.value.replace(/ /g, '');
 
-            // Formater le numéro de carte bancaire avec des espaces tous les 4 caractères
+
             var numeroCarteFormatee = numeroCarteSansEspaces.replace(/(.{4})/g, '$1 ');
 
-            // Mettre à jour la valeur dans le champ
             document.getElementById("numeroCarte").value = numeroCarteFormatee.trim();
 
             return true;
@@ -74,30 +65,22 @@
     </script>
 </head>
 <body>
-<%
-    String errorMessage = (String) request.getAttribute("errorMessage");
-    String carteBancaireNum = (String) Controller.getInstanceController().requestGetClient().getCompteBancaireNum();
-%>
+<header th:insert="~{header.html :: header}"></header>
 <div class="header">
-    <%@ include file="header.jsp" %>
+
 </div>
 <div class="title">
     <h1>Confirmer le Paiement</h1>
 </div>
-<% if(errorMessage != null){ %>
-<p class="error" style="color : red;text-align : center"><%= errorMessage %></p>
-<% } %>
+
+<p class="error" style="color : red;text-align : center" th:if="${errorMessage != null}" th:text="${errorMessage}"></p>
 <div class="container">
     <div class="content">
-        <%
-            if (carteBancaireNum != null && !carteBancaireNum.equals("0000 0000 0000 0000")) {
-                String lastFourDigits = carteBancaireNum.substring(carteBancaireNum.length() - 4);
-        %>
-        <p class="text-center"><strong>Carte Bancaire :</strong> **** **** **** <%= lastFourDigits %> </p>
-        <%
-            }
-        %>
-        <form action="ServletPayerCommande" method="post" onsubmit="return formatCarteBancaire()">
+        <!-- Thymeleaf syntax for conditionally displaying card information -->
+        <p class="text-center" th:if="${session.client.compteBancaireNum != null and session.client.compteBancaireNum ne '0000 0000 0000 0000'}">
+            <strong>Carte Bancaire :</strong> **** **** **** <span th:text="${#strings.substring(session.client.compteBancaireNum, 14, 19)}"></span>
+        </p>
+        <form action="" method="post" onsubmit="return formatCarteBancaire()">
             <div class="form-group">
                 <label for="numeroCarte">Confirmez votre carte bancaire :</label>
                 <input type="text" class="form-control" id="numeroCarte" name="numeroCarte" required pattern="[0-9 ]+">
@@ -106,7 +89,7 @@
         </form>
     </div>
 </div>
-<!-- Bootstrap JS and Popper.js CDN -->
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

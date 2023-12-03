@@ -1,18 +1,16 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.lang.String" %>
-<%
+<!--<%
     String errorMessage = (String) request.getAttribute("errorMessage");
-%>
-<!DOCTYPE html>
+%>-->
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page de Connexion</title>
-    <link rel="icon" href="../logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="../../webapp/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../webapp/logo/logo.png" type="image/x-icon">
     <!-- Bootstrap CSS CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,7 +58,7 @@
             color: red;
             text-align: center;
             margin-top: 10px;
-            display: <%=(errorMessage != null && !errorMessage.isEmpty()) ? "block" : "none"%>;
+/*            display: <%=(errorMessage != null && !errorMessage.isEmpty()) ? "block" : "none"%>;*/
         }
         a {
             color: #333;
@@ -75,9 +73,7 @@
     </style>
 </head>
 <body>
-<div class="header">
-    <%@ include file="header.jsp" %>
-</div>
+<header th:insert="~{header.html :: header}"> </header>
 <h1 class="display-4">Connexion</h1>
 <div class="container">
     <form action="" method="post">
@@ -91,9 +87,9 @@
         </div>
         <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
     </form>
-    <p class="error"><%= errorMessage %></p>
+    <p class="error" th:text="${errorMessage}"></p>
 </div>
-<p style="text-align: center;">Pas encore de compte ? <a href="">Inscrivez-vous ici</a></p>
+<p style="text-align: center;">Pas encore de compte ? <a th:href="@{/Inscription}">Inscrivez-vous ici</a></p>
 <div class="footer">
     <p>&copy; 2023 LE NIL+. Tous droits réservés.</p>
 </div>

@@ -1,11 +1,11 @@
 package com.e_Commerce.e_Commerce.model.entity;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Moderateur")
-public class Moderateur {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Moderateur implements Serializable {
     @Id
     @Column(name = "id_moderateur")
     private int idModerateur;
@@ -13,6 +13,10 @@ public class Moderateur {
     @Column(name = "droits")
     private String droits;
 
+
+    public Moderateur(){
+        this.droits="000";
+    }
     public int getIdModerateur() {
         return idModerateur;
     }

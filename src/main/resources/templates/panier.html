@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Panier</title>
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            padding: 20px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+        form {
+            display: inline-block;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        p {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .payment-form {
+            display: none;
+        }
+        .hidden {
+            display: none;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .button-container button {
+            background-color: #333;
+        }
+        .button-container button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+<header th:insert="~{header.html :: header}"></header>
+<h1>Panier</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Produit</th>
+        <th>Prix unitaire</th>
+        <th>Quantité</th>
+        <th>Prix total</th>
+        <th>Action </th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Thymeleaf iteration over the panier -->
+    <tr th:each="produit : ${session.panier.panier}">
+        <form action="" method="post">
+                <td>
+                    <span th:text="${produit.nom}"></span><br>
+                    <img th:src="'imagesProduct/' + ${produit.idProduit} + '.jpeg'" alt="" th:alt="${produit.nom}" width="100">
+                </td>
+                <td th:text="${produit.prix} + ' €'"></td>
+                <td>
+                    <label>
+                        <!-- Utilisation du stock du produit provenant de la liste produits -->
+<!--                        <input type="number" name="produitQuantite" min="1" th:max="${stockProduit.stock}" th:value="${produit.stock}">-->
+                        <input type="number" name="produitQuantite" min="1" th:value="${produit.stock}">
+                    </label>
+                </td>
+                <td th:text="${produit.prix * produit.stock} + ' €'"></td>
+                <td>
+                    <input type="hidden" name="produitId" th:value="${produit.idProduit}">
+                    <button type="submit" name="action" value="modifier">Modifier la quantité</button>
+                    <button type="submit" name="action" value="supprimer">Supprimer le produit</button>
+                </td>
+        </form>
+    </tr>
+    </tbody>
+</table>
+
+<p>Montant total : <span th:text="${session.panier.prix} + ' €'"></span></p>
+<div class="button-container">
+    <form action="" method="post" th:if="${session.panier.nbrProduit > 0}">
+        <button type="submit" name="action" value="vider">Vider le panier</button>
+        <button type="submit" name="action" value="payer">Payer</button>
+    </form>
+    <h3 th:if="${session.panier.nbrProduit == 0}" style="color: red;">Ajoutez des produits pour les acheter!</h3>
+</div>
+<p class="error" style="color : red;text-align : center" th:if="${errorMessage != null}" th:text="${errorMessage}"></p>
+</body>
+</html>

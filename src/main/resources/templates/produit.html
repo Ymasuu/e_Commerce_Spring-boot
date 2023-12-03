@@ -1,0 +1,84 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Page Produit</title>
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            padding: 10px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .product-details {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+<header th:insert="~{header.html :: header}"> </header>
+<h1>Détails du Produit</h1>
+<div class="container">
+    <div class="product-details">
+        <img th:src="@{/imagesProduct/{id}.jpeg(id=${produit.idProduit})}" th:alt="${produit.nom}" class="product-image">
+        <ul>
+            <li><strong>Nom du Produit:</strong> <span th:text="${produit.nom}"/> </li>
+            <li><strong>Description:</strong> <span th:text="${produit.description}"/> </li>
+            <li><strong>Prix:</strong> <span th:text="${produit.prix}"/> €</li>
+            <li><strong>Stock Disponible:</strong> <span th:text="${produit.stock}"/> unités</li>
+        </ul>
+        <div th:if="${(user != null and user.typeDeCompte == 'Admin') or (moderateur != null and moderateur.droits[1] == '1' )}">
+
+            <a th:href="@{/Modifier_Produit/{id}(id=${produit.idProduit})}"><button>modifier</button></a> <br><br>
+            <form action="" method="post">
+                <input type="hidden" name="produitId" th:value="${produit.idProduit}">
+                <input type="submit" name="action" value="supprimer">
+            </form>
+        </div>
+        <div th:if="${user != null and user.typeDeCompte == 'Client'}" >
+            <form action="" method="Post">
+            <input type="hidden" name="produitId" th:value="${produit.idProduit}">
+            <label for="produitQuantite"><strong> Quantité : </strong> </label>
+            <input type="number" id="produitQuantite" name="produitQuantite" min="1" th:max="${produit.stock}" value="1"> <br><br>
+            <input type="submit" name="action" value="ajouter">
+            </form>
+        </div>
+    </div>
+</div>
+<p th:if="${suppression != null and suppresion}" class="success"> Le moderateur a été supprimé </p>
+</body>
+</html>

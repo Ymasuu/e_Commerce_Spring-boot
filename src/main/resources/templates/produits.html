@@ -1,17 +1,13 @@
-<jsp:useBean id="produit" scope="request" type="com.e_Commerce.e_Commerce.model.entity.Produit"/>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.e_Commerce.e_Commerce.model.entity.*" %>
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste des Produits</title>
-    <link rel="icon" href="../logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
     <!-- Bootstrap CSS CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/header.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -71,16 +67,19 @@
     </style>
 </head>
 <body>
-<div class="header" th:replace="header :: header"></div>
+<header th:insert="~{header.html :: header}"> </header>
 <h1 class="display-4">Liste des Produits</h1>
 <div class="container">
-    <div th:each="produit : ${listeProduits}" class="produit">
-        <a th:href="@{/produit/{id}(id=${produit.idProduit})}">
-            <img th:src="@{/imagesProduct/{id}.jpeg(id=${produit.idProduit})}" alt="Nom du produit" width="100" class="img-fluid">
-        </a>
-        <h2 th:text="${produit.nom}"></h2>
-        <p th:text="${produit.prix + ' €'}"></p>
-        <!-- Ajoutez des fonctionnalités Thymeleaf pour l'ajout au panier -->
+
+    <div th:each="produit : ${produits}">
+        <div class="produit">
+            <a th:href="@{/Produit/{id}(id=${produit.idProduit})}">
+                <!-- Ajoutez le code pour afficher les détails du produit -->
+                <img th:src="@{/imagesProduct/{id}.jpeg(id=${produit.idProduit})}" th:alt="${produit.nom}" width="100" class="img-fluid">
+            </a>
+            <h2 th:text="${produit.nom}"> Nom</h2>
+            <p> Prix : <span th:text="${produit.prix}"> </span> €</p>
+        </div>
     </div>
 </div>
 <div class="footer">

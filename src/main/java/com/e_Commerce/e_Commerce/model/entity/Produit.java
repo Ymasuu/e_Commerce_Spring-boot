@@ -2,11 +2,12 @@ package com.e_Commerce.e_Commerce.model.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "Produit")
-public class Produit {
+public class Produit implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_produit")
@@ -16,7 +17,7 @@ public class Produit {
     private String nom;
     @Basic
     @Column(name = "prix")
-    private BigDecimal prix;
+    private Float prix;
     @Basic
     @Column(name = "description")
     private String description;
@@ -24,6 +25,16 @@ public class Produit {
     @Column(name = "stock")
     private Integer stock;
 
+    public Produit(String nom, float prix, String description, Integer stock){
+        this.nom = nom;
+        this.prix = prix;
+        this.description = description;
+        this.stock = stock;
+    }
+
+    public Produit(){
+
+    }
     public int getIdProduit() {
         return idProduit;
     }
@@ -40,11 +51,11 @@ public class Produit {
         this.nom = nom;
     }
 
-    public BigDecimal getPrix() {
+    public float getPrix() {
         return prix;
     }
 
-    public void setPrix(BigDecimal prix) {
+    public void setPrix(float prix) {
         this.prix = prix;
     }
 

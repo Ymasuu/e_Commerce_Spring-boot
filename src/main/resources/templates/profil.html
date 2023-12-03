@@ -1,0 +1,76 @@
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil de l'Utilisateur</title>
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {font-family: Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 0;}
+        .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);}
+        h1 {color: #333;}
+        h2 {color: #555;}
+        ul {list-style-type: none; padding: 0;}
+        li {margin: 10px 0;}
+        strong {color: #333;}
+        a {text-decoration: none; color: #0077cc;}
+        button {
+            background-color: #0077cc;
+            color:#f0f0f0;
+            width: 25%;
+            height:5%;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease; /* Ajout d'une transition pour une animation plus fluide */
+        }
+
+        button:hover {
+            background-color: #333;
+            transform: scale(1.05); /* Effet de zoom au survol */
+        }
+        .left{
+            margin-left : 8%;
+        }
+    </style>
+</head>
+<body>
+<header th:insert="~{header.html :: header}"> </header>
+<div class="container">
+    <h1 th:text="'Profil ' + ${user.typeDeCompte}"></h1>
+    <p style="color: #0077cc;" th:text="'Bienvenue, ' + ${user.prenom} + ' !'"></p>
+
+    <h2> Informations de Profil </h2>
+    <div th:if="${successMessage != null}" class="success" style="color: red; text-align: center" th:text="${successMessage}"></div>
+    <ul>
+        <li><strong>Nom :</strong> <span th:text="${user.nom}"></span> </li>
+        <li><strong>Prenom :</strong> <span th:text="${user.prenom}"></span> </li>
+        <li><strong>Email :</strong> <span th:text="${user.mail}"></span> </li>
+        <th:block th:if="${client} != null">
+
+            <li><strong>Carte Bancaire :</strong> **** **** **** <span th:text="${#strings.substring(client.compteBancaireNum, 14, 19)}"></span> </li>
+            <p><a th:href="@{/Ajouter_Moyen_De_Paiement}"><button>Ajouter carte bancaire</button></a></p>
+            <li><strong>Solde :</strong> <span th:text="${client.compteBancaireSolde}"></span> </li>
+            <form th:action="@{/AjouterSolde}" method="get">
+                <button type="submit">Ajouter Solde</button>
+            </form>
+            <li><strong>Points de fidélité :</strong> <span th:text="${client.points}"></span> </li>
+            <form th:action="@{Convertir_Points}" method="get">
+                <button type="submit">Convertir les points</button>
+            </form>
+        </th:block>
+        <th:block th:if="${moderateur} != null">
+            <!-- Cast to Moderateur if the user is a Moderateur -->
+            <li><strong>Droits :</strong> <div class="left" th:text="${moderateur.droits}"></div></li>
+        </th:block>
+    </ul>
+    <p><a th:href="@{/Modifier_Profil}">Modifier le profil</a></p>
+    <p><a th:href="@{/Changer_Mot_De_Passe}">Changer mot de passe</a></p>
+    <p><a th:href="@{/Deconnexion}">Deconnexion</a></p>
+</div>
+</body>
+</html>

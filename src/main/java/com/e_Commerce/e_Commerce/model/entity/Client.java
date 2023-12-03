@@ -2,12 +2,13 @@ package com.e_Commerce.e_Commerce.model.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Client")
-public class Client {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Client implements Serializable {
     @Id
     @Column(name = "id_client")
     private int idClient;
@@ -16,10 +17,21 @@ public class Client {
     private String compteBancaireNum;
     @Basic
     @Column(name = "compte_bancaire_solde")
-    private BigDecimal compteBancaireSolde;
+    private Float compteBancaireSolde;
     @Basic
     @Column(name = "points")
     private Integer points;
+
+    public Client(int idClient) {
+        this.idClient = idClient;
+        this.compteBancaireNum = "0000 0000 0000 0000";
+        this.compteBancaireSolde = (float) 0;
+        this.points = 0;
+    }
+
+    public Client() {
+
+    }
 
     public int getIdClient() {
         return idClient;
@@ -37,11 +49,11 @@ public class Client {
         this.compteBancaireNum = compteBancaireNum;
     }
 
-    public BigDecimal getCompteBancaireSolde() {
+    public Float getCompteBancaireSolde() {
         return compteBancaireSolde;
     }
 
-    public void setCompteBancaireSolde(BigDecimal compteBancaireSolde) {
+    public void setCompteBancaireSolde(float compteBancaireSolde) {
         this.compteBancaireSolde = compteBancaireSolde;
     }
 
@@ -61,20 +73,18 @@ public class Client {
         Client client = (Client) o;
 
         if (idClient != client.idClient) return false;
-        if (compteBancaireNum != null ? !compteBancaireNum.equals(client.compteBancaireNum) : client.compteBancaireNum != null)
+        if (!Objects.equals(compteBancaireNum, client.compteBancaireNum))
             return false;
-        if (compteBancaireSolde != null ? !compteBancaireSolde.equals(client.compteBancaireSolde) : client.compteBancaireSolde != null)
+        if (!Objects.equals(compteBancaireSolde, client.compteBancaireSolde))
             return false;
-        if (points != null ? !points.equals(client.points) : client.points != null) return false;
-
-        return true;
+        return Objects.equals(points, client.points);
     }
 
     @Override
     public int hashCode() {
         int result = idClient;
         result = 31 * result + (compteBancaireNum != null ? compteBancaireNum.hashCode() : 0);
-        result = 31 * result + (compteBancaireSolde != null ? compteBancaireSolde.hashCode() : 0);
+        //result = 31 * result + (compteBancaireSolde != null ? compteBancaireSolde : 0);
         result = 31 * result + (points != null ? points.hashCode() : 0);
         return result;
     }

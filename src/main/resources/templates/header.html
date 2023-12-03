@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>header</title>
+</head>
+
+<body>
+<header>
+    <nav class="header-nav">
+        <ul>
+            <li>
+                <a th:href="@{/Produits}">
+                    <img src="/logo/logo.png" alt="Logo Azur Shop" width="50px" style="margin-right: 10px;">
+                    <span style="color: #fff; font-size: 24px; font-weight: bold;">Azur Shop</span>
+                </a>
+            </li>
+            <li th:if="${session.user eq null}">
+                <a th:href="@{/Connexion}" class="se-connecter">
+                    <img src="/logo/logIn.png" alt="Logo Log In" width="35px" style="margin-right: 10px;">
+                    <span style="color: #fff; font-size: 16px; font-weight: bold;">Se Connecter</span>
+                </a>
+            </li>
+            <li th:if="${session.user ne null}">
+                <a th:href="@{/Profil}" class="se-connecter">
+                    <img src="/logo/profil.png" alt="Logo Profil" width="35px" style="margin-right: 10px;">
+                    <span style="color: #fff; font-size: 16px; font-weight: bold;">Mon Compte</span>
+                </a>
+            </li>
+            <li th:if="${session.user ne null and session.user.typeDeCompte eq 'Client'}">
+                <a th:href="@{/Panier}" class="se-connecter">
+                    <img src="/logo/panier.png" alt="Logo Panier" width="40px" style="margin-right: 10px;">
+                    <span style="color: #fff; font-size: 16px; font-weight: bold;" th:text="${session.panier.nbrProduit}"></span>
+                </a>
+            </li>
+            <li th:if="${session.user ne null and (session.user.typeDeCompte eq 'Moderateur' or session.user.typeDeCompte eq 'Admin')}">
+                <a th:href="@{/Liste_Moderateurs}" class="se-connecter">
+                    <img src="/logo/moderator.png" alt="Logo Moderator" width="35px" style="margin-right: 10px;">
+                    <span style="color: #fff; font-size: 16px; font-weight: bold;">Gerer Moderateur</span>
+                </a>
+            </li>
+            <li th:if="${((session.user ne null) and session.user.typeDeCompte eq 'Admin') or (session.moderateur ne null and session.moderateur.droits.charAt(0) eq '1')}">
+                <a th:href="@{/Ajouter_Produit}" class="se-connecter">
+                    <img src="/logo/addProduct.png" alt="Logo Add Product" width="35px" style="margin-right: 10px;">
+                    <span style="color: #fff; font-size: 16px; font-weight: bold;">Ajouter Produit</span>
+                </a>
+            </li>
+            <li th:if="${session.user ne null}">
+                <a th:href="@{/Deconnexion}" class="se-connecter">
+                    <img src="/logo/logOut.png" alt="Logo Log Out" width="35px" style="margin-right: 10px;">
+                    <span style="color: #fff; font-size: 16px; font-weight: bold;">Se Deconnecter</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+</body>
+</html>

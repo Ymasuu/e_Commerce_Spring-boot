@@ -1,11 +1,12 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Inscription</title>
-    <link rel="icon" href="../logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../logo/logo.png" type="image/x-icon">
+    <title>Suppression modérateurs</title>
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -87,36 +88,24 @@
             }
         }
     </script>
+    <!-- Vos styles et scripts ici -->
 </head>
 <body>
-<div class="header">
-    <%@ include file="header.jsp" %>
-</div>
-<h1>Suppression moderateurs</h1>
-<form action="ServletDeleteModerateur" method="post" class="supp">
-    <label for="email" style="text-align: center">Veuillez renseigner l'Adresse email du moderateur que vous voulez supprimer :</label>
+<header th:insert="~{header.html :: header}"></header>
+<h1>Suppression modérateurs</h1>
+<form action="/supprimerModerateur" method="post" class="supp">
+    <label for="email" style="text-align: center">Veuillez renseigner l'Adresse email du modérateur que vous voulez supprimer :</label>
     <select id="email" name="email" required style="text-align: center">
         <option value="" selected disabled hidden>Veuillez choisir un modérateur</option>
-<%
-    List<Utilisateur> listUtilisateur = UtilisateurDAO.getListUtilisateurs();
-    for (Utilisateur user : listUtilisateur){
-        if (user.getTypeDeCompte().equals("Moderateur")){
-%>
-        <option value="<%= user.getMail() %>"><%= user.getMail()%></option>
-<%
-        }
-    }
-%>
+        <!-- Utilisation de Thymeleaf pour itérer sur la liste d'utilisateurs -->
+        <th:block th:each="user : ${listUtilisateur}">
+            <!-- Utilisation de Thymeleaf pour ajouter une condition if -->
+            <option th:if="${user.typeDeCompte == 'Moderateur'}" th:value="${user.mail}" th:text="${user.mail}"></option>
+        </th:block>
     </select><br><br>
     <input type="submit" value="Supprimer" style="justify-content: center">
 </form>
-<%
-    Boolean suppression = (Boolean) request.getAttribute("suppression");
-    if (suppression != null && suppression) {
-%>
-<p class="success">Le moderateur a ete supprime</p>
-<%
-    }
-%>
+<!-- Utilisation de Thymeleaf pour afficher un message de succès -->
+<p th:if="${suppression}" class="success">Le modérateur a été supprimé</p>
 </body>
 </html>

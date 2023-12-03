@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <title>Liste des Modérateurs</title>
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styles CSS pour la mise en page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .moderators {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Styles pour les boutons */
+        .button-container {
+            display: flex; /* Utilisation de flexbox */
+            justify-content: center; /* Alignement horizontal au centre */
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            margin: 10px;
+            padding: 10px 20px; /* Taille réduite */
+            background-color: #4CAF50; /* Couleur verte */
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.5s; /* Animation de transition de la couleur de fond */
+        }
+
+        .button-container button span {
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button-container button:hover {
+            background-color: #45a049; /* Couleur verte plus foncée au survol */
+        }
+
+        .tooltip-container {
+            position: relative;
+        }
+
+        .tooltip {
+            position: absolute;
+            display: none;
+            background-color: #f9f9f9;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            color: #333;
+            z-index: 1;
+            font-weight: normal;
+        }
+        h1{
+            text-align : center;
+            justify-content:center;
+        }
+    </style>
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            var tooltipTh = document.getElementById('tooltip_header');
+
+            tooltipTh.addEventListener('mouseover', function () {
+                var tooltipBox = document.getElementById('tooltip_header_content');
+                tooltipBox.style.display = 'block';
+            });
+
+            tooltipTh.addEventListener('mouseout', function () {
+                var tooltipBox = document.getElementById('tooltip_header_content');
+                tooltipBox.style.display = 'none';
+            });
+        });
+    </script>
+</head>
+<body>
+<header th:insert="~{header.html :: header}"></header>
+<div class="moderators">
+    <h1>Liste des Modérateurs</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Mail</th>
+            <th id="tooltip_header" class="tooltip-container">Droits (voir détail) <div class="tooltip" id="tooltip_header_content">
+                1er droit : Ajouter un produit<br>2ème droit : Supprimer un produit<br>3ème droit : Ajouter un Modérateur<br><br>1 : Possède le droit <br> 0 : Ne possède pas le droit
+            </div></th>
+        </tr>
+        </thead>
+        <tbody th:each="moderateur : ${listeModerateurs}">
+        <tr th:each="modUtilisateur : ${listeModUtilisateur}">
+            <!-- Affichage des détails de l'utilisateur -->
+            <td th:if="${moderateur.idModerateur == modUtilisateur.idUtilisateur}" th:text="${modUtilisateur.prenom}"></td>
+            <td th:if="${moderateur.idModerateur == modUtilisateur.idUtilisateur}" th:text="${modUtilisateur.nom}"></td>
+            <td th:if="${moderateur.idModerateur == modUtilisateur.idUtilisateur}" th:text="${modUtilisateur.mail}"></td>
+            <!-- Affichage des droits du modérateur -->
+            <td th:if="${moderateur.idModerateur == modUtilisateur.idUtilisateur}" th:text="${moderateur.droits}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            var tooltipTh = document.getElementById('tooltip_header');
+
+            tooltipTh.addEventListener('mouseover', function () {
+                var tooltipBox = document.getElementById('tooltip_header_content');
+                tooltipBox.innerHTML = '1 er droit : Ajouter un produit<br>2 ème droit : Supprimer un produit<br> ' +
+                    '3 ème droit : Ajouter un Modérateur<br><br>1 : Possède le droit <br> 0 : Ne possède pas le droit';
+                tooltipBox.style.display = 'block';
+            });
+
+            tooltipTh.addEventListener('mouseout', function () {
+                var tooltipBox = document.getElementById('tooltip_header_content');
+                tooltipBox.style.display = 'none';
+            });
+        });
+    </script>
+
+    <div class="button-container">
+        <form th:if="${user.typeDeCompte == 'Admin' or (user.typeDeCompte == 'Moderateur' && moderateur.droits[2] == '1')}"
+              th:action="@{ajouterModerateur}" method="get">
+            <button type="submit"><span>Ajouter Modérateur</span></button>
+        </form>
+        <form th:if="${user.typeDeCompte == 'Admin'}" th:action="@{supprimerModerateur}" method="get">
+            <button type="submit"><span>Supprimer Modérateur</span></button>
+        </form>
+        <form th:if="${user.typeDeCompte == 'Admin'}" th:action="@{modifierDroits}" method="get">
+            <button type="submit"><span>Modifier les droits</span></button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

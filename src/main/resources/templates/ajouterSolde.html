@@ -1,13 +1,11 @@
-<%@ page import="javax.naming.ldap.Control" %>
-<%@ page import="com.e_Commerce.e_Commerce.model.entity.Client" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un Solde</title>
-    <link rel="icon" href="../logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <style>
     body {
@@ -64,24 +62,13 @@
     }
 </style>
 <body>
-<%
-    String errorMessage = (String) request.getAttribute("errorMessage");
-%>
-<div class="header">
-    <%@ include file="header.jsp" %>
-</div>
+<header th:insert="~{header.html :: header}"> </header>
 <h1>Ajouter un Solde</h1>
-<%
-    Utilisateur utilisateur = Controller.getInstanceController().requestGetUtilisateur();
-    Client client = UtilisateurDAO.findClientByUtilisateur(utilisateur);
-    assert client != null;%>
+<div th:if="${errorMessage != null}" class="error" style="color: red; text-align: center" th:text="${errorMessage}"></div>
 
-
-<form action="ServletAjouterSolde" method="post">
-    <% if(errorMessage != null){ %>
-    <p class="error" style="color : red;text-align : center"><%= errorMessage %></p>
-    <% } %>
-    <p>Votre solde actuel est de : <%= client.getCompteBancaireSolde() %></p>
+<!-- Assuming utilisateur, client, and other objects are available in the model -->
+<form th:action="@{/AjouterSolde}" method="post">
+    <p>Votre solde actuel est de : <span th:text="${client.compteBancaireSolde}"></span> euros </p>
     <label for="numeroCarte">Numéro de Carte Bleue:</label>
     <input type="text" id="numeroCarte" name="numeroCarte" required placeholder="Exemple : **** **** **** ****"><br><br>
 
@@ -89,9 +76,6 @@
     <input type="text" id="montant" name="montant" pattern="[0-9]+" required placeholder="Veuillez entrer le montant"><br><br>
 
 
-    <!-- Autres champs du formulaire si nécessaire -->
-
-    <!-- Bouton de soumission du formulaire -->
     <button type="submit">Ajouter Solde</button>
 </form>
 </body>

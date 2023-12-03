@@ -1,16 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
-
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <%
-        Boolean modification = (Boolean) request.getAttribute("modification");
-    %>
     <meta charset="UTF-8">
     <title>Modifier droit modérateur</title>
-    <link rel="icon" href="../logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Vos styles CSS ici... -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -87,24 +84,15 @@
     </style>
 </head>
 <body>
-<div class="header">
-    <%@ include file="header.jsp" %>
-</div>
+<header th:insert="~{header.html :: header}"></header>
 <h1>Modification des droits</h1>
-<form action="ServletModifyRights" method="post">
+<form th:action="@{/modifierDroits}" method="post">
     <label for="email">Adresse email :</label>
     <select id="email" name="email" required>
         <option value="" selected disabled hidden>Veuillez choisir un modérateur</option>
-<%
-    List<Utilisateur> listUtilisateur = UtilisateurDAO.getListUtilisateurs();
-    for (Utilisateur user : listUtilisateur){
-        if (user.getTypeDeCompte().equals("Moderateur")){
-%>
-        <option value="<%= user.getMail() %>"><%= user.getMail()%></option>
-<%
-        }
-    }
-%>
+        <th:block th:each="utilisateur : ${listUtilisateur}">
+            <option th:if="${utilisateur.typeDeCompte == 'Moderateur'}" th:value="${utilisateur.mail}" th:text="${utilisateur.mail}"></option>
+        </th:block>
     </select>
     <label for="droits" id="label_droits">Droits (voir détail) :</label>
     <div class="tooltip-container" id="tooltip_droits">
@@ -120,17 +108,11 @@
         <option value="011">011</option>
         <option value="111">111</option>
     </select><br><br>
-
     <input type="submit" value="Modifier">
-
-    <%
-        if (modification != null && modification) {
-    %>
-    <p class="success">Le modérateur a été mis à jour</p>
-    <%
-        }
-    %>
+    <!-- Utilisation de Thymeleaf pour afficher un message de succès -->
+    <p th:if="${modification}" class="success">Le modérateur a été mis à jour</p>
 </form>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Fonction pour afficher la boîte de dialogue

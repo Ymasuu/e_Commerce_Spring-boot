@@ -1,0 +1,123 @@
+header {
+    width: 100%;
+    height: 85px;
+    background-color: #333;
+}
+
+.header-nav {
+    padding: 0;
+    height: 5px;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+}
+
+.header-nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.header-nav li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 55px;
+    text-align: center;
+    margin-top: 15px;
+    margin-right: 10px;
+}
+
+.style {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: font-size 0.2s ease-in-out;
+}
+
+.style:hover {
+    font-size: 12px;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    padding: 3px 4px;
+}
+
+.lien {
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.lien:hover {
+    background-color: #3498db;
+    font-size: 20px;
+}
+
+.test svg {
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.search-form input[type="text"] {
+    font-size: 16px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 30px;
+    width: 300px;
+    background-color: #C0C0C0;
+    transition: all 0.3s ease-in-out;
+}
+
+.search-form button[type="submit"] {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    color: #333;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.search-form button[type="submit"]:hover {
+    color: #555;
+}
+
+.search-form input[type="text"]:focus {
+    width: 400px;
+    background-color: #fff;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+.search-form input[type="text"]::placeholder {
+    color: #555;
+}
+.se-connecter {
+    margin-left: auto;
+}
+a:hover {
+    text-decoration: none;
+}

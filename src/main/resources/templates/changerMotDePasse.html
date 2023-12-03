@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <title>Changer le Mot de Passe</title>
+    <link rel="icon" th:href="@{/logo/logo.png}" type="image/x-icon">
+    <link rel="shortcut icon" th:href="@{/logo/logo.png}" type="image/x-icon">
+    <link rel="stylesheet" href="/css/header.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {font-family: Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 0;}
+        .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);}
+        h1 {color: #333;}
+        form {margin-top: 20px;}
+        label {display: block; margin-bottom: 5px;}
+        input {padding: 8px; margin-bottom: 10px;}
+        input[type="submit"] {background-color: #007bff; color: #fff; border: none; border-radius: 3px; padding: 10px 20px; cursor: pointer; margin-top: 20px;}
+        input[type="submit"]:hover {background-color: #0056b3;}
+        .error-message {color: #ff0000; margin-top: 10px;}
+    </style>
+</head>
+<body>
+<header th:insert="~{header.html :: header}"> </header>
+<div class="container">
+    <h1>Changer le Mot de Passe</h1>
+    <div th:if="${errorMessage != null}" class="error" style="color: red; text-align: center" th:text="${errorMessage}"></div>
+    <form th:action="@{/Changer_Mot_De_Passe}" method="post">
+        <label for="oldPassword">Ancien Mot de Passe :</label>
+        <input type="password" id="oldPassword" name="oldPassword" th:required="required"><br>
+
+        <label for="newPassword">Nouveau Mot de Passe :</label>
+        <input type="password" id="newPassword" name="newPassword" th:required="required"><br>
+
+        <label for="confirmPassword">Confirmer le Nouveau Mot de Passe :</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" th:required="required"><br>
+
+        <div class="error-message" th:if="${flash?.errorMessage != null and #strings.hasText(flash?.errorMessage)}" th:text="${flash?.errorMessage}"></div>
+
+
+
+
+        <input type="submit" value="Valider">
+    </form>
+</div>
+</body>
+</html>
