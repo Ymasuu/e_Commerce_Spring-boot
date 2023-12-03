@@ -7,7 +7,18 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 
 @Controller
@@ -89,10 +100,74 @@ public class ProduitsController {
 
     @PostMapping("/ajouterProduit")
     public String ajouterProduit(ModelMap model, @RequestParam("nom") String nom, @RequestParam("description") String description,
-                                 @RequestParam("prix") float prix, @RequestParam("stock") int stock) {
-        Produit produit = new Produit(nom, prix, description, stock);
-        Produit nouveauProduit = produitsService.saveProduct(produit);
-        return "redirect:/Produits";
+                                 @RequestParam("prix") float prix, @RequestParam("stock") int stock,
+                                 @RequestParam("image") MultipartFile imageFile) {
+
+        if(existeProduit(nom)){
+            // Un produit avec ce nom existe deja
+            String errorMessage = "Un produit avec ce nom existe déjà, veuillez choisir un autre nom";
+            model.addAttribute("errorMessage", errorMessage);
+            return "redirect:/ajouterProduit";
+        }
+         else { //TODO le produit sera enregistré dans la bdd
+
+            Produit produit = new Produit(nom, prix, description, stock);
+
+            Produit nouveauProduit = produitsService.saveProduct(produit);
+            //Il est nécessaire de sauvegarder l'image dans imagesProduct avec son id
+            //Donc l'id du produit sera recuperée pour lui attribuer à l'image
+
+            List<Produit> listeProduits = IterableToListProduits(produitsService.getProduct());
+            Produit produitAjoute = listeProduits.get(listeProduits.size() - 1);
+            int idImage = produitAjoute.getIdProduit();
+
+
+            try {
+                // répertoire imageProduct où l'image sera enregistré
+                String imageDirectory = ResourceUtils.getFile("classpath:static/imagesProduct").getAbsolutePath();
+
+                String originalFilename = imageFile.getOriginalFilename();
+
+                // Il nécessaire d'obtenir l'extention de l'image
+                assert originalFilename != null;
+                String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+
+                // l'id du produit est passée au nom de l'image
+                String newFilename = idImage + fileExtension;
+
+                // le chemin est crée
+                Path imagePath = Paths.get(imageDirectory, newFilename);
+
+                // l'image est enregistré
+                Files.copy(imageFile.getInputStream(), imagePath);
+            } catch (IOException e) {
+                // Handle the exception (e.g., log it, show an error message)
+                e.printStackTrace();
+            }
+
+            return "redirect:/Produits";
+        }
+
+    }
+
+    private List<Produit> IterableToListProduits(Iterable<Produit> itProduits) {
+        //TODO retourne une liste de produits au lieu d'un iterable
+        List<Produit> listeProduits = StreamSupport.stream(itProduits.spliterator(), false)
+                .collect(Collectors.toList());
+        return listeProduits;
+    }
+
+    private boolean existeProduit(String nomProduit){
+        Iterable<Produit> itProduits = produitsService.getProduct();
+        List<Produit> listeProduits = StreamSupport.stream(itProduits.spliterator(), false)
+                .collect(Collectors.toList());
+        for (Produit produit : listeProduits) {
+            if (produit.getNom().equals(nomProduit)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
