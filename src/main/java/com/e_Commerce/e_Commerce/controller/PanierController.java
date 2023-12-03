@@ -124,7 +124,7 @@ public class PanierController {
             client.setPoints((int) (commande.getPrix() / 10));
             utilisateurService.saveClient(client);
             session.setAttribute("client", client);
-            return "redirect:/Produits";
+            return "remerciement";
         }
         model.addAttribute("errorMessage", "Le numero de carte est incorrect");
         return "confirmerPaiement";
