@@ -1,7 +1,12 @@
 package com.e_Commerce.e_Commerce.controller;
 
 import com.e_Commerce.e_Commerce.model.entity.*;
+import models.SendEnhancedRequestBody;
+import models.SendEnhancedResponseBody;
+import models.SendRequestMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import services.Courier;
+
 
 import com.e_Commerce.e_Commerce.service.UtilisateurService;
 
@@ -10,6 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import services.SendService;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 @Controller
 public class InscriptionController {
@@ -38,6 +47,26 @@ public class InscriptionController {
             Commande panier = new Commande(client.getIdClient(), 0);
             session.setAttribute("panier", panier);
 
+            // L'utilisateur à été créer, on envoie un mail de confirmation
+            Courier.init("pk_prod_RW21FPAESN4DD3N8YK0RWH3YEC0E");
+
+            SendEnhancedRequestBody request = new SendEnhancedRequestBody();
+            SendRequestMessage message = new SendRequestMessage();
+
+            HashMap<String, String> to = new HashMap<String, String>();
+            to.put("email", email);
+            message.setTo(to);
+            message.setTemplate("ZHASTSX98ZM89ZGHHKTNQ8RN4P3V");
+            HashMap<String, Object> data = new HashMap<String, Object>();
+            data.put("user", prenom+" "+nom);
+            message.setData(data);
+            request.setMessage(message);
+            try {
+                SendEnhancedResponseBody response = new SendService().sendEnhancedMessage(request);
+                System.out.println(response);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             // Rediriger vers la page des produits
             return "redirect:/Produits";
         } else {
