@@ -1,7 +1,12 @@
 package com.e_Commerce.e_Commerce.controller;
 
 import com.e_Commerce.e_Commerce.model.entity.*;
+import models.SendEnhancedRequestBody;
+import models.SendEnhancedResponseBody;
+import models.SendRequestMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import services.Courier;
+
 
 import com.e_Commerce.e_Commerce.service.UtilisateurService;
 
@@ -10,10 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
-  /**
- * Controller for handling user registration and moderator addition.
- */
 
 @Controller
 public class InscriptionController {
@@ -51,8 +52,7 @@ public class InscriptionController {
             Commande panier = new Commande(client.getIdClient(), 0);
             session.setAttribute("panier", panier);
 
-            // Redirect to the products page
-
+            // Rediriger vers la page des produits
             return "redirect:/Produits";
         } else {
             // Display errors in the model if the user already exists
