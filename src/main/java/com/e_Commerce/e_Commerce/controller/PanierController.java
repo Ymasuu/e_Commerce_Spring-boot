@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Controller for handling shopping cart-related operations.
+ */
 @Controller
 public class PanierController {
     //private Client client;
@@ -35,13 +38,17 @@ public class PanierController {
     @Autowired
     private CommandeProduitService commandeProduitService;
 
-
+      /**
+     * Displays the shopping cart page.
+     */
     @GetMapping("/Panier")
     public String panier(ModelMap model) {
         model.addAttribute("produits", produitsService.getProduct());
         return "panier";
     }
-
+     /**
+     * Processes actions related to the shopping cart, such as adding, updating, or clearing items.
+     */
     @PostMapping("/Panier")
     public String panierPost(ModelMap model, HttpSession session,
          @RequestParam String action, @RequestParam (required = false) Integer produitId, @RequestParam (required = false) Integer produitQuantite) {
@@ -54,6 +61,7 @@ public class PanierController {
         }else {
             Commande newPanier = (Commande) session.getAttribute("panier");
             if (action.equals("supprimer")){
+                // Remove the selected product from the cart
                 for (Produit p : newPanier.getPanier()){
                     if (p.getIdProduit() == produitId){
                         newPanier.setPrix(newPanier.getPrix() - (p.getPrix() * p.getStock()));
@@ -64,6 +72,7 @@ public class PanierController {
                     }
                 }
             }else if(action.equals("modifier")){
+                // Update the quantity of the selected product in the cart
                 for (Produit p : newPanier.getPanier()) {
                     if (p.getIdProduit() == produitId) {
                         newPanier.setPrix(newPanier.getPrix() - (p.getPrix() * p.getStock()));
@@ -75,7 +84,8 @@ public class PanierController {
                     }
                 }
             }else{ // action.equals("payer")
-                if (commande.getPrix() <= client.getCompteBancaireSolde()) { // le client a les moyens de payer
+            // Check if the client has sufficient funds to pay for the cart
+                if (commande.getPrix() <= client.getCompteBancaireSolde()) { // Process the payment
                     System.out.println("test panierController");
 /*                    commandeService.saveCommande(commande);
                     session.setAttribute("panier",new Commande(client.getIdClient(), 0));*/
@@ -89,19 +99,25 @@ public class PanierController {
         }
         return "redirect:/Panier";
     }
-
+     /**
+     * Displays the payment confirmation page.
+     */
     @GetMapping("/Confirmer_Paiement")
     public String confirmerPaiement(ModelMap model) {
         return "confirmerPaiement";
     }
+     /**
+     * Processes the submission of the payment confirmation form.
+     */
 
     @PostMapping("/Confirmer_Paiement")
     public String confirmerPaiementPost(ModelMap model, HttpSession session, @RequestParam String numeroCarte){
+        // Process payment confirmation
         System.out.println("test confirmer paiement");
         Client client = (Client) session.getAttribute("client");
         if (numeroCarte.equals(client.getCompteBancaireNum())){
             Commande commande = (Commande) session.getAttribute("panier");
-            // TODO ajouter les tables Commande_Produit pour chaque produit du panier
+            // TODO: Add the 'Commande_Produit' tables for each product in the cart.
             commande.setStatus("Payé");
             commande = commandeService.saveCommande(commande);
             for (Produit p : commande.getPanier()){

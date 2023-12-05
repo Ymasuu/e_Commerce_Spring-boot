@@ -14,40 +14,38 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.util.*;
-
-
+// This is the main controller handling redirection and processing for various pages in the e-Commerce application.
 @Controller
 public class RedirectController {
-    //Attributs des diverses entités
+    //Attributes for different entities
     private Client client;
     private Utilisateur user;
     private Produit produit;
     private Moderateur moderateur;
 
     private Commande commande;
-
-
+    // Autowired services for interacting with the database
     @Autowired
     private ProduitsService produitsService;
     @Autowired
     private UtilisateurService utilisateurService;
-
-
-
+    // Mapping for the home page
     @GetMapping("/")
     public String index(ModelMap model) { return "index";}
-
+    // Mapping for adding a payment method page
     @GetMapping("/Ajouter_Moyen_De_Paiement")
     public String ajouterMoyenPaiement(ModelMap model, HttpSession session) {
+        // Logic for handling the addition of a payment method
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         Client client = (Client) session.getAttribute("client");
         model.addAttribute("user", user);
         model.addAttribute("client", client);
         return "ajouterMoyenPaiement";
     }
-
+    // Post mapping for handling the form submission for adding a payment method
     @PostMapping("/Ajouter_Moyen_De_Paiement")
     public String ajouterMoyenPaiementPost(ModelMap model, HttpSession session, @RequestParam String carteBancaire) {
+        // Logic for processing the form submission for adding a payment method
         Client client = (Client) session.getAttribute("client");
         if (carteBancaire.equals("0000 0000 0000 0000") || carteBancaire.equals(client.getCompteBancaireNum())) {
             Utilisateur user = (Utilisateur) session.getAttribute("user");
@@ -62,23 +60,26 @@ public class RedirectController {
         session.setAttribute("client", client);
         return "redirect:/Profil";
     }
-
+     // Mapping for adding a product page
     @GetMapping("/Ajouter_Produit")
     public String ajouterProduit(ModelMap model) { return "ajouterProduit";}
 
-    ///////AJOUTER SOLDE//////////////////////////////////////////////////
+    // Mapping for adding balance page
     @GetMapping("/AjouterSolde")
     public String ajouterSolde(ModelMap model, HttpSession session) {
+        // Logic for displaying the add balance page
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         Client client = (Client) session.getAttribute("client");
         model.addAttribute("user", user);
         model.addAttribute("client", client);
         return "ajouterSolde";
     }
+    // Post mapping for handling the form submission for adding balance
 
     @PostMapping("/AjouterSolde")
     public String ajouterSoldePost(ModelMap model, HttpSession session, @RequestParam String numeroCarte,
                                    @RequestParam Float montant) {
+                                    // Logic for processing the form submission for adding balance
 
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         Client client = (Client) session.getAttribute("client");
@@ -115,13 +116,14 @@ public class RedirectController {
     /////////////////////////////////////////////////////////////////////
 
 
-    ////PAGE CHANGER MOT DE PASSE/////////////////////////////////////
+    // Mapping for changing password page
     @GetMapping("/Changer_Mot_De_Passe")
     public String changerMotDePasse(ModelMap model, HttpSession session) {
+        // Logic for displaying the change password page
         Client client = (Client) session.getAttribute("client");
         Utilisateur user = (Utilisateur) session.getAttribute(("user"));
         return "changerMotDePasse";}
-
+    // Post mapping for handling the form submission for changing passwor
     @PostMapping("/Changer_Mot_De_Passe")
     public String changerMotDePassePost(RedirectAttributes redirectAttributes,
                                         ModelMap model,
@@ -148,7 +150,7 @@ public class RedirectController {
             return "redirect:/Changer_Mot_De_Passe";
         }
     }
-
+    // Mapping for converting points page
 
     @GetMapping("/Convertir_Points")
     public String convertirPoints(ModelMap model, HttpSession session) {
@@ -156,7 +158,7 @@ public class RedirectController {
         model.addAttribute("client", client);
         return "convertirPoints";
     }
-
+    // Post mapping for handling the form submission for converting points
     @PostMapping("/Convertir_Points")
     public String convertPoints(ModelMap model,RedirectAttributes redirectAttributes, @RequestParam int quantite, @RequestParam String action, HttpSession session)
     {
@@ -194,7 +196,7 @@ public class RedirectController {
         }
         return "convertirPoints";
     }
-
+     // Mapping for the list of moderators page
     /* ---------------------------Modérateurs---------------------------*/
     @GetMapping("/Liste_Moderateurs")
     public String listModerateurs(ModelMap model, HttpSession session) {
@@ -215,7 +217,7 @@ public class RedirectController {
         model.addAttribute("listeModUtilisateur", listeModUtilisateur);
         return "listeModerateurs";
     }
-
+    // Mapping for modifying moderator rights page
     @GetMapping("/modifierDroits")
     public String afficherPageModifierDroits(ModelMap model, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
@@ -225,6 +227,7 @@ public class RedirectController {
         model.addAttribute("listUtilisateur", listUtilisateur);
         return "modifierDroitsModerateur";
     }
+    // Post mapping for handling the form submission for modifying moderator rights
     @PostMapping("/modifierDroits")
     public String RecupererModifDroits(ModelMap model, HttpSession session,
                                        @RequestParam("email") String email, @RequestParam("droits") String droits){
@@ -241,7 +244,7 @@ public class RedirectController {
         return "redirect:/modifierDroits";
         }
 
-
+        // Mapping for the page to delete a moderator
 
     @GetMapping("/supprimerModerateur")
     public String supprimerModerateur(ModelMap model, HttpSession session) {
@@ -251,7 +254,7 @@ public class RedirectController {
         Iterable<Utilisateur> listUtilisateur = utilisateurService.getUsers();
         model.addAttribute("listUtilisateur", listUtilisateur);
         return "supprimerModerateur";}
-
+    // Post mapping for handling the form submission for deleting a moderator
     @PostMapping("/supprimerModerateur")
     public String supprimerModerateur(ModelMap model, HttpSession session, @RequestParam("email") String email){
         Utilisateur utilisateur = utilisateurService.verifierUtilisateur(email);
@@ -267,7 +270,7 @@ public class RedirectController {
         return "redirect:/supprimerModerateur";
     }
 
-    ///PAGE MODIFIER PROFIL /////////////////////////////////////////////////////////////////////
+    // Mapping for the page to modify user profile
     @GetMapping("/Modifier_Profil")
     public String modifierProfil(ModelMap model, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
@@ -277,6 +280,7 @@ public class RedirectController {
         model.addAttribute("client", client);
         System.out.println("Modifier_Profil -> ERROR MESSAGE : " + model.getAttribute("errorMessage"));
         return "modifierProfil";}
+    // Post mapping for handling the form submission for modifying user profile
 
     @PostMapping("/Modifier_Profil")
     public String modifierProfilPost(RedirectAttributes redirectAttributes,
@@ -315,7 +319,7 @@ public class RedirectController {
     }
 
 
-    ///PAGE PROFIL ///////////////////////////////////////////////////////////////////
+     // Mapping for the user profile page
 
     @GetMapping("/Profil")
     public String utilisateur(ModelMap model, HttpSession session) {

@@ -9,21 +9,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-
+/**
+ * Controller for handling product-related operations.
+ */
 @Controller
 public class ProduitsController {
-    private Client client;
-    private Utilisateur user;
-    private Produit produit;
-    private Moderateur moderateur;
+    private Client client;  // Client entity
+    private Utilisateur user; // User entity
+    private Produit produit; // Product entity
+    private Moderateur moderateur; // Moderator entity
 
     @Autowired
     private ProduitsService produitsService;
-
+    /**
+     * Displays the product details page.
+     */
     @GetMapping("/Produit/{id}")
     public String produit(ModelMap model, @PathVariable Integer id, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         if (user != null) {
+            // Additional logic for handling user and moderator information
             System.out.println("Utilisateur connecté : " + user.getMail());
             model.addAttribute("user", user);
             Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
@@ -36,6 +41,9 @@ public class ProduitsController {
         model.addAttribute("produit", product);
         return "produit";
     }
+    /**
+     * Processes actions related to products, such as adding or removing items from the cart.
+     */
 
     @PostMapping("/Produit/{id}")
     public String ajouterProduit(ModelMap model, HttpSession session,
@@ -67,11 +75,14 @@ public class ProduitsController {
         }
         return "redirect:/Produits";
     }
-
+    /**
+     * Displays the products page.
+     */
 
     @GetMapping("/Produits")
     public String produits(ModelMap model, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
+        // Additional logic for handling user information
         System.out.println("UTILISATEUR EXISTE : " + user);
         if (user != null) {
             System.out.println("Utilisateur connecté : " + user.getMail());
@@ -81,11 +92,16 @@ public class ProduitsController {
         model.addAttribute("produits", products);
         return "produits";
     }
-
+        /**
+     * Displays the page for adding a new product.
+     */
     @GetMapping("/ajouterProduit")
     public String afficherAjouterProduit(ModelMap model, HttpSession session) {
         return "ajouterProduit";
     }
+     /**
+     * Processes the form submission for adding a new product.
+     */
 
     @PostMapping("/ajouterProduit")
     public String ajouterProduit(ModelMap model, @RequestParam("nom") String nom, @RequestParam("description") String description,
@@ -94,7 +110,9 @@ public class ProduitsController {
         Produit nouveauProduit = produitsService.saveProduct(produit);
         return "redirect:/Produits";
     }
-
+      /**
+     * Displays the page for modifying an existing product.
+     */
 
     @GetMapping("/Modifier_Produit/{id}")
     public String modifierProduit(ModelMap model, HttpSession session, @PathVariable Integer id) {
@@ -102,6 +120,9 @@ public class ProduitsController {
         model.addAttribute("produit", product);
         return "modifierProduit";
     }
+    /**
+     * Processes the form submission for modifying an existing product.
+     */
     @PostMapping("/Modifier_Produit/{id}")
     public String modifierProduitPost(ModelMap model,
             @RequestParam String nom,
