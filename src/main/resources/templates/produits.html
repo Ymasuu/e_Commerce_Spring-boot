@@ -32,10 +32,11 @@
             border: 1px solid #ddd;
             margin: 10px;
             padding: 10px;
-            width: 250px;
+            width: 250px; /* Taille fixe de la div produit */
             background-color: #fff;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s; /* Ajout de l'animation de transition */
+            transition: transform 0.3s; /* Animation de zoom au survol */
+            text-align: center; /* Centrer le contenu horizontalement */
         }
 
         .produit:hover {
@@ -44,8 +45,10 @@
 
         .produit img {
             max-width: 100%;
-            height: auto;
-            cursor: pointer;
+            width: 125px; /* Taille fixe de l'image à l'intérieur de la div produit */
+            height: 125px; /* Taille fixe de l'image à l'intérieur de la div produit */
+            display: block; /* Supprimer les marges par défaut autour de l'image */
+            margin: 0 auto; /* Centrer l'image horizontalement à l'intérieur de la div produit */
         }
 
         .produit h2 {
