@@ -54,6 +54,8 @@
         }
 
         .produit p {
+            height: 100px;
+            width: 200px;
             font-size: 16px;
             color: #777;
         }
@@ -75,7 +77,7 @@
         <div class="produit">
             <a th:href="@{/Produit/{id}(id=${produit.idProduit})}">
 
-                <img th:src="@{/imagesProduct/{id}.jpeg(id=${produit.idProduit})}" th:alt="${produit.nom}" width="100" class="img-fluid">
+                <img th:src="@{/imagesProduct/{id}.jpeg(id=${produit.idProduit})}" th:alt="${produit.nom}" width="125" height="125" class="img-fluid">
             </a>
             <h2 th:text="${produit.nom}"> Nom</h2>
             <p> Prix : <span th:text="${produit.prix}"> </span> €</p>
