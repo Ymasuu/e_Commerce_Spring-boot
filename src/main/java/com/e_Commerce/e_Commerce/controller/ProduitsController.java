@@ -43,12 +43,12 @@ public class ProduitsController {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         if (user != null) {
             // Additional logic for handling user and moderator information
-            System.out.println("Utilisateur connecté : " + user.getMail());
+
             model.addAttribute("user", user);
             Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
             if (moderateur != null) {
                 model.addAttribute("moderateur", moderateur);
-                System.out.println("Produit test modo droits : " + moderateur.getDroits());
+
             }
         }
         Produit product = produitsService.getProductById(id);
@@ -81,7 +81,7 @@ public class ProduitsController {
                 panier.ajouterProduit(produit, produitQuantite);
             }
             session.setAttribute("panier", panier);
-            System.out.println("Prix panier : " + panier.getPrix());
+
         }
         if (action.equals("supprimer")) {
             Produit produit = produitsService.getProductById(produitId);
@@ -97,9 +97,9 @@ public class ProduitsController {
     public String produits(ModelMap model, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         // Additional logic for handling user information
-        System.out.println("UTILISATEUR EXISTE : " + user);
+
         if (user != null) {
-            System.out.println("Utilisateur connecté : " + user.getMail());
+
             model.addAttribute("user", user);
         }
         Iterable<Produit> products = produitsService.getProduct();
@@ -221,7 +221,7 @@ public class ProduitsController {
          */
 
         Produit oldProduct = (Produit) session.getAttribute("produit");
-        System.out.println(oldProduct);
+
         if(nom.equals(oldProduct.getNom()) || (!nom.equals(oldProduct.getNom()) && !existeProduit(nom)) ) {
 
             //le produit est mis à jour dans la bdd
@@ -254,10 +254,9 @@ public class ProduitsController {
                     // il est vérifiée si le fichier existe
                     if (Files.exists(imagePath)) {
                         Files.delete(imagePath);
-                        System.out.println("IMAGE SUPPRIMée.");
+
                     }
                     // l'image est enregistré
-                    System.out.println("IMAGE COPYYYYYYYYYYYYYY");
                     Files.copy(imageFile.getInputStream(), imagePath);
                 } catch (IOException e) {
                     // Handle the exception (e.g., log it, show an error message)
