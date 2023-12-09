@@ -4,13 +4,16 @@ package com.e_Commerce.e_Commerce.controller;
 import com.e_Commerce.e_Commerce.model.entity.*;
 import com.e_Commerce.e_Commerce.service.ProduitsService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -193,6 +196,7 @@ public class ProduitsController {
     public String modifierProduit(ModelMap model, HttpSession session, @PathVariable Integer id) {
         Produit product = produitsService.getProductById(id);
         model.addAttribute("produit", product);
+        session.setAttribute("produit", product);
         return "modifierProduit";
     }
     /**
@@ -200,18 +204,86 @@ public class ProduitsController {
      */
     @PostMapping("/Modifier_Produit/{id}")
     public String modifierProduitPost(ModelMap model,
+                                      HttpSession session,
             @RequestParam String nom,
             @RequestParam String description,
             @RequestParam Float prix,
-            @RequestParam int stock
-            /*@RequestParam("image") MultipartFile image,
-            Model model) {*/){
+            @RequestParam int stock,
+             @RequestParam("image") MultipartFile imageFile) throws FileNotFoundException {
+        /*
         Produit produit = produitsService.getProductByNom(nom);
         produit.setNom(nom);
         produit.setDescription(description);
         produit.setPrix(prix);
         produit.setStock(stock);
         produitsService.saveProduct(produit);
+
+         */
+
+        Produit oldProduct = (Produit) session.getAttribute("produit");
+        System.out.println(oldProduct);
+        if(nom.equals(oldProduct.getNom()) || (!nom.equals(oldProduct.getNom()) && !existeProduit(nom)) ) {
+
+            //le produit est mis à jour dans la bdd
+            oldProduct.setNom(nom);
+            oldProduct.setDescription(description);
+            oldProduct.setPrix(prix);
+            oldProduct.setStock(stock);
+            produitsService.saveProduct(oldProduct);
+
+            //Modification de l'image
+            if (imageFile!= null && imageFile.getSize() > 0) {
+                //TODO l'image sera modifiée, on supprime la precedente
+
+                try {
+                    // répertoire imageProduct où l'image sera enregistré
+                    String imageDirectory = ResourceUtils.getFile("classpath:static/imagesProduct").getAbsolutePath();
+
+                    String originalFilename = imageFile.getOriginalFilename();
+
+                    // Il nécessaire d'obtenir l'extention de l'image
+                    assert originalFilename != null;
+                    String fileExtension = ".jpeg";
+
+                    // l'id du produit est passée au nom de l'image
+                    String newFilename = oldProduct.getIdProduit() + fileExtension;
+
+                    // le chemin est crée
+                    Path imagePath = Paths.get(imageDirectory, newFilename);
+
+                    // il est vérifiée si le fichier existe
+                    if (Files.exists(imagePath)) {
+                        Files.delete(imagePath);
+                        System.out.println("IMAGE SUPPRIMée.");
+                    }
+                    // l'image est enregistré
+                    System.out.println("IMAGE COPYYYYYYYYYYYYYY");
+                    Files.copy(imageFile.getInputStream(), imagePath);
+                } catch (IOException e) {
+                    // Handle the exception (e.g., log it, show an error message)
+                    e.printStackTrace();
+                }
+
+                return "redirect:/Produits";
+            }
+
+            else {
+                //TODO l'image n'était pas modifié on garde la même
+                return "redirect:/Produits";
+            }
+        }
+
+        else if(existeProduit(nom)){
+            // L'utilisateur existe, afficher un message d'erreur
+            String errorMessage = "Un produit avec ce nom existe déjà, veuillez choisir un autre nom";
+            model.addAttribute("errorMessage", errorMessage);
+            return "ajouterProduit";
+        }
+
+
+
         return "redirect:/Produits";
     }
+
+
 }
