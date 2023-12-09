@@ -146,7 +146,7 @@ public class ProduitsController {
 
                 // Il nécessaire d'obtenir l'extention de l'image
                 assert originalFilename != null;
-                String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                String fileExtension = ".jpeg";
 
                 // l'id du produit est passée au nom de l'image
                 String newFilename = idImage + fileExtension;
