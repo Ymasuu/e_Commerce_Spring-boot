@@ -240,7 +240,7 @@ public class RedirectController {
             Moderateur nouveauModerateur = utilisateurService.saveModerateur(moderateur);
             model.addAttribute("modification", true);
         } else {
-            return "redirect:/erreur";
+            return "redirect:/error";
         }
         return "redirect:/modifierDroits";
     }
@@ -267,7 +267,7 @@ public class RedirectController {
             utilisateurService.deleteUser(utilisateur);
             model.addAttribute("suppression", true);
         } else {
-            return "redirect:/erreur";
+            return "redirect:/error";
         }
         return "redirect:/supprimerModerateur";
     }
@@ -334,6 +334,10 @@ public class RedirectController {
         return "profil";
     }
 
+    @GetMapping("/error")
+    public String erreur() {
+        return "erreur";
+    }
 
 }
 
