@@ -3,7 +3,6 @@ package com.e_Commerce.e_Commerce.model.entity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +27,10 @@ public class Commande implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @OneToMany
+    @Transient
     private List<Produit> panier;
 
-    @Basic
+    @Transient
     private int nbrProduit;
     
     /**

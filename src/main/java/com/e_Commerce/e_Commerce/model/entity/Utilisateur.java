@@ -1,14 +1,17 @@
 package com.e_Commerce.e_Commerce.model.entity;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
+import java.util.Objects;
+
 /**
  * Represents a User entity in the e-Commerce application.
  * Each User has a unique identifier, name, surname, email, password, and account type.
  */
 @Entity
 @Table(name = "Utilisateur")
-public class Utilisateur implements Serializable{
+public class Utilisateur implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -29,27 +32,31 @@ public class Utilisateur implements Serializable{
     @Basic
     @Column(name = "type_de_compte")
     private String typeDeCompte;
+
     /**
      * Default constructor for the User class.
      */
-    public Utilisateur() {}
+    public Utilisateur() {
+    }
+
     /**
      * Constructs a User object with specified values for name, surname, email, password, and account type.
      *
-     * @param nom           The name of the user.
-     * @param prenom        The surname of the user.
-     * @param mail          The email of the user.
-     * @param motDePasse    The password of the user.
-     * @param typeDeCompte  The account type of the user.
+     * @param nom          The name of the user.
+     * @param prenom       The surname of the user.
+     * @param mail         The email of the user.
+     * @param motDePasse   The password of the user.
+     * @param typeDeCompte The account type of the user.
      */
-    public Utilisateur(String nom, String prenom, String mail, String motDePasse, String typeDeCompte){
+    public Utilisateur(String nom, String prenom, String mail, String motDePasse, String typeDeCompte) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
         this.motDePasse = motDePasse;
         this.typeDeCompte = typeDeCompte;
     }
-     /**
+
+    /**
      * Retrieves the unique identifier of the User.
      *
      * @return The unique identifier of the User.
@@ -57,6 +64,7 @@ public class Utilisateur implements Serializable{
     public int getIdUtilisateur() {
         return idUtilisateur;
     }
+
     /**
      * Sets the unique identifier for the User.
      *
@@ -66,6 +74,7 @@ public class Utilisateur implements Serializable{
     public void setIdUtilisateur(int idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
     }
+
     /**
      * Retrieves the name of the User.
      *
@@ -75,6 +84,7 @@ public class Utilisateur implements Serializable{
     public String getNom() {
         return nom;
     }
+
     /**
      * Sets the name for the User.
      *
@@ -84,6 +94,7 @@ public class Utilisateur implements Serializable{
     public void setNom(String nom) {
         this.nom = nom;
     }
+
     /**
      * Retrieves the surname of the User.
      *
@@ -93,6 +104,7 @@ public class Utilisateur implements Serializable{
     public String getPrenom() {
         return prenom;
     }
+
     /**
      * Sets the surname for the User.
      *
@@ -101,6 +113,7 @@ public class Utilisateur implements Serializable{
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
+
     /**
      * Retrieves the email of the User.
      *
@@ -110,6 +123,7 @@ public class Utilisateur implements Serializable{
     public String getMail() {
         return mail;
     }
+
     /**
      * Sets the email for the User.
      *
@@ -118,7 +132,8 @@ public class Utilisateur implements Serializable{
     public void setMail(String mail) {
         this.mail = mail;
     }
-     /**
+
+    /**
      * Retrieves the password of the User.
      *
      * @return The password of the User.
@@ -127,6 +142,7 @@ public class Utilisateur implements Serializable{
     public String getMotDePasse() {
         return motDePasse;
     }
+
     /**
      * Sets the password for the User.
      *
@@ -136,6 +152,7 @@ public class Utilisateur implements Serializable{
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
     }
+
     /**
      * Retrieves the account type of the User.
      *
@@ -145,7 +162,8 @@ public class Utilisateur implements Serializable{
     public String getTypeDeCompte() {
         return typeDeCompte;
     }
-     /**
+
+    /**
      * Sets the account type for the User.
      *
      * @param typeDeCompte The new account type for the User.
@@ -154,6 +172,7 @@ public class Utilisateur implements Serializable{
     public void setTypeDeCompte(String typeDeCompte) {
         this.typeDeCompte = typeDeCompte;
     }
+
     /**
      * Checks if this User object is equal to another object.
      *
@@ -168,14 +187,13 @@ public class Utilisateur implements Serializable{
         Utilisateur that = (Utilisateur) o;
 
         if (idUtilisateur != that.idUtilisateur) return false;
-        if (nom != null ? !nom.equals(that.nom) : that.nom != null) return false;
-        if (prenom != null ? !prenom.equals(that.prenom) : that.prenom != null) return false;
-        if (mail != null ? !mail.equals(that.mail) : that.mail != null) return false;
-        if (motDePasse != null ? !motDePasse.equals(that.motDePasse) : that.motDePasse != null) return false;
-        if (typeDeCompte != null ? !typeDeCompte.equals(that.typeDeCompte) : that.typeDeCompte != null) return false;
-
-        return true;
+        if (!Objects.equals(nom, that.nom)) return false;
+        if (!Objects.equals(prenom, that.prenom)) return false;
+        if (!Objects.equals(mail, that.mail)) return false;
+        if (!Objects.equals(motDePasse, that.motDePasse)) return false;
+        return Objects.equals(typeDeCompte, that.typeDeCompte);
     }
+
     /**
      * Generates a hash code for this User object.
      *

@@ -38,22 +38,21 @@
             background-color: #f2f2f2;
         }
 
-        /* Styles pour les boutons */
         .button-container {
-            display: flex; /* Utilisation de flexbox */
-            justify-content: center; /* Alignement horizontal au centre */
+            display: flex;
+            justify-content: center;
             margin-top: 20px;
         }
 
         .button-container button {
             margin: 10px;
-            padding: 10px 20px; /* Taille réduite */
-            background-color: #4CAF50; /* Couleur verte */
+            padding: 10px 20px;
+            background-color: #4CAF50;
             color: #fff;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.5s; /* Animation de transition de la couleur de fond */
+            transition: background-color 0.5s;
         }
 
         .button-container button span {
@@ -63,7 +62,7 @@
         }
 
         .button-container button:hover {
-            background-color: #45a049; /* Couleur verte plus foncée au survol */
+            background-color: #45a049;
         }
 
         .tooltip-container {
@@ -112,18 +111,17 @@
             <th>Nom</th>
             <th>Prenom</th>
             <th>Mail</th>
-            <th id="tooltip_header" class="tooltip-container">Droits (voir détail) <div class="tooltip" id="tooltip_header_content">
+            <th id="tooltip_header" class="tooltip-container">Droits <div class="tooltip" id="tooltip_header_content">
                 1er droit : Ajouter un produit<br>2ème droit : Supprimer un produit<br>3ème droit : Ajouter un Modérateur<br><br>1 : Possède le droit <br> 0 : Ne possède pas le droit
             </div></th>
         </tr>
         </thead>
         <tbody th:each="moderateur : ${listeModerateurs}">
         <tr th:each="modUtilisateur : ${listeModUtilisateur}">
-            <!-- Affichage des détails de l'utilisateur -->
+            <!-- user information -->
             <td th:if="${moderateur.idModerateur == modUtilisateur.idUtilisateur}" th:text="${modUtilisateur.prenom}"></td>
             <td th:if="${moderateur.idModerateur == modUtilisateur.idUtilisateur}" th:text="${modUtilisateur.nom}"></td>
             <td th:if="${moderateur.idModerateur == modUtilisateur.idUtilisateur}" th:text="${modUtilisateur.mail}"></td>
-            <!-- Affichage des droits du modérateur -->
             <td th:if="${moderateur.idModerateur == modUtilisateur.idUtilisateur}" th:text="${moderateur.droits}"></td>
         </tr>
         </tbody>

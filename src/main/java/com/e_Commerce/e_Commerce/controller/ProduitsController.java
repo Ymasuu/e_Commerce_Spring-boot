@@ -106,7 +106,7 @@ public class ProduitsController {
         model.addAttribute("produits", products);
         return "produits";
     }
-        /**
+    /**
      * Displays the page for adding a new product.
      */
     @GetMapping("/ajouterProduit")

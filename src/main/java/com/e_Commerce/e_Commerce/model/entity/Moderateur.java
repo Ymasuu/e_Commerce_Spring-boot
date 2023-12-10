@@ -1,7 +1,10 @@
 package com.e_Commerce.e_Commerce.model.entity;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
+import java.util.Objects;
+
 /**
  * Represents a Moderateur (Moderator) entity in the e-Commerce application.
  * Each Moderateur has a unique identifier and a set of rights assigned.
@@ -15,14 +18,16 @@ public class Moderateur implements Serializable {
     @Basic
     @Column(name = "droits")
     private String droits;
+
     /**
      * Constructs a Moderateur object with default values.
      * Initializes the rights to "000" by default.
      */
 
-    public Moderateur(){
-        this.droits="000";
+    public Moderateur() {
+        this.droits = "000";
     }
+
     /**
      * Retrieves the unique identifier of the Moderateur.
      *
@@ -31,6 +36,7 @@ public class Moderateur implements Serializable {
     public int getIdModerateur() {
         return idModerateur;
     }
+
     /**
      * Sets the unique identifier for the Moderateur.
      *
@@ -39,7 +45,8 @@ public class Moderateur implements Serializable {
     public void setIdModerateur(int idModerateur) {
         this.idModerateur = idModerateur;
     }
-     /**
+
+    /**
      * Retrieves the set of rights assigned to the Moderateur.
      *
      * @return The set of rights assigned to the Moderateur.
@@ -48,7 +55,8 @@ public class Moderateur implements Serializable {
     public String getDroits() {
         return droits;
     }
-     /**
+
+    /**
      * Sets the set of rights for the Moderateur.
      *
      * @param droits The new set of rights for the Moderateur.
@@ -56,6 +64,7 @@ public class Moderateur implements Serializable {
     public void setDroits(String droits) {
         this.droits = droits;
     }
+
     /**
      * Checks if this Moderateur object is equal to another object.
      *
@@ -72,10 +81,9 @@ public class Moderateur implements Serializable {
         Moderateur that = (Moderateur) o;
 
         if (idModerateur != that.idModerateur) return false;
-        if (droits != null ? !droits.equals(that.droits) : that.droits != null) return false;
-
-        return true;
+        return Objects.equals(droits, that.droits);
     }
+
     /**
      * Generates a hash code for this Moderateur object.
      *

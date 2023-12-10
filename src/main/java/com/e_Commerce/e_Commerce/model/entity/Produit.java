@@ -3,7 +3,8 @@ package com.e_Commerce.e_Commerce.model.entity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.Objects;
+
 /**
  * Represents a Product entity in the e-Commerce application.
  * Each Product has a unique identifier, a name, price, description, and available stock.
@@ -29,7 +30,7 @@ public class Produit implements Serializable {
     @Column(name = "stock")
     private Integer stock;
 
-     /**
+    /**
      * Constructs a Product object with specified values for name, price, description, and stock.
      *
      * @param nom         The name of the product.
@@ -38,19 +39,20 @@ public class Produit implements Serializable {
      * @param stock       The available stock of the product.
      */
 
-    public Produit(String nom, float prix, String description, Integer stock){
+    public Produit(String nom, float prix, String description, Integer stock) {
         this.nom = nom;
         this.prix = prix;
         this.description = description;
         this.stock = stock;
     }
-    
+
     /**
      * Default constructor for the Product class.
      */
-    public Produit(){
+    public Produit() {
 
     }
+
     /**
      * Retrieves the unique identifier of the Product.
      *
@@ -59,6 +61,7 @@ public class Produit implements Serializable {
     public int getIdProduit() {
         return idProduit;
     }
+
     /**
      * Sets the unique identifier for the Product.
      *
@@ -68,6 +71,7 @@ public class Produit implements Serializable {
     public void setIdProduit(int idProduit) {
         this.idProduit = idProduit;
     }
+
     /**
      * Retrieves the name of the Product.
      *
@@ -77,6 +81,7 @@ public class Produit implements Serializable {
     public String getNom() {
         return nom;
     }
+
     /**
      * Sets the name for the Product.
      *
@@ -85,7 +90,8 @@ public class Produit implements Serializable {
     public void setNom(String nom) {
         this.nom = nom;
     }
-     /**
+
+    /**
      * Retrieves the price of the Product.
      *
      * @return The price of the Product.
@@ -93,7 +99,8 @@ public class Produit implements Serializable {
     public float getPrix() {
         return prix;
     }
-     /**
+
+    /**
      * Sets the price for the Product.
      *
      * @param prix The new price for the Product.
@@ -101,7 +108,8 @@ public class Produit implements Serializable {
     public void setPrix(float prix) {
         this.prix = prix;
     }
-     /**
+
+    /**
      * Retrieves the description of the Product.
      *
      * @return The description of the Product.
@@ -109,6 +117,7 @@ public class Produit implements Serializable {
     public String getDescription() {
         return description;
     }
+
     /**
      * Sets the description for the Product.
      *
@@ -117,6 +126,7 @@ public class Produit implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
     /**
      * Retrieves the available stock of the Product.
      *
@@ -126,6 +136,7 @@ public class Produit implements Serializable {
     public Integer getStock() {
         return stock;
     }
+
     /**
      * Sets the available stock for the Product.
      *
@@ -134,6 +145,7 @@ public class Produit implements Serializable {
     public void setStock(Integer stock) {
         this.stock = stock;
     }
+
     /**
      * Checks if this Product object is equal to another object.
      *
@@ -148,13 +160,12 @@ public class Produit implements Serializable {
         Produit produit = (Produit) o;
 
         if (idProduit != produit.idProduit) return false;
-        if (nom != null ? !nom.equals(produit.nom) : produit.nom != null) return false;
-        if (prix != null ? !prix.equals(produit.prix) : produit.prix != null) return false;
-        if (description != null ? !description.equals(produit.description) : produit.description != null) return false;
-        if (stock != null ? !stock.equals(produit.stock) : produit.stock != null) return false;
-
-        return true;
+        if (!Objects.equals(nom, produit.nom)) return false;
+        if (!Objects.equals(prix, produit.prix)) return false;
+        if (!Objects.equals(description, produit.description)) return false;
+        return Objects.equals(stock, produit.stock);
     }
+
     /**
      * Generates a hash code for this Product object.
      *
