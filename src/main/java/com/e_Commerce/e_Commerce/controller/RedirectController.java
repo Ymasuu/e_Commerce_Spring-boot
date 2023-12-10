@@ -164,7 +164,6 @@ public class RedirectController {
     @PostMapping("/Convertir_Points")
     public String convertPoints(ModelMap model, RedirectAttributes redirectAttributes, @RequestParam int quantite, @RequestParam String action, HttpSession session) {
         Client client = (Client) session.getAttribute("client");
-        System.out.println(client.getPoints());
         if ("convertir".equals(action)) {
             // user chose to convert his points
             if (quantite > client.getPoints()) {
@@ -210,7 +209,6 @@ public class RedirectController {
             listeModUtilisateur.add(utilisateurService.getUserById(mod.getIdModerateur()));
             IdModos.add(mod.getIdModerateur());
         }
-        System.out.println("\n\nListe des id modérateurs : " + IdModos);
         model.addAttribute("user", user);
         model.addAttribute("moderateur", moderateur);
         model.addAttribute("listeModerateurs", moderateurs);
@@ -281,7 +279,6 @@ public class RedirectController {
         Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
         model.addAttribute("user", user);
         model.addAttribute("client", client);
-        System.out.println("Modifier_Profil -> ERROR MESSAGE : " + model.getAttribute("errorMessage"));
         return "modifierProfil";
     }
     // Post mapping for handling the form submission for modifying user profile

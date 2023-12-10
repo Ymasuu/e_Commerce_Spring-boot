@@ -47,14 +47,12 @@ public class ConnexionController {
             // We do the same thing for the 'moderator' entity
             this.moderateur = utilisateurService.getModerateurByIdUtilisateur(user.getIdUtilisateur());
             if (moderateur != null) {
-                System.out.println("id modo : " + moderateur.getIdModerateur());
                 session.setAttribute("moderateur", moderateur);
             }
 
             // We do the same thing for the 'client' entity
             this.client = utilisateurService.getClientByIdUtilisateur(user.getIdUtilisateur());
             if (client != null) {
-                System.out.println("id client : " + client.getIdClient());
                 session.setAttribute("client", client);
 
                 // Creation of the shopping cart in the session, not in the database

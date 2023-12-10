@@ -27,12 +27,6 @@ public class ECommerceApplication implements CommandLineRunner {
 	}
 	@Override
 	public void run(String... args) throws Exception{
-	/*	Iterable<Produit> produits = produitsService.getProduct();
-		produits.forEach(produit -> System.out.println("Test list : " + produit.getNom()));
-
-		Optional<Produit> optProduct = produitsService.getProductById(1);
-		Produit productId1 = optProduct.get();
-		System.out.println("Test nom prod by id : " + productId1.getNom());*/
 	}
 
 }
