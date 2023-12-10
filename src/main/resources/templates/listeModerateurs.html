@@ -5,6 +5,7 @@
     <link rel="icon" href="/logo/logo.png" type="image/x-icon">
     <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* Styles CSS pour la mise en page */
@@ -15,7 +16,7 @@
 
         .moderators {
             width: 80%;
-            margin: 0 auto;
+            margin: 20px auto;
         }
 
         table {
@@ -103,6 +104,7 @@
 </head>
 <body>
 <header th:insert="~{header.html :: header}"></header>
+<div class="main-content">
 <div class="moderators">
     <h1>Liste des Modérateurs</h1>
     <table>
@@ -157,5 +159,7 @@
         </form>
     </div>
 </div>
+</div>
+<div class="footer" th:insert="~{footer.html :: footer}"></div>
 </body>
 </html>

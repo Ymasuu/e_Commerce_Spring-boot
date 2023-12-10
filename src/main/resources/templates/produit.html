@@ -5,6 +5,7 @@
     <link rel="icon" href="/logo/logo.png" type="image/x-icon">
     <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -51,6 +52,7 @@
 </head>
 <body>
 <header th:insert="~{header.html :: header}"> </header>
+<div class="main-content">
 <h1>Détails du Produit</h1>
 <div class="container">
     <div class="product-details">
@@ -80,5 +82,7 @@
     </div>
 </div>
 <p th:if="${suppression != null and suppresion}" class="success"> Le moderateur a été supprimé </p>
+</div>
+<div class="footer" th:insert="~{footer.html :: footer}"></div>
 </body>
 </html>

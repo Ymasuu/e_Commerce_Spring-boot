@@ -5,10 +5,11 @@
     <link rel="icon" href="/logo/logo.png" type="image/x-icon"/>
     <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon"/>
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {font-family: Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 0;}
-        .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);}
+        .container { max-width: 800px; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);}
         h1 {color: #333;}
         h2 {color: #555;}
         ul {list-style-type: none; padding: 0;}
@@ -24,7 +25,7 @@
 </head>
 <body>
 <header th:insert="~{header.html :: header}"></header>
-<div class="container">
+<div class="container main-content">
     <form th:action="@{/Modifier_Profil}" method="post" th:object="${user}">
         <h1>Modifier le Profil</h1>
         <label for="nom">Nom :</label>
@@ -43,5 +44,6 @@
     </form>
     <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
 </div>
+<div class="footer" th:insert="~{footer.html :: footer}"></div>
 </body>
 </html>

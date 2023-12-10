@@ -11,6 +11,7 @@
     <!-- Bootstrap CSS CDN -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -25,7 +26,7 @@
         }
         .container {
             max-width: 400px;
-            margin: 0 auto;
+            margin: 20px auto;
             background-color: #fff;
             border-radius: 5px;
             padding: 20px;
@@ -64,16 +65,11 @@
             color: #333;
             text-decoration: none;
         }
-        .footer {
-            text-align: center;
-            background-color: #333;
-            color: #fff;
-            padding: 10px 0;
-        }
     </style>
 </head>
 <body>
 <header th:insert="~{header.html :: header}"> </header>
+<div class="main-content">
 <h1 class="display-4">Connexion</h1>
 <div class="container">
     <form action="" method="post">
@@ -90,9 +86,8 @@
     <p class="error" th:text="${errorMessage}"></p>
 </div>
 <p style="text-align: center;">Pas encore de compte ? <a th:href="@{/Inscription}">Inscrivez-vous ici</a></p>
-<div class="footer">
-    <p>&copy; 2023 LE NIL+. Tous droits réservés.</p>
 </div>
+<div class="footer" th:insert="~{footer.html :: footer}"></div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

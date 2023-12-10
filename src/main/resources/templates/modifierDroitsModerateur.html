@@ -6,6 +6,7 @@
     <link rel="icon" href="/logo/logo.png" type="image/x-icon">
     <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -22,7 +23,7 @@
         form {
             background-color: #fff;
             max-width: 400px;
-            margin: 0 auto;
+            margin: 20px auto;
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -84,6 +85,7 @@
 </head>
 <body>
 <header th:insert="~{header.html :: header}"></header>
+<div class="main-content">
 <h1>Modification des droits</h1>
 <form th:action="@{/modifierDroits}" method="post">
     <label for="email">Adresse email :</label>
@@ -110,7 +112,8 @@
     <input type="submit" value="Modifier">
     <p th:if="${modification}" class="success">Le modérateur a été mis à jour</p>
 </form>
-
+</div>
+<div class="footer" th:insert="~{footer.html :: footer}"></div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         function afficherBoiteDialogue() {

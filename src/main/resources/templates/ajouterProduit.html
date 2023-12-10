@@ -6,6 +6,7 @@
     <link rel="icon" href="/logo/logo.png" type="image/x-icon">
     <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -98,6 +99,7 @@
 </head>
 <body>
 <header th:insert="~{header.html :: header}"></header>
+<div class="main-content">
 <h1>Ajouter un Produit</h1>
 <p class="error" style="color: red; text-align: center" th:text="${errorMessage}"></p>
 <form action="/ajouterProduit" method="post" onsubmit="return validerPrix() && validerStock()" enctype="multipart/form-data">
@@ -120,5 +122,7 @@
 
     <input type="submit" value="Ajouter">
 </form>
+</div>
+<div class="footer" th:insert="~{footer.html :: footer}"></div>
 </body>
 </html>

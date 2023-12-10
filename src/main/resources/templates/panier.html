@@ -6,6 +6,7 @@
     <link rel="icon" href="/logo/logo.png" type="image/x-icon">
     <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -78,6 +79,7 @@
 </head>
 <body>
 <header th:insert="~{header.html :: header}"></header>
+<div class="main-content">
 <h1>Panier</h1>
 <table border="1">
     <thead>
@@ -122,5 +124,7 @@
     <h3 th:if="${session.panier.nbrProduit == 0}" style="color: red;">Ajoutez des produits pour les acheter!</h3>
 </div>
 <p class="error" style="color : red;text-align : center" th:if="${errorMessage != null}" th:text="${errorMessage}"></p>
+</div>
+<div class="footer" th:insert="~{footer.html :: footer}"></div>
 </body>
 </html>
