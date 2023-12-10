@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un Produit</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/header.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -105,13 +105,13 @@
     <input type="text" id="nom" name="nom" required placeholder="Nom du produit"><br><br>
 
     <label for="description">Description:</label>
-    <textarea id="description" name="description" rows="4" cols="50" required placeholder="Ce produit sert à..." th:value="${description}"></textarea><br><br>
+    <textarea id="description" name="description" rows="4" cols="50" required placeholder="Ce produit sert à..."></textarea><br><br>
 
     <label for="prix">Prix:</label>
-    <input type="text" id="prix" name="prix" required placeholder="Veuillez entrer une valeur numérique" th:value="${prix}"><br><br>
+    <input type="text" id="prix" name="prix" required placeholder="Veuillez entrer une valeur numérique"><br><br>
 
     <label for="stock">Stock:</label>
-    <input type="text" id="stock" name="stock" pattern="[0-9]+" required placeholder="Veuillez entrer une valeur entière" th:value="${stock}"><br><br>
+    <input type="text" id="stock" name="stock" pattern="[0-9]+" required placeholder="Veuillez entrer une valeur entière"><br><br>
 
 
     <label for="image">Image du Produit:</label>

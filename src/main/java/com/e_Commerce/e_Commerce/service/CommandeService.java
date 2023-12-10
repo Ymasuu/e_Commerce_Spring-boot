@@ -22,9 +22,5 @@ public class CommandeService {
         return commandeRepository.save(commande);
     }
 
-    public void deleteCommande(Commande commande) {
-        commandeRepository.delete(commande);
-    }
 
-    // Add additional methods or custom queries as needed
 }

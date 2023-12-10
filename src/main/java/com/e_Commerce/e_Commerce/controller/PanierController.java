@@ -32,9 +32,6 @@ import java.util.List;
  */
 @Controller
 public class PanierController {
-    //private Client client;
-    //private Utilisateur user;
-    //private Commande panier;
 
     @Autowired
     private UtilisateurService utilisateurService;
@@ -128,12 +125,14 @@ public class PanierController {
         Client client = (Client) session.getAttribute("client");
         if (numeroCarte.equals(client.getCompteBancaireNum())){
             Commande commande = (Commande) session.getAttribute("panier");
-            // TODO: Add the 'Commande_Produit' tables for each product in the cart.
             commande.setStatus("Payé");
             commande = commandeService.saveCommande(commande);
             for (Produit p : commande.getPanier()){
                 CommandeProduit commandeProduit = new CommandeProduit(commande.getIdCommande(), p.getIdProduit(), p.getStock());
                 commandeProduitService.saveCommandeProduit(commandeProduit);
+                Produit newProduit = produitsService.getProductById(p.getIdProduit());
+                newProduit.setStock(newProduit.getStock() - p.getStock());
+                produitsService.saveProduct(newProduit);
             }
             session.setAttribute("panier",new Commande(client.getIdClient(), 0));
             client.setCompteBancaireSolde(client.getCompteBancaireSolde() - commande.getPrix());

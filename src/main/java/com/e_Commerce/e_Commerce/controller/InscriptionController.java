@@ -1,20 +1,18 @@
 package com.e_Commerce.e_Commerce.controller;
 
-import com.e_Commerce.e_Commerce.model.entity.*;
-import models.SendEnhancedRequestBody;
-import models.SendEnhancedResponseBody;
-import models.SendRequestMessage;
-import org.springframework.beans.factory.annotation.Autowired;
-import services.Courier;
-
-
+import com.e_Commerce.e_Commerce.model.entity.Client;
+import com.e_Commerce.e_Commerce.model.entity.Commande;
+import com.e_Commerce.e_Commerce.model.entity.Moderateur;
+import com.e_Commerce.e_Commerce.model.entity.Utilisateur;
 import com.e_Commerce.e_Commerce.service.UtilisateurService;
-
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class InscriptionController {
@@ -30,7 +28,8 @@ public class InscriptionController {
     public String afficherFormulaireInscription(Model model) {
         return "inscription";
     }
-     /**
+
+    /**
      * Processes the user registration form submission.
      * If the user doesn't already exist, registers the user, logs them in, and redirects to the products page.
      * If the user already exists, displays an error message.
@@ -38,7 +37,7 @@ public class InscriptionController {
 
     @PostMapping("/Inscription")
     public String soumettreFormulaireInscription(@RequestParam String email, @RequestParam String nom,
-     @RequestParam String prenom, @RequestParam String motDePasse, Model model, HttpSession session) {
+                                                 @RequestParam String prenom, @RequestParam String motDePasse, Model model, HttpSession session) {
         if (utilisateurService.verifierUtilisateur(email) == null) {
             Utilisateur utilisateur = new Utilisateur(prenom, nom, email, motDePasse, "Client");
             // Aucune erreur, enregistrer l'utilisateur et le connecter
@@ -61,7 +60,8 @@ public class InscriptionController {
             return "inscription";
         }
     }
-     /**
+
+    /**
      * Displays the page for adding a moderator.
      */
 
@@ -69,9 +69,10 @@ public class InscriptionController {
     public String ajouterModerateur(ModelMap model, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         Moderateur moderateur = (Moderateur) session.getAttribute("moderateur");
-        return "ajouterModerateur";}
+        return "ajouterModerateur";
+    }
 
-         /**
+    /**
      * Processes the form submission for adding a moderator.
      * If the email is not already in use, adds a new moderator and redirects to the products page.
      * If the email is already in use, displays an error message.

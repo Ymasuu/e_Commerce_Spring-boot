@@ -78,17 +78,14 @@
     <script>
         function validerMail(champ) {
             var value = champ.value;
-            // Utiliser une expression régulière pour vérifier le format de l'adresse e-mail
             var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
             if (!emailPattern.test(value)) {
                 alert("Le champ " + champ.name + " ne contient pas une adresse e-mail valide.");
-                // Réinitialiser la valeur du champ à une chaîne vide
                 champ.value = '';
             }
         }
     </script>
-    <!-- Vos styles et scripts ici -->
 </head>
 <body>
 <header th:insert="~{header.html :: header}"></header>
@@ -97,15 +94,12 @@
     <label for="email" style="text-align: center">Veuillez renseigner l'Adresse email du modérateur que vous voulez supprimer :</label>
     <select id="email" name="email" required style="text-align: center">
         <option value="" selected disabled hidden>Veuillez choisir un modérateur</option>
-        <!-- Utilisation de Thymeleaf pour itérer sur la liste d'utilisateurs -->
         <th:block th:each="user : ${listUtilisateur}">
-            <!-- Utilisation de Thymeleaf pour ajouter une condition if -->
             <option th:if="${user.typeDeCompte == 'Moderateur'}" th:value="${user.mail}" th:text="${user.mail}"></option>
         </th:block>
     </select><br><br>
     <input type="submit" value="Supprimer" style="justify-content: center">
 </form>
-<!-- Utilisation de Thymeleaf pour afficher un message de succès -->
 <p th:if="${suppression}" class="success">Le modérateur a été supprimé</p>
 </body>
 </html>

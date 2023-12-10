@@ -90,7 +90,6 @@
     </tr>
     </thead>
     <tbody>
-    <!-- Thymeleaf iteration over the panier -->
     <tr th:each="produit : ${session.panier.panier}">
         <form action="" method="post">
                 <td>
@@ -100,8 +99,6 @@
                 <td th:text="${produit.prix} + ' €'"></td>
                 <td>
                     <label>
-                        <!-- Utilisation du stock du produit provenant de la liste produits -->
-<!--                        <input type="number" name="produitQuantite" min="1" th:max="${stockProduit.stock}" th:value="${produit.stock}">-->
                         <input type="number" name="produitQuantite" min="1" th:value="${produit.stock}">
                     </label>
                 </td>

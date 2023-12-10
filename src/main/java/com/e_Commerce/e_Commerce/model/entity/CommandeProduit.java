@@ -3,6 +3,8 @@ package com.e_Commerce.e_Commerce.model.entity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.Objects;
+
 /**
  * Represents the association between a Commande (Order) and a Produit (Product) in the e-Commerce application.
  * Each CommandeProduit entity has a unique identifier, the IDs of the associated order and product, and a quantity.
@@ -24,6 +26,7 @@ public class CommandeProduit implements Serializable {
     @Basic
     @Column(name = "quantite")
     private Integer quantite;
+
     /**
      * Constructs a CommandeProduit object with the given order ID, product ID, and quantity.
      *
@@ -32,13 +35,13 @@ public class CommandeProduit implements Serializable {
      * @param quantite   The quantity of the associated product in the order.
      */
 
-    public CommandeProduit(Integer idCommande, Integer idProduit, Integer quantite){
+    public CommandeProduit(Integer idCommande, Integer idProduit, Integer quantite) {
         this.idCommande = idCommande;
         this.idProduit = idProduit;
         this.quantite = quantite;
     } // Default constructor required by JPA
 
-    public CommandeProduit(){
+    public CommandeProduit() {
 
     }
     // Getters and setters for CommandeProduit attributes
@@ -52,7 +55,7 @@ public class CommandeProduit implements Serializable {
         return idCommandeProd;
     }
 
- /**
+    /**
      * Sets the unique identifier for the CommandeProduit association.
      *
      * @param idCommandeProd The new unique identifier for the CommandeProduit association.
@@ -60,6 +63,7 @@ public class CommandeProduit implements Serializable {
     public void setIdCommandeProd(int idCommandeProd) {
         this.idCommandeProd = idCommandeProd;
     }
+
     /**
      * Retrieves the unique identifier of the associated order.
      *
@@ -68,6 +72,7 @@ public class CommandeProduit implements Serializable {
     public Integer getIdCommande() {
         return idCommande;
     }
+
     /**
      * Sets the unique identifier of the associated order.
      *
@@ -77,6 +82,7 @@ public class CommandeProduit implements Serializable {
     public void setIdCommande(Integer idCommande) {
         this.idCommande = idCommande;
     }
+
     /**
      * Retrieves the unique identifier of the associated product.
      *
@@ -85,7 +91,8 @@ public class CommandeProduit implements Serializable {
     public Integer getIdProduit() {
         return idProduit;
     }
-     /**
+
+    /**
      * Sets the unique identifier of the associated product.
      *
      * @param idProduit The new unique identifier of the associated product.
@@ -93,7 +100,8 @@ public class CommandeProduit implements Serializable {
     public void setIdProduit(Integer idProduit) {
         this.idProduit = idProduit;
     }
-      /**
+
+    /**
      * Retrieves the quantity of the associated product in the order.
      *
      * @return The quantity of the associated product in the order.
@@ -101,6 +109,7 @@ public class CommandeProduit implements Serializable {
     public Integer getQuantite() {
         return quantite;
     }
+
     /**
      * Sets the quantity of the associated product in the order.
      *
@@ -109,6 +118,7 @@ public class CommandeProduit implements Serializable {
     public void setQuantite(Integer quantite) {
         this.quantite = quantite;
     }
+
     /**
      * Checks if this CommandeProduit object is equal to another object.
      *
@@ -124,13 +134,12 @@ public class CommandeProduit implements Serializable {
         CommandeProduit that = (CommandeProduit) o;
 
         if (idCommandeProd != that.idCommandeProd) return false;
-        if (idCommande != null ? !idCommande.equals(that.idCommande) : that.idCommande != null) return false;
-        if (idProduit != null ? !idProduit.equals(that.idProduit) : that.idProduit != null) return false;
-        if (quantite != null ? !quantite.equals(that.quantite) : that.quantite != null) return false;
-
-        return true;
+        if (!Objects.equals(idCommande, that.idCommande)) return false;
+        if (!Objects.equals(idProduit, that.idProduit)) return false;
+        return Objects.equals(quantite, that.quantite);
     }
-     /**
+
+    /**
      * Generates a hash code for this CommandeProduit object.
      *
      * @return The hash code value for this CommandeProduit.

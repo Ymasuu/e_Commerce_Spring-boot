@@ -32,10 +32,11 @@
             border: 1px solid #ddd;
             margin: 10px;
             padding: 10px;
-            width: 250px;
+            width: 250px; /* Taille fixe de la div produit */
             background-color: #fff;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s; /* Ajout de l'animation de transition */
+            transition: transform 0.3s; /* Animation de zoom au survol */
+            text-align: center; /* Centrer le contenu horizontalement */
         }
 
         .produit:hover {
@@ -44,8 +45,10 @@
 
         .produit img {
             max-width: 100%;
-            height: auto;
-            cursor: pointer;
+            width: 125px;
+            height: 125px;
+            display: block;
+            margin: 0 auto;
         }
 
         .produit h2 {
@@ -54,6 +57,8 @@
         }
 
         .produit p {
+            height: 100px;
+            width: 200px;
             font-size: 16px;
             color: #777;
         }
@@ -75,7 +80,7 @@
         <div class="produit">
             <a th:href="@{/Produit/{id}(id=${produit.idProduit})}">
 
-                <img th:src="@{/imagesProduct/{id}.jpeg(id=${produit.idProduit})}" th:alt="${produit.nom}" width="100" class="img-fluid">
+                <img th:src="@{/imagesProduct/{id}.jpeg(id=${produit.idProduit})}" th:alt="${produit.nom}" width="125" height="125" class="img-fluid">
             </a>
             <h2 th:text="${produit.nom}"> Nom</h2>
             <p> Prix : <span th:text="${produit.prix}"> </span> €</p>

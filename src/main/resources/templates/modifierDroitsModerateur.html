@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Modifier droit modérateur</title>
-    <link rel="icon" href="logo/logo.png" type="image/x-icon">
-    <link rel="shortcut icon" href="logo/logo.png" type="image/x-icon">
+    <link rel="icon" href="/logo/logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/logo/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="/css/header.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Vos styles CSS ici... -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -67,7 +66,7 @@
         }
         .tooltip-container label {
             position: relative;
-            font-size: 12px; /* Réduisez la police d'écriture selon vos besoins */
+            font-size: 12px;
         }
 
         .tooltip-container .tooltip {
@@ -94,7 +93,7 @@
             <option th:if="${utilisateur.typeDeCompte == 'Moderateur'}" th:value="${utilisateur.mail}" th:text="${utilisateur.mail}"></option>
         </th:block>
     </select>
-    <label for="droits" id="label_droits">Droits (voir détail) :</label>
+    <label for="droits" id="label_droits">Droits :</label>
     <div class="tooltip-container" id="tooltip_droits">
         <div class="tooltip" id="tooltip_droits_content"></div>
     </div>
@@ -109,13 +108,11 @@
         <option value="111">111</option>
     </select><br><br>
     <input type="submit" value="Modifier">
-    <!-- Utilisation de Thymeleaf pour afficher un message de succès -->
     <p th:if="${modification}" class="success">Le modérateur a été mis à jour</p>
 </form>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Fonction pour afficher la boîte de dialogue
         function afficherBoiteDialogue() {
             var tooltipBox = document.getElementById('tooltip_droits_content');
             tooltipBox.innerHTML = '1er droit : Ajouter un produit<br>2ème droit : Supprimer un produit<br>' +
@@ -123,16 +120,16 @@
             tooltipBox.style.display = 'block';
         }
 
-        // Attachez un gestionnaire d'événements au label "Droits"
+
         var labelDroits = document.querySelector('label[for="droits"]');
 
         labelDroits.addEventListener('mouseover', function () {
-            // Affichez la boîte de dialogue lorsque la souris survole le label "Droits"
+
             afficherBoiteDialogue();
         });
 
         labelDroits.addEventListener('mouseout', function () {
-            // Cachez la boîte de dialogue lorsque la souris quitte le label "Droits"
+
             var tooltipBox = document.getElementById('tooltip_droits_content');
             tooltipBox.style.display = 'none';
         });
