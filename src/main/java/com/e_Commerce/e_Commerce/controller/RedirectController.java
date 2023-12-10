@@ -232,7 +232,7 @@ public class RedirectController {
     // Post mapping for handling the form submission for modifying moderator rights
     @PostMapping("/modifierDroits")
     public String RecupererModifDroits(ModelMap model, HttpSession session,
-                                       @RequestParam("email") String email, @RequestParam("droits") String droits) {
+                                       @RequestParam String email, @RequestParam String droits) {
         Utilisateur utilisateur = utilisateurService.verifierUtilisateur(email);
         if (utilisateur != null) {
             Moderateur moderateur = utilisateurService.getModerateurByIdUtilisateur(utilisateur.getIdUtilisateur());
@@ -259,17 +259,18 @@ public class RedirectController {
 
     // Post mapping for handling the form submission for deleting a moderator
     @PostMapping("/supprimerModerateur")
-    public String supprimerModerateur(ModelMap model, HttpSession session, @RequestParam("email") String email) {
+    public String supprimerModerateur(ModelMap model, HttpSession session, @RequestParam String email) {
         Utilisateur utilisateur = utilisateurService.verifierUtilisateur(email);
         if (utilisateur != null) {
             Moderateur moderateur = utilisateurService.getModerateurByIdUtilisateur(utilisateur.getIdUtilisateur());
             utilisateurService.deleteModerateur(moderateur);
             utilisateurService.deleteUser(utilisateur);
-            model.addAttribute("suppression", true);
+            String suppression = "La suppression a bien fonctionné.";
+            model.addAttribute("suppression", suppression);
         } else {
-            return "redirect:/erreur";
+            return "redirect:/error";
         }
-        return "redirect:/supprimerModerateur";
+        return "supprimerModerateur";
     }
 
     // Mapping for the page to modify user profile
@@ -291,15 +292,13 @@ public class RedirectController {
                                      @RequestParam("prenom") String prenom, @RequestParam("mail") String email,
                                      @RequestParam("mdp") String mdp) {
 
-        // Il est verifiée si le mot de passe est correct
         Utilisateur user = (Utilisateur) session.getAttribute("user");
         if (user.getMotDePasse().equals(mdp)) {
-            // Le mot de passe est correct, on modifie les données de l'utilisateur
+            // correct password, so we modify user information
             user.setNom(nom);
             user.setPrenom(prenom);
             user.setMail(email);
             user.setMotDePasse(mdp);
-            //TODO update d'utilisateur dans la bdd
             utilisateurService.saveUser(user);
             session.setAttribute("user", user);
             session.setAttribute("client", client);
@@ -307,21 +306,16 @@ public class RedirectController {
             model.addAttribute("client", client);
             return "redirect:/Profil";
         } else {
-            // Le mot de passe est incorrect, on affiche un message d'erreur
+            // incorrect password
             String errorMessage = "Mot de passe incorrect";
-            //Permet de redirectionner le message sans avoir besoin du model
-            //vers un autre mapping de type Get.
-            //Cela permet aussi de ne pas avoir le besoin de retourner une page.
-            //Il est possible donc de retourner un GetMapping, ce qu'est sembable
-            //à la logique des servlettes
             redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
             return "redirect:/Modifier_Profil";
         }
 
 
     }
-    // Mapping for the user profile page
 
+    // Mapping for the user profile page
     @GetMapping("/Profil")
     public String utilisateur(ModelMap model, HttpSession session) {
         Utilisateur user = (Utilisateur) session.getAttribute("user");

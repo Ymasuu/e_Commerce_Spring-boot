@@ -31,7 +31,7 @@
             text-align: left;
             margin: 20px auto;
             padding: 30px;
-            width: 60%;
+            width: 40%;
             border: 1px solid #ddd;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -57,18 +57,16 @@
             background-color: #007bff;
             color: #fff;
             border: none;
-            border-radius: 4px;
-            padding: 14px 20px;
+            border-radius: 3px;
+            padding: 10px 20px;
             cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
         }
 
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
 
-        p.success {
+        .success {
             margin-top: 20px;
             color: #4caf50;
             font-size: 18px;
@@ -90,16 +88,22 @@
 <body>
 <header th:insert="~{header.html :: header}"></header>
 <h1>Suppression modérateurs</h1>
+<div th:if="${errorMessage != null}" class="error" style="color: red; text-align: center" th:text="${errorMessage}"></div>
 <form action="/supprimerModerateur" method="post" class="supp">
+
     <label for="email" style="text-align: center">Veuillez renseigner l'Adresse email du modérateur que vous voulez supprimer :</label>
-    <select id="email" name="email" required style="text-align: center">
-        <option value="" selected disabled hidden>Veuillez choisir un modérateur</option>
-        <th:block th:each="user : ${listUtilisateur}">
-            <option th:if="${user.typeDeCompte == 'Moderateur'}" th:value="${user.mail}" th:text="${user.mail}"></option>
-        </th:block>
-    </select><br><br>
-    <input type="submit" value="Supprimer" style="justify-content: center">
+    <div style="text-align: center;">
+        <select style="justify-content: center; width: 50%" id="email" name="email" required>
+            <option value="" selected disabled hidden>Veuillez choisir un modérateur</option>
+            <th:block th:each="user : ${listUtilisateur}">
+                <option th:if="${user.typeDeCompte == 'Moderateur'}" th:value="${user.mail}" th:text="${user.mail}"></option>
+            </th:block>
+        </select>
+    </div>
+    <br>
+    <div style="text-align: center; justify-content: center;"> <input type="submit" value="Supprimer"> </div>
+
+    <div th:if="${suppression != null}" class="success" style="text-align: center" th:text="${suppression}"></div>
 </form>
-<p th:if="${suppression}" class="success">Le modérateur a été supprimé</p>
 </body>
 </html>
