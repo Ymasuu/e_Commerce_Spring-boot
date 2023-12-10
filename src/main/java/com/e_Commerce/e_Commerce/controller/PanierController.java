@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import models.SendEnhancedRequestBody;
 import models.SendEnhancedResponseBody;
 import models.SendRequestMessage;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -62,7 +63,6 @@ public class PanierController {
         Commande commande = (Commande) session.getAttribute("panier");
         Client client = (Client) session.getAttribute("client");
         if (action.equals("vider")){
-            //Client client = (Client) session.getAttribute("client");
             Commande panierVide = new Commande(client.getIdClient(), 0);
             session.setAttribute("panier", panierVide);
         }else {
@@ -93,9 +93,6 @@ public class PanierController {
             }else{ // action.equals("payer")
             // Check if the client has sufficient funds to pay for the cart
                 if (commande.getPrix() <= client.getCompteBancaireSolde()) { // Process the payment
-                    System.out.println("test panierController");
-/*                    commandeService.saveCommande(commande);
-                    session.setAttribute("panier",new Commande(client.getIdClient(), 0));*/
                     mailDuPayment(commande, session);
                     return "redirect:/Confirmer_Paiement";
                 }else {
@@ -121,7 +118,6 @@ public class PanierController {
     @PostMapping("/Confirmer_Paiement")
     public String confirmerPaiementPost(ModelMap model, HttpSession session, @RequestParam String numeroCarte){
         // Process payment confirmation
-        System.out.println("test confirmer paiement");
         Client client = (Client) session.getAttribute("client");
         if (numeroCarte.equals(client.getCompteBancaireNum())){
             Commande commande = (Commande) session.getAttribute("panier");
@@ -151,25 +147,21 @@ public class PanierController {
         Courier.init("pk_prod_RW21FPAESN4DD3N8YK0RWH3YEC0E");
         String COMPANY_NAME = "Azur Shop";
 
-        // Récupération des informations nécessaires pour construire l'email
-        String userName = user.getPrenom() + " " + user.getNom(); // Fonction pour obtenir le nom du client
-        // Génération de la date et de l'heure actuelles
+        String userName = user.getPrenom() + " " + user.getNom(); // we want to get the client name
+        // generate the actual date
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
-        // Formatage de la date et de l'heure
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         String paymentDate = currentDate.format(dateFormatter);
         String paymentTime = currentTime.format(timeFormatter);
-        String currency = "EUR"; // Changez en la devise appropriée si nécessaire
-
-        // Préparation du contenu de l'email
+        String currency = "EUR";
+        
         StringBuilder emailContent = new StringBuilder();
         emailContent.append("Cher ").append(userName).append(",\n\n");
         emailContent.append("Nous vous confirmons le paiement effectué le ").append(paymentDate);
         emailContent.append(" à ").append(paymentTime).append(". Votre achat comprend les articles suivants :\n\n");
-
-        // Boucle pour ajouter les détails de chaque produit dans l'email
+        
         for (Produit produit : commande.getPanier()){
             String productName = produit.getNom();
             int productQuantity = produit.getStock();
@@ -183,36 +175,32 @@ public class PanierController {
         emailContent.append("\nPrix total : ").append(commande.getPrix()).append(" ").append(currency).append(".\n\n");
         emailContent.append("Merci pour votre achat chez nous.\n\n");
         emailContent.append("Cordialement,\nL'équipe de ").append(COMPANY_NAME);
-        // Envoi de l'email via Courier
+
+        // We sent the email
+        SendEnhancedRequestBody request = getSendEnhancedRequestBody(user, emailContent);
+        try {
+            SendEnhancedResponseBody response = new SendService().sendEnhancedMessage(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @NotNull
+    private static SendEnhancedRequestBody getSendEnhancedRequestBody(Utilisateur user, StringBuilder emailContent) {
         SendEnhancedRequestBody request = new SendEnhancedRequestBody();
         SendRequestMessage message = new SendRequestMessage();
 
         HashMap<String, String> to = new HashMap<>();
-        to.put("email", user.getMail()); // Utilisation de l'adresse e-mail du destinataire
+        to.put("email", user.getMail());
         message.setTo(to);
 
         HashMap<String, Object> content = new HashMap<>();
         content.put("title", "Confirmation de paiement");
-        content.put("body", emailContent.toString()); // Utilisation du contenu préparé pour l'email
+        content.put("body", emailContent.toString());
         message.setContent(content);
 
         request.setMessage(message);
-        try {
-            SendEnhancedResponseBody response = new SendService().sendEnhancedMessage(request);
-            System.out.println(response);
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Gérer les erreurs liées à l'envoi de l'email
-        }
+        return request;
     }
 
-/*    @ModelAttribute("stockProduit")
-    public Produit getProduitById(@RequestParam int idProduit) {
-        for (Produit produit : produitsService.getProduct()) {
-            if (produit.getIdProduit() == idProduit) {
-                return produit;
-            }
-        }
-        return null;
-    }*/
 }

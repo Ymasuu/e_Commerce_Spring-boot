@@ -101,16 +101,16 @@
 <form th:action="@{/ajouterModerateur}" method="post">
     <div th:if="${errorMessage != null}" class="error" style="color: red; text-align: center" th:text="${errorMessage}"></div>
     <label for="nom">Nom :</label>
-    <input type="text" id="nom" name="nom" th:required="required" onblur="validerNomPrenom(this)">
+    <input type="text" id="nom" name="nom" th:required="required" placeholder="Nom..." onblur="validerNomPrenom(this)">
     <br>
     <label for="prenom">Prénom :</label>
-    <input type="text" id="prenom" name="prenom" th:required="required" onblur="validerNomPrenom(this)">
+    <input type="text" id="prenom" name="prenom" th:required="required" placeholder="Prenom..." onblur="validerNomPrenom(this)">
     <br>
     <label for="email">Mail :</label>
-    <input type="text" id="email" name="email" th:required="required" onblur="validerMail(this)">
+    <input type="text" id="email" name="email" th:required="required" placeholder="Mail..." onblur="validerMail(this)">
     <br>
     <label for="motDePasse">Mot de passe :</label>
-    <input type="password" id="motDePasse" name="motDePasse" th:required="required" onblur="validerMotDePasse(this)">
+    <input type="password" id="motDePasse" name="motDePasse" th:required="required" placeholder="Mot de passe..." onblur="validerMotDePasse(this)">
     <br>
     <input type="submit" value="Inscrire le modérateur">
 </form>

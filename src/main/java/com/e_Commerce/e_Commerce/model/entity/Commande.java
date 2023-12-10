@@ -166,9 +166,7 @@ public class Commande implements Serializable {
         for (Produit p : panier) {
             if (p.getIdProduit() == produit.getIdProduit()) {
                 produitIsPresent = true;
-                System.out.println("Produit deja dans le panier avec quantité = " + p.getStock());
                 p.setStock(p.getStock() + quantite);
-                System.out.println("Maintenant, quantité = " + p.getStock());
                 majNbrProduit();
                 break;
             }
