@@ -239,7 +239,7 @@ public class RedirectController {
             model.addAttribute("modification", true);
         }
         else {
-            return "redirect:/erreur";
+            return "redirect:/error";
         }
         return "redirect:/modifierDroits";
         }
@@ -265,7 +265,7 @@ public class RedirectController {
             model.addAttribute("suppression", true);
         }
         else {
-            return "redirect:/erreur";
+            return "redirect:/error";
         }
         return "redirect:/supprimerModerateur";
     }
@@ -335,6 +335,11 @@ public class RedirectController {
 
 
     //////////////////////////////////////////////////////////////////////////////////
+
+    @GetMapping("/error")
+    public String erreur(){
+        return "erreur";
+    }
 
 
 
